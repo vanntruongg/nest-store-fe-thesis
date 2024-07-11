@@ -6,7 +6,7 @@ import { cn } from "~/lib/utils";
 import MaxWidthWrapper from "../../../components/max-width-wrapper";
 import CardProduct from "../../../components/product/card-product";
 import { ProductPagination } from "~/common/model/product.model";
-import ProductsPlaceHolder from "../../../components/skeleton/ProductListSkeleton";
+import ProductsPlaceHolder from "../../../components/skeleton/product-list-skeleton";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ELayoutProduct } from "~/common/utility/enum.util";
 import { GridLayout } from "../../../components/layout/grid-layout";
