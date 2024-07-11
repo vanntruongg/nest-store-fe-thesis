@@ -101,7 +101,6 @@ const LoginForm = () => {
       const res = await userApi.getProfile(
         tokenStorage.value.rawToken.accessToken
       );
-      // console.log("Profile", res);
 
       setUser(res.payload.data);
     } catch (error) {
