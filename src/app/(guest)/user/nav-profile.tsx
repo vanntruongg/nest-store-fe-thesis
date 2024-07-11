@@ -19,6 +19,7 @@ import { useUser } from "~/hooks/useUser";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { ReactElement, useEffect, useState } from "react";
 import ButtonLogout from "~/components/button/btn-logout";
+import { Skeleton } from "~/components/ui/skeleton";
 
 interface ILinkNavUserProfile {
   href: string;
@@ -73,10 +74,14 @@ const NavLinkUser = () => {
           </AvatarFallback>
         </Avatar>
       </div>
-      <div className="-translate-y-8">
-        <h3 className="text-2xl text-muted-foreground">
-          {isMounted && `${user.lastName} ${user.firstName}`}
-        </h3>
+      <div className="-translate-y-8 w-full flex justify-center">
+        {isMounted ? (
+          <h3 className="text-2xl text-muted-foreground">
+            {`${user.lastName} ${user.firstName}`}
+          </h3>
+        ) : (
+          <Skeleton className="w-3/4 h-8" />
+        )}
       </div>
       <div className="flex flex-col gap-4 text-xs font-semibold uppercase">
         {links.map(({ href, label, icon }) =>
@@ -94,7 +99,7 @@ const NavLinkUser = () => {
               href={href}
               className="px-4 py-2 flex items-center gap-2 rounded-sm text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-all duration-200"
             >
-              <span className=" -mt-0.5"> {icon}</span>
+              <span className=" -mt-0.5">{icon}</span>
               <p className="">{label}</p>
             </Link>
           )
