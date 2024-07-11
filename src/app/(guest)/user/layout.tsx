@@ -5,7 +5,8 @@ import NavProfile from "~/app/(guest)/user/nav-profile";
 
 export const metadata: Metadata = {
   title: "NEST Store | Tài khoản của bạn",
-  description: "Quản lý tài khoản ",
+  description:
+    "Quản lý tài khoản của bạn trên NEST Store, bao gồm quản lý địa chỉ, cài đặt địa chỉ mặc định, cập nhật thông tin cá nhân và thực hiện các thao tác liên quan đến địa chỉ giao hàng và thanh toán.",
 };
 
 export default function UserLayout({ children }: { children: ReactNode }) {
