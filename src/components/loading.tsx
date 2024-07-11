@@ -1,6 +1,6 @@
 const Loading = () => {
   return (
-    <div className="absolute inset-0 flex justify-center items-center bg-opacity-60 bg-white z-50">
+    <div className="absolute inset-0 flex justify-center items-center bg-opacity-60 bg-white z-[999999]">
       <div className="size-8 animate-loading inset-0 z-50">
         <div className="bg-transparent absolute size-8 flex flex-col gap-4 justify-center items-center">
           <div className="absolute top-0 w-3 h-1 bg-purple-100 rounded-full rotate-90 -translate-y-1/2"></div>
