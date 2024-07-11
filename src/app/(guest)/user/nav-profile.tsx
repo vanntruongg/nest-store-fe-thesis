@@ -2,19 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MapPinned, ShieldCheck, ShoppingBag, User } from "lucide-react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "~/components/ui/alert-dialog";
-import { Button } from "../../../components/ui/button";
-import Image from "next/image";
+
 import { useUser } from "~/hooks/useUser";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { ReactElement, useEffect, useState } from "react";
