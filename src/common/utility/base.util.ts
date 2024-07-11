@@ -110,4 +110,25 @@ export class BaseUtil {
         return name;
     }
   }
+
+  static removeDiacritics(str: string) {
+    return str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/Đ/g, "D");
+  }
+
+  static filterAddress = (keyword: string, addressName: string) => {
+    const normalizeAddress = BaseUtil.removeDiacritics(addressName);
+    const normalizeKeyword = BaseUtil.removeDiacritics(keyword);
+    return normalizeAddress
+      .toLowerCase()
+      .includes(normalizeKeyword.toLowerCase());
+  };
+
+  static formatPhoneNUmber(phone: string) {
+    const formatted = phone.replace(/^(\d{4})(\d{3})(\d{3})$/, "$1 $2 $3");
+    return formatted;
+  }
 }
