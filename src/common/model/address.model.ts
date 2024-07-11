@@ -1,5 +1,3 @@
-type AddressType = "city" | "district" | "town" | "ward" | "commune";
-
 interface AddressDetails {
   id: number;
   name: string;
@@ -9,7 +7,7 @@ interface AddressDetails {
 }
 
 interface Address {
-  id?: number;
+  id: number;
   name: string;
   phone: string;
   street: string;
@@ -20,22 +18,28 @@ interface Address {
 }
 
 interface CreateAddressRequest {
-  id?: number;
   name: string;
   phone: string;
   street: string;
   wardId: number;
   districtId: number;
   provinceId: number;
-  isDefault: boolean;
   userEmail: string;
+  isDefault: boolean;
 }
 
-type UpdateAddressRequest = Omit<
-  CreateAddressRequest,
-  "isDefault" | "userEmail"
->;
+type UpdateAddressRequest = Omit<CreateAddressRequest, "isDefault"> & {
+  id: number;
+};
 
+export enum AddressAction {
+  CREATE = "create",
+  UPDATE = "update",
+  DELETE = "delete",
+  SET_DEFAULT = "set_default",
+}
+
+type AddressType = "city" | "district" | "town" | "ward" | "commune";
 type LocationFieldType = "wardId" | "districtId" | "provinceId";
 type LocationType = "ward" | "district" | "province";
 

@@ -13,7 +13,7 @@ const userAddressApi = {
   deleteAddress: (email: string, addressId: number) =>
     httpClient.delete<any>(
       EndpointUtil.NEST.ADDRESS.DELETE_ADDRESS +
-        `?email=${email}$addressId=${addressId}`
+        `?email=${email}&addressId=${addressId}`
     ),
   getAllAddress: (email: string) =>
     httpClient.get<any>(

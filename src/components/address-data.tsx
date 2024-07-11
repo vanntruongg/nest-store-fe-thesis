@@ -9,8 +9,8 @@ import {
 import addressDataApi from "~/apis/address-data-api";
 import {
   Address,
+  AddressAction,
   AddressDetails,
-  AddressType,
   LocationFieldType,
   LocationType,
 } from "~/common/model/address.model";
@@ -27,18 +27,23 @@ import { UseFormReturn } from "react-hook-form";
 import { cn } from "~/lib/utils";
 import { AddressShemaType } from "~/app/schema-validations/address.shema";
 import { ScrollArea } from "./ui/scroll-area";
+import { Input } from "./ui/input";
 
 export interface IAddressDataProps {
-  address: string;
-  tempAddress: Address;
-  setTempAddress: Dispatch<SetStateAction<Address>>;
+  form: UseFormReturn<AddressShemaType>;
+  province?: AddressDetails;
+  district?: AddressDetails;
+  ward?: AddressDetails;
+  action: AddressAction;
 }
 
 export function AddressData({
   form,
-}: {
-  form: UseFormReturn<AddressShemaType>;
-}) {
+  province,
+  district,
+  ward,
+  action,
+}: IAddressDataProps) {
   const [addressData, setAddressData] = useState<
     Record<LocationType, AddressDetails[]>
   >({
@@ -50,12 +55,14 @@ export function AddressData({
     useState<LocationFieldType>("provinceId");
 
   const [open, setOpen] = useState<boolean>(false);
+  const [searchValue, setSearchValue] = useState<string>("");
 
   const fetchAddressData = async (
     parentCode: string | null,
     type: LocationType
   ) => {
     const result = await addressDataApi.getAddressDataByParentCode(parentCode);
+
     setAddressData((prev) => ({
       ...prev,
       [type]: result.payload.data,
@@ -65,33 +72,36 @@ export function AddressData({
   useEffect(() => {
     fetchAddressData(null, "province");
 
-    return () => {
-      form.setValue("provinceId", 0);
-      form.setValue("districtId", 0);
-      form.setValue("wardId", 0);
-    };
+    if (action === AddressAction.UPDATE && province && district) {
+      fetchAddressData(province?.code, "district");
+      fetchAddressData(district?.code, "ward");
+    }
   }, []);
 
-  const handleSelectAddress = useCallback(
-    (fieldName: LocationFieldType, addressId: number, code: string) => {
-      form.setValue(fieldName, addressId);
-      form.clearErrors(fieldName);
-      if (fieldName === "provinceId") {
-        form.setValue("districtId", 0);
-        form.setValue("wardId", 0);
-        fetchAddressData(code, "district");
-        onTabChangeDefault("districtId");
-      } else if (fieldName === "districtId") {
-        fetchAddressData(code, "ward");
-        form.setValue("wardId", 0);
+  const handleSelectAddress = (
+    fieldName: LocationFieldType,
+    addressId: number,
+    code: string
+  ) => {
+    form.setValue(fieldName, addressId);
+    form.clearErrors(fieldName);
 
-        onTabChangeDefault("wardId");
-      } else if (fieldName === "wardId") {
-        setOpen(false);
-      }
-    },
-    [fetchAddressData, form]
-  );
+    setSearchValue("");
+
+    if (fieldName === "provinceId") {
+      form.setValue("districtId", 0);
+      form.setValue("wardId", 0);
+      fetchAddressData(code, "district");
+      onTabChangeDefault("districtId");
+    } else if (fieldName === "districtId") {
+      fetchAddressData(code, "ward");
+      form.setValue("wardId", 0);
+
+      onTabChangeDefault("wardId");
+    } else if (fieldName === "wardId") {
+      setOpen(false);
+    }
+  };
 
   const onTabChangeDefault = useCallback(
     (tab: string) => {
@@ -181,13 +191,13 @@ export function AddressData({
         <ChevronDown size={18} />
       </DropdownMenuTrigger>
       {renderErrorMessages()}
-      <DropdownMenuContent className="w-[460px] p-0 flex space-x-2">
+      <DropdownMenuContent className="w-[460px] p-0 flex py-0">
         <Tabs
           value={tabContentAddress}
           onValueChange={onTabChangeDefault}
           className="w-full"
         >
-          <TabsList className="w-full">
+          <TabsList className="w-full rounded-none">
             <TabsTrigger value="provinceId" className="w-full">
               Tỉnh/Thành phố
             </TabsTrigger>
@@ -206,52 +216,71 @@ export function AddressData({
               Phường/Xã
             </TabsTrigger>
           </TabsList>
-          <TabsContent value={"provinceId"} className="">
-            <ScrollArea className="h-72">
-              {addressData.province.map(({ id, name, type, code }) => (
-                <div
-                  key={id}
-                  onClick={() => handleSelectAddress("provinceId", id, name)}
-                  className={cn("p-2 hover:bg-gray-100 cursor-pointer", {
-                    "text-primary pointer-events-none":
-                      form.getValues("provinceId") === id,
-                  })}
-                >
-                  {name}
-                </div>
-              ))}
+          <Input
+            value={searchValue}
+            placeholder="Tìm kiếm"
+            className="h-10 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-none border-b border-x-0 border-t-0 fixed z-10"
+            onChange={(e) => setSearchValue(e.target.value)}
+          />
+          <TabsContent value={"provinceId"} className="mt-0 flex flex-col">
+            <ScrollArea className="h-72 mt-10">
+              {addressData.province.map(
+                ({ id, name }) =>
+                  BaseUtil.filterAddress(searchValue, name) && (
+                    <div
+                      key={id}
+                      onClick={() =>
+                        handleSelectAddress("provinceId", id, name)
+                      }
+                      className={cn("p-2 hover:bg-gray-100 cursor-pointer", {
+                        "text-primary pointer-events-none":
+                          form.getValues("provinceId") === id,
+                      })}
+                    >
+                      {name}
+                    </div>
+                  )
+              )}
             </ScrollArea>
           </TabsContent>
-          <TabsContent value={"districtId"} className="">
-            <ScrollArea className="h-72">
-              {addressData.district.map(({ id, name, type, code }) => (
-                <div
-                  key={id}
-                  onClick={() => handleSelectAddress("districtId", id, name)}
-                  className={cn("p-2 hover:bg-gray-100 cursor-pointer", {
-                    "text-primary pointer-events-none":
-                      form.getValues("districtId") === id,
-                  })}
-                >
-                  {name}
-                </div>
-              ))}
+          <TabsContent value={"districtId"} className="mt-0 flex flex-col">
+            <ScrollArea className="h-72 mt-10">
+              {addressData.district.map(
+                ({ id, name }) =>
+                  BaseUtil.filterAddress(searchValue, name) && (
+                    <div
+                      key={id}
+                      onClick={() =>
+                        handleSelectAddress("districtId", id, name)
+                      }
+                      className={cn("p-2 hover:bg-gray-100 cursor-pointer", {
+                        "text-primary pointer-events-none":
+                          form.getValues("districtId") === id,
+                      })}
+                    >
+                      {name}
+                    </div>
+                  )
+              )}
             </ScrollArea>
           </TabsContent>
-          <TabsContent value={"wardId"} className="">
-            <ScrollArea className="h-72">
-              {addressData.ward.map(({ id, name, type, code }) => (
-                <div
-                  key={id}
-                  onClick={() => handleSelectAddress("wardId", id, name)}
-                  className={cn("p-2 hover:bg-gray-100 cursor-pointer", {
-                    "text-primary pointer-events-none":
-                      form.getValues("wardId") === id,
-                  })}
-                >
-                  {name}
-                </div>
-              ))}
+          <TabsContent value={"wardId"} className="mt-0 flex flex-col">
+            <ScrollArea className="h-72 mt-10">
+              {addressData.ward.map(
+                ({ id, name }) =>
+                  BaseUtil.filterAddress(searchValue, name) && (
+                    <div
+                      key={id}
+                      onClick={() => handleSelectAddress("wardId", id, name)}
+                      className={cn("p-2 hover:bg-gray-100 cursor-pointer", {
+                        "text-primary pointer-events-none":
+                          form.getValues("wardId") === id,
+                      })}
+                    >
+                      {name}
+                    </div>
+                  )
+              )}
             </ScrollArea>
           </TabsContent>
         </Tabs>
