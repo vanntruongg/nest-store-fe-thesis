@@ -3,7 +3,7 @@ import { toast } from "~/components/ui/use-toast";
 import { EntityError } from "../http-client";
 import { IOrderShippingDetail } from "../model/order.model";
 import { orderStatus } from "~/static";
-import { AddressType } from "../model/address.model";
+import { AddressDetails, AddressType } from "../model/address.model";
 
 export class BaseUtil {
   static handleErrorApi({
@@ -49,27 +49,6 @@ export class BaseUtil {
       setError("phone", {
         type: "client",
         message: "Số điện thoại không hợp lệ",
-      });
-      return false;
-    }
-    return true;
-  }
-
-  static validateOrder(
-    shippingDetail: IOrderShippingDetail,
-    paymentMethod: number
-  ) {
-    if (BaseUtil.isShippingDetailEmpty(shippingDetail)) {
-      toast({
-        description: "Thiếu thông tin giao hàng",
-        variant: "destructive",
-      });
-      return false;
-    }
-    if (paymentMethod === 0) {
-      toast({
-        description: "Vui lòng chọn phương thức thanh toán",
-        variant: "destructive",
       });
       return false;
     }
@@ -127,8 +106,24 @@ export class BaseUtil {
       .includes(normalizeKeyword.toLowerCase());
   };
 
-  static formatPhoneNUmber(phone: string) {
+  static formatPhoneNUmber(phone: string | undefined) {
+    if (!phone) return "";
     const formatted = phone.replace(/^(\d{4})(\d{3})(\d{3})$/, "$1 $2 $3");
     return formatted;
+  }
+
+  static renderAddressName(
+    ward: AddressDetails | undefined,
+    district: AddressDetails | undefined,
+    province: AddressDetails | undefined
+  ) {
+    if (ward && district && province) {
+      return `
+      ${BaseUtil.formatAddressName(ward.type, ward.name)},
+      ${BaseUtil.formatAddressName(district.type, district.name)},
+      ${province.name}
+      `;
+    }
+    return "";
   }
 }
