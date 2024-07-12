@@ -6,18 +6,13 @@ import { IOrderShippingDetail } from "~/common/model/order.model";
 
 type CheckoutState = {
   items: ItemCheckout[];
-  shippingDetail: IOrderShippingDetail;
+  deliveryAddress: number;
   notes: string;
   paymentMethod: number;
   addItem: (item: ItemCheckout) => void;
   removeItem: (itemId: number) => void;
   addItems: (items: ItemCheckout[]) => void;
-  setShippingDetail: (
-    name: string,
-    phone: string,
-    address: Address,
-    specificAddress: string
-  ) => void;
+  setDeliveryAddress: (deliveryAddress: number) => void;
   setPaymentMethod: (methodId: number) => void;
   setNotes: (notes: string) => void;
   clearCheckout: () => void;
@@ -28,12 +23,7 @@ export const useCheckout = create<CheckoutState>()(
   persist(
     (set) => ({
       items: [],
-      shippingDetail: {
-        name: "",
-        phone: "",
-        address: { id: 0, ward: 0, district: 0, city: 0 },
-        specificAddress: "",
-      },
+      deliveryAddress: 0,
       paymentMethod: 0,
       notes: "",
       addItem: (item) =>
@@ -55,9 +45,9 @@ export const useCheckout = create<CheckoutState>()(
             item.id === itemId ? { ...item, quantity: newQuantity } : item
           ),
         })),
-      setShippingDetail: (name, phone, address, specificAddress) =>
+      setDeliveryAddress: (deliveryAddress: number) =>
         set((state) => {
-          return { shippingDetail: { name, phone, address, specificAddress } };
+          return { deliveryAddress: deliveryAddress };
         }),
       setPaymentMethod: (methodId) =>
         set((state) => {
@@ -70,12 +60,7 @@ export const useCheckout = create<CheckoutState>()(
       clearCheckout: () =>
         set({
           items: [],
-          shippingDetail: {
-            name: "",
-            phone: "",
-            address: { id: 0, ward: 0, district: 0, city: 0 },
-            specificAddress: "",
-          },
+          deliveryAddress: 0,
           paymentMethod: 0,
         }),
     }),

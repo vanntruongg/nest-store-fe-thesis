@@ -8,7 +8,7 @@ import { ProductUtil } from "~/common/utility/product.util";
 import { BaseUtil } from "~/common/utility/base.util";
 import orderApi from "~/apis/order-api";
 import { IOrderRequest } from "~/common/model/order.model";
-import { ShippingDetail } from "./shipping-detail";
+import { DeliveryAddress } from "./delivery-address";
 import { toast } from "~/components/ui/use-toast";
 import { PaymentMethod } from "./payment-method";
 import { useUser } from "~/hooks/useUser";
@@ -17,9 +17,10 @@ import Loading from "~/components/loading";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
 import { useRouter } from "next/navigation";
+import { ItemCheckOutPlaceholder } from "~/components/skeleton/item-checkout";
 
 const CheckOutPage = () => {
-  const { items, notes, shippingDetail, setNotes, paymentMethod } =
+  const { items, notes, deliveryAddress, setNotes, paymentMethod } =
     useCheckout();
   const { user } = useUser();
   const router = useRouter();
@@ -28,7 +29,6 @@ const CheckOutPage = () => {
 
   useEffect(() => {
     setIsMounted(true);
-    // when reload window if shippingDetail is not empty, set shippingDetail with user's info
   }, []);
 
   const totalPrice = useMemo(
@@ -37,7 +37,12 @@ const CheckOutPage = () => {
   );
 
   const handleCheckOut = () => {
-    if (!BaseUtil.validateOrder(shippingDetail, paymentMethod)) return;
+    if (paymentMethod === 0) {
+      toast({
+        description: "Vui lòng chọn phương thức thanh toán",
+        variant: "destructive",
+      });
+    }
 
     if (paymentMethod === 1) {
       processPaymentWithCOD();
@@ -51,9 +56,7 @@ const CheckOutPage = () => {
     try {
       const orderRequest: IOrderRequest = {
         email: user.email,
-        name: shippingDetail.name,
-        phone: shippingDetail.phone,
-        address: shippingDetail.address,
+        addressId: deliveryAddress,
         totalPrice,
         notes,
         paymentMethodId: paymentMethod,
@@ -75,16 +78,7 @@ const CheckOutPage = () => {
     }
   };
   const processPaymentWithVNPAY = async () => {
-    // setLoading(true);
-    // try {
-    //   const result = await orderApi.getUrlPaymentVNPay(totalPrice);
-    //   window.location.href = result.payload.data;
-    //   // console.log(result.payload.data);
-    // } catch (error) {
-    //   BaseUtil.handleErrorApi({ error });
-    // } finally {
-    //   setLoading(false);
-    // }
+    //  business logic
   };
 
   return (
@@ -94,8 +88,7 @@ const CheckOutPage = () => {
         Thanh toán
       </h1>
 
-      {/* Address */}
-      <ShippingDetail isMounted={isMounted} />
+      <DeliveryAddress />
 
       {/* List items */}
       <div className="h-full w-full bg-white py-6 divide-y relative">
@@ -111,38 +104,46 @@ const CheckOutPage = () => {
         </div>
 
         <div className="px-8 divide-y">
-          {isMounted &&
+          {isMounted ? (
             items.map((item) => {
               return (
-                <div key={item.id} className="flex items-center py-6 sm:py-10">
-                  <div className="w-full grid grid-cols-6 gap-4">
-                    <div className="flex flex-1 gap-4 col-span-3">
-                      <div className="relative size-24 aspect-square">
-                        <Image
-                          src={item.image}
-                          fill
-                          sizes="100"
-                          alt="product image"
-                          className="h-full w-full rounded-md object-cover object-center sm:size-48"
-                        />
-                      </div>
-                      <div className="">
-                        <h3 className="text-base font-medium">{item.name}</h3>
-                      </div>
+                <div
+                  key={item.id}
+                  className="w-full grid grid-cols-6 gap-4 py-6 sm:py-10"
+                >
+                  <div className="flex flex-1 gap-4 col-span-3">
+                    <div className="relative min-w-24 aspect-square rounded-md overflow-hidden">
+                      <Image
+                        src={item.image}
+                        sizes="100"
+                        fill
+                        alt="product image"
+                        className=" object-center sm:size-48"
+                      />
                     </div>
-                    <div className="col-span-3 flex flex-1 items-center justify-between text-sm text-muted-foreground">
-                      <div className="w-full text-center">
-                        {ProductUtil.formatPrice(item.price)}
-                      </div>
-                      <div className="w-full text-center">{item.quantity}</div>
-                      <div className="w-full text-center">
-                        {ProductUtil.formatPrice(item.price * item.quantity)}
-                      </div>
+                    <div className="">
+                      <h3 className="text-base font-medium">{item.name}</h3>
+                    </div>
+                  </div>
+                  <div className="col-span-3 flex flex-1 items-center justify-between text-sm text-muted-foreground">
+                    <div className="w-full text-center">
+                      {ProductUtil.formatPrice(item.price)}
+                    </div>
+                    <div className="w-full text-center">{item.quantity}</div>
+                    <div className="w-full text-center">
+                      {ProductUtil.formatPrice(item.price * item.quantity)}
                     </div>
                   </div>
                 </div>
               );
-            })}
+            })
+          ) : (
+            <div className="divide-y">
+              <ItemCheckOutPlaceholder />
+              <ItemCheckOutPlaceholder />
+              <ItemCheckOutPlaceholder />
+            </div>
+          )}
         </div>
       </div>
       {/* Order */}

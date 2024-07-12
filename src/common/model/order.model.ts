@@ -18,9 +18,7 @@ interface IOrderShippingDetail {
 }
 interface IOrderRequest {
   email: string;
-  name: string;
-  phone: string;
-  address: string;
+  addressId: number;
   totalPrice: number;
   notes: string;
   paymentMethodId: number;
