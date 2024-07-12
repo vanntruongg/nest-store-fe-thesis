@@ -26,8 +26,8 @@ import { ChevronDown } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { cn } from "~/lib/utils";
 import { AddressShemaType } from "~/app/schema-validations/address.shema";
-import { ScrollArea } from "./ui/scroll-area";
-import { Input } from "./ui/input";
+import { Input } from "../ui/input";
+import { ScrollArea } from "../ui/scroll-area";
 
 export interface IAddressDataProps {
   form: UseFormReturn<AddressShemaType>;
