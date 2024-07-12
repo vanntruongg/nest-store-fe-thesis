@@ -30,7 +30,7 @@ import {
 import Loading from "~/components/loading";
 import { Textarea } from "~/components/ui/textarea";
 import { Checkbox } from "~/components/ui/checkbox";
-import { AddressData } from "~/components/address-data";
+import { AddressData } from "~/components/address/address-data";
 import userAddressApi from "~/apis/user-address";
 import { toast } from "~/components/ui/use-toast";
 import {
@@ -39,12 +39,11 @@ import {
   CreateAddressRequest,
   UpdateAddressRequest,
 } from "~/common/model/address.model";
-import { IUser } from "~/common/model/user.model";
+import { useUser } from "~/hooks/useUser";
 
 export interface IAddressFormDialogProps {
   action: AddressAction;
   title: string;
-  user: IUser;
   address?: Address;
   fetchData: () => void;
   children: ReactNode;
@@ -53,11 +52,11 @@ export interface IAddressFormDialogProps {
 export function AddressFormDialog({
   action,
   title,
-  user,
   address,
   fetchData,
   children,
 }: IAddressFormDialogProps) {
+  const { user } = useUser();
   const [loading, setLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const form = useForm<AddressShemaType>({
@@ -115,7 +114,9 @@ export function AddressFormDialog({
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       {loading && <Loading />}
-      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
+      <AlertDialogTrigger asChild className="self-start">
+        {children}
+      </AlertDialogTrigger>
       <AlertDialogContent className="top-[40%]">
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>

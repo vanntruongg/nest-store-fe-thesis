@@ -63,18 +63,6 @@ const AddressPage = () => {
     }
   };
 
-  const renderAddressName = (
-    ward: AddressDetails,
-    district: AddressDetails,
-    province: AddressDetails
-  ) => {
-    return `
-      ${BaseUtil.formatAddressName(ward.type, ward.name)},
-      ${BaseUtil.formatAddressName(district.type, district.name)},
-      ${province.name}
-    `;
-  };
-
   return (
     <div className="p-4 h-full flex flex-col gap-4 bg-white rounded-sm">
       <div className="flex justify-between border-b pb-4">
@@ -82,7 +70,6 @@ const AddressPage = () => {
         <AddressFormDialog
           action={AddressAction.CREATE}
           title="Địa chỉ mới"
-          user={user}
           fetchData={fetchData}
         >
           <Button className="py-2 px-4 flex items-center space-x-2 bg-primary text-white text-sm">
@@ -110,7 +97,7 @@ const AddressPage = () => {
                   <div className="text-muted-foreground">
                     <span>{address.street}</span>
                     <p>
-                      {renderAddressName(
+                      {BaseUtil.renderAddressName(
                         address.ward,
                         address.district,
                         address.province
@@ -118,7 +105,7 @@ const AddressPage = () => {
                     </p>
                   </div>
                   {address.default && (
-                    <div className="text-primary border border-primary self-start px-1 py-0.5 relative overflow-hidden">
+                    <div className="text-primary border border-primary self-start px-1.5 py-0.5 relative overflow-hidden">
                       <span className="size-2 bg-primary absolute top-0 left-0 -translate-x-1 -translate-y-1 rotate-45"></span>
                       <span>Mặc định</span>
                     </div>
@@ -129,7 +116,6 @@ const AddressPage = () => {
                     <AddressFormDialog
                       action={AddressAction.UPDATE}
                       title="Cập nhật địa chỉ"
-                      user={user}
                       address={address}
                       fetchData={fetchData}
                     >
