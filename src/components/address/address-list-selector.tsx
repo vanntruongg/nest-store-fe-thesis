@@ -20,17 +20,14 @@ import { Checkbox } from "../ui/checkbox";
 import { toast } from "../ui/use-toast";
 import { useCheckout } from "~/hooks/useCheckout";
 
-export interface IAddressListSelectorProps {
-  setAddress: Dispatch<SetStateAction<Address | undefined>>;
-}
-
-export function AddressListSelector({ setAddress }: IAddressListSelectorProps) {
+export function AddressListSelector() {
   const { user } = useUser();
   const { deliveryAddress, setDeliveryAddress } = useCheckout();
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
-  const [selectedAddressId, setSelectedAddressId] =
-    useState<number>(deliveryAddress);
+  const [selectedAddressId, setSelectedAddressId] = useState<
+    number | undefined
+  >(deliveryAddress?.id);
 
   const fetchData = async () => {
     try {
@@ -43,13 +40,22 @@ export function AddressListSelector({ setAddress }: IAddressListSelectorProps) {
 
   useEffect(() => {
     fetchData();
-    setSelectedAddressId(deliveryAddress);
+    setSelectedAddressId(deliveryAddress?.id);
   }, [deliveryAddress]);
+
+  useEffect(() => {
+    const newAddressSelected = addresses.find(
+      (address) => address.id === selectedAddress?.id
+    );
+
+    if (newAddressSelected) {
+      setDeliveryAddress(newAddressSelected);
+    }
+  }, [addresses]);
 
   const handleChangeAddress = () => {
     if (selectedAddress) {
-      setDeliveryAddress(selectedAddress.id);
-      setAddress(selectedAddress);
+      setDeliveryAddress(selectedAddress);
     }
   };
 
@@ -62,7 +68,7 @@ export function AddressListSelector({ setAddress }: IAddressListSelectorProps) {
     try {
       const res = await userAddressApi.setDefaultAddress(user.email, addressId);
 
-      fetchData();
+      await fetchData();
       toast({ description: res.payload.message });
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
