@@ -5,12 +5,23 @@ interface IOrder {
   name: string;
   email: string;
   phone: string;
-  address: string;
+  address: UserAddressOrder;
   totalPrice: number;
   notes: string;
   orderStatus: string;
   paymentMethod: string;
+  createdDate: string;
   orderDetail: IOrderDetail[];
+}
+
+interface UserAddressOrder {
+  id: number;
+  name: string;
+  phone: string;
+  street: string;
+  ward: string;
+  district: string;
+  province: string;
 }
 
 interface IOrderShippingDetail {

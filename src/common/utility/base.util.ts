@@ -56,7 +56,7 @@ export class BaseUtil {
   }
 
   static mapOrderStatus(status: string): string {
-    const foundStatus = orderStatus.find((stt) => stt.type === status);
+    const foundStatus = orderStatus.find((stt) => stt.typeName === status);
     return foundStatus ? foundStatus.typeName : "";
   }
 
@@ -106,7 +106,7 @@ export class BaseUtil {
       .includes(normalizeKeyword.toLowerCase());
   };
 
-  static formatPhoneNUmber(phone: string | undefined) {
+  static formatPhoneNumber(phone: string | undefined) {
     if (!phone) return "";
     const formatted = phone.replace(/^(\d{4})(\d{3})(\d{3})$/, "$1 $2 $3");
     return formatted;

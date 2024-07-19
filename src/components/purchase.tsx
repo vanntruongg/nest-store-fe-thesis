@@ -17,6 +17,7 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { BaseUtil } from "~/common/utility/base.util";
 import { statusClasses } from "~/static";
+import { OrderUtil } from "~/common/utility/order.util";
 export interface IPurchaseProps {
   orders: IOrder[];
 }
@@ -34,14 +35,13 @@ export function Purchase({ orders }: IPurchaseProps) {
           {orders.map(
             ({
               orderId,
-              name,
               address,
-              phone,
               notes,
               orderDetail,
               orderStatus,
               totalPrice,
               paymentMethod,
+              createdDate,
             }) => (
               <div key={orderId} className="bg-white">
                 <div className="flex justify-between gap-2 py-4 px-6 border-b">
@@ -76,12 +76,12 @@ export function Purchase({ orders }: IPurchaseProps) {
                       <div className="flex gap-4 divide-x">
                         <div className="p-4 flex-1 flex flex-col gap-2">
                           <p className="text-lg font-medium">
-                            Địa chỉ nhận hàng
+                            Địa chỉ giao hàng
                           </p>
-                          <p className="font-semibold">{name}</p>
+                          <p className="font-semibold">{address.name}</p>
                           <div className="flex flex-col gap-1 text-muted-foreground text-xs">
-                            <p>{phone}</p>
-                            <p>{address}</p>
+                            <p>{BaseUtil.formatPhoneNumber(address.phone)}</p>
+                            <p>{`${address.street}, ${address.ward}, ${address.district}, ${address.province}`}</p>
                             <p>{notes}</p>
                           </div>
                         </div>
@@ -114,11 +114,14 @@ export function Purchase({ orders }: IPurchaseProps) {
                         </div>
                       </div>
                       <DialogFooter>
-                        <div className="w-full p-4 flex justify-end text-sm divide-x divide-dotted border-t border-dotted shadow-sm">
-                          <div className="px-4 text-muted-foreground">
-                            Phương thức thanh toán
+                        <div className="w-full p-4 flex justify-between text-sm divide-x divide-dotted border-t border-dotted shadow-sm">
+                          <div className="">
+                            {OrderUtil.formatDate(createdDate)}
                           </div>
-                          <div className="px-4">{paymentMethod}</div>
+                          <div className="px-4 flex text-muted-foreground">
+                            <span>Phương thức thanh toán:</span>
+                            <p className="px-4">{paymentMethod}</p>
+                          </div>
                         </div>
                       </DialogFooter>
                     </DialogContent>
