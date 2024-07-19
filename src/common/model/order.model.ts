@@ -1,3 +1,5 @@
+import { EPaymentMethod } from "../utility/enum.util";
+
 interface IOrder {
   orderId: number;
   name: string;
@@ -37,7 +39,7 @@ type IOrderDetailRequest = Omit<IOrderDetail, "orderDetailId">;
 
 interface IPaymentMethod {
   paymentMethodId: number;
-  method: string;
+  method: EPaymentMethod;
   description: string;
 }
 
