@@ -8,8 +8,8 @@ export interface ICommingSoonProductProps {}
 export function CommingSoonProduct(props: ICommingSoonProductProps) {
   return (
     <MaxWidthWrapper className="">
-      <div className="relative w-full min-h-[500px] overflow-hidden">
-        <div className="absolute -z-10 w-full h-full">
+      <div className="relative w-full min-h-[500px] overflow-hidden bg-red-500">
+        <div className="absolute w-full h-full ">
           <Image
             alt="background image"
             src="/assets/winter-collections.jpg"

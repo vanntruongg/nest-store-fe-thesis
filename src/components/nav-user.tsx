@@ -53,21 +53,15 @@ const NavUser = () => {
 
   return (
     <div ref={ref} className="relative">
-      <div
-        className="hover:bg-gray-100 p-2 rounded-full cursor-pointer group"
-        onClick={() => setOpen(!open)}
-      >
-        {tokenStorage.value.rawToken.accessToken && isMounted ? (
-          <Avatar className="size-7">
+      {tokenStorage.value.rawToken.accessToken && isMounted ? (
+        <div className="p-2">
+          <Avatar
+            className="size-7 hover:cursor-pointer"
+            onClick={() => setOpen(!open)}
+          >
             <AvatarImage src={user.imageUrl} alt="avatar user" />
-            <AvatarFallback>AV</AvatarFallback>
+            <AvatarFallback className="size-5">AV</AvatarFallback>
           </Avatar>
-        ) : (
-          <Link href={"/login"}>
-            <UserRound strokeWidth={2} className="size-5 text-slate-700" />
-          </Link>
-        )}
-        {tokenStorage.value.rawToken.accessToken && isMounted && (
           <div
             className={cn(
               "min-w-60 p-2 bg-white border border-gray-300 rounded-2xl shadow-md absolute top-12 right-0 z-50 transition-all duration-300 invisible origin-top-right transform scale-0 opacity-0 group-hover:visible",
@@ -124,8 +118,17 @@ const NavUser = () => {
               <ButtonLogout className="p-2 flex gap-4 items-center text-sm text-gray-500 hover:bg-gray-100 rounded-md" />
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="hover:bg-gray-100 p-2 rounded-full cursor-pointer group">
+          <Link href={"/login"}>
+            <UserRound
+              strokeWidth={2}
+              className="size-7 scale-75 text-slate-700"
+            />
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

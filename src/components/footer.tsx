@@ -21,7 +21,7 @@ const Footer = () => {
     <footer className="mt-20">
       {!authPaths.includes(pathname) && (
         <div className="relative w-full h-[340px]">
-          <div className="absolute -z-10 w-full h-full">
+          <div className="absolute zx-10 w-full h-full">
             <Image
               alt="background image"
               src="/assets/banner.jpg"
@@ -31,7 +31,7 @@ const Footer = () => {
             />
           </div>
           <MaxWidthWrapper className="h-full flex flex-col justify-center">
-            <div className="bg-white h-[220px] flex items-center py-4 md:py-10 px-8 md:px-20">
+            <div className="bg-white h-[220px] flex items-center py-4 md:py-10 px-8 md:px-20 z-20">
               <div className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-20">
                 <p className="text-2xl md:text-3xl font-bold">
                   Đăng ký cho Xu hướng & Ưu đãi mới nhất
