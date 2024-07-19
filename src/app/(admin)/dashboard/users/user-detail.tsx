@@ -1,5 +1,5 @@
 "use client";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import Image from "next/image";
 import { IUser } from "~/common/model/user.model";
 import { ERole, EUserStatus } from "~/common/utility/enum.util";
@@ -20,8 +20,6 @@ interface IViewUserDetailProps {
 }
 
 export function ViewUserDetail({ user }: IViewUserDetailProps) {
-  // console.log(user);
-
   return (
     <Dialog>
       <DialogTrigger asChild className="p-1.5 rounded-sm hover:bg-gray-100">
@@ -61,10 +59,10 @@ export function ViewUserDetail({ user }: IViewUserDetailProps) {
               <Phone strokeWidth={2} size={18} />
               <p>{user.phone || "..."}</p>
             </div>
-            <div className="flex gap-2">
+            {/* <div className="flex gap-2">
               <MapPin strokeWidth={2} size={18} />
               <p>{user.address || "..."}</p>
-            </div>
+            </div> */}
           </div>
           <div className="flex items-center gap-2 text-sm">
             <p>Vai trò:</p>
@@ -74,8 +72,7 @@ export function ViewUserDetail({ user }: IViewUserDetailProps) {
                   key={role}
                   className={cn("p-1 rounded-sm border", {
                     "bg-primary text-white":
-                      (ERole as { [key: string]: string })[role] ==
-                      ERole.ROLE_ADMIN,
+                      (ERole as { [key: string]: string })[role] == ERole.ADMIN,
                   })}
                 >
                   {(ERole as { [key: string]: string })[role]}

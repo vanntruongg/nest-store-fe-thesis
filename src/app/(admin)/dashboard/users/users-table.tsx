@@ -32,7 +32,7 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
-import { IUser, Role } from "~/common/model/user.model";
+import { IUser, IRole } from "~/common/model/user.model";
 import userApi from "~/apis/user-api";
 import { useEffect, useState } from "react";
 import { ERole, EUserStatus } from "~/common/utility/enum.util";
@@ -157,7 +157,7 @@ export const GetDataAndColumns = () => {
       accessorKey: "roles",
       header: () => <div className="text-right">Phân quyền</div>,
       cell: ({ row }) => {
-        const roles: Role[] = row.getValue("roles");
+        const roles: IRole[] = row.getValue("roles");
 
         return (
           <div className="text-right font-medium">
