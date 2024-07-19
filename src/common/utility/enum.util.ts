@@ -27,14 +27,15 @@ enum EErrorCode {
   "UNAUTHORIZED" = 401,
   "FORM_ERROR" = 420,
 }
-enum EPayment {
-  "COD" = "Thanh toán khi nhận hàng",
-  "VN_PAY" = "Ví VN Pay",
-}
 
 enum ELayoutProduct {
   "GRID" = "Lưới",
   "LIST" = "Danh sách",
+}
+
+enum EPaymentMethod {
+  COD = "COD",
+  VNPAY = "VNPAY",
 }
 
 export {
@@ -43,6 +44,6 @@ export {
   ERole,
   EErrorCode,
   ELayoutProduct,
-  EPayment,
   UserRole,
+  EPaymentMethod,
 };

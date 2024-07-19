@@ -13,7 +13,6 @@ const initialUser: IUser = {
   lastName: "",
   email: "",
   phone: "",
-  address: "",
   imageUrl: "",
   isVerify: false,
   roles: [],

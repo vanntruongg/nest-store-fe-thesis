@@ -12,7 +12,6 @@ import { FileWithPreview } from "~/common/model/file.model";
 import { IUpdateUser } from "~/common/model/user.model";
 import { BaseUtil } from "~/common/utility/base.util";
 import { CloudinaryUtil } from "~/common/utility/cloudinary.util";
-import { AddressData } from "~/components/address-data";
 import IconTextLoading from "~/components/icon-text-loading";
 import Loading from "~/components/loading";
 import { Button } from "~/components/ui/button";
@@ -51,7 +50,6 @@ export function FormUpdateUser() {
       firstName: user.firstName,
       lastName: user.lastName,
       phone: user.phone || "",
-      address: user.address || "",
       imageUrl: user.imageUrl || "",
     },
   });
