@@ -8,6 +8,7 @@ import {
 } from "~/components/ui/card";
 import Link from "next/link";
 import RegisterForm from "./register-form";
+import { ROUTES } from "~/common/constants/routes";
 
 const RegisterPage = () => {
   return (
@@ -24,7 +25,7 @@ const RegisterPage = () => {
       <CardFooter>
         <div className="flex gap-1 text-sm">
           <p>Bạn đã có tài khoản?</p>
-          <Link href="/login" className="float-end text-primary">
+          <Link href={ROUTES.AUTH.LOGIN} className="float-end text-primary">
             Đăng nhập
           </Link>
         </div>

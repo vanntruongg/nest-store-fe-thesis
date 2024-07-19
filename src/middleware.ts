@@ -3,29 +3,31 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { IJWTDecoded } from "./common/model/auth.model";
 import { UserRole } from "./common/utility/enum.util";
+import { ROUTES } from "./common/constants/routes";
 
 const authPaths = [
-  "/login",
-  "/register",
-  "/verify-email",
-  "/process-verify-email",
-  "/forgot-password",
-  "/reset-password",
+  ROUTES.AUTH.LOGIN,
+  ROUTES.AUTH.REGISTER,
+  ROUTES.AUTH.VERIFY_EMAIL,
+  ROUTES.AUTH.PROCESS_VERIFY_EMAIL,
+  ROUTES.AUTH.FORGOT_PASSWORD,
+  ROUTES.AUTH.RESET_PASSWORD,
 ];
 
 const privatePaths = [
-  "/user/profile",
-  "/user/password",
-  "/user/purchase",
-  "/cart",
-  "/checkout",
+  ROUTES.USER.PROFILE,
+  ROUTES.USER.PASSWORD,
+  ROUTES.USER.PURCHASE,
+  ROUTES.USER.ADDRESS,
+  ROUTES.CART,
+  ROUTES.CHECKOUT,
 ];
 
 const adminPaths = [
-  "/dashboard/users",
-  "/dashboard/statistic",
-  "/dashboard/orders",
-  "/dashboard/products",
+  ROUTES.ADMIN.USERS,
+  ROUTES.ADMIN.STATISTIC,
+  ROUTES.ADMIN.ORDERS,
+  ROUTES.ADMIN.PRODUCTS,
 ];
 
 // This function can be marked `async` if using `await` inside
@@ -35,7 +37,7 @@ export function middleware(request: NextRequest) {
 
   // check private path
   if (privatePaths.some((path) => pathname.startsWith(path) && !accessToken)) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL(ROUTES.AUTH.LOGIN, request.url));
   }
 
   // check admin path
@@ -47,12 +49,12 @@ export function middleware(request: NextRequest) {
         return NextResponse.next();
       }
     }
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL(ROUTES.AUTH.LOGIN, request.url));
   }
 
   // if logged in, the login and registration page will not be allowed
   if (authPaths.some((path) => pathname.startsWith(path) && accessToken)) {
-    if (pathname === "/process-verify-email")
+    if (pathname === ROUTES.AUTH.PROCESS_VERIFY_EMAIL)
       return NextResponse.redirect(new URL("/", request.url));
     return NextResponse.redirect(new URL("/", request.url));
   }
@@ -61,23 +63,5 @@ export function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: [
-    // auth
-    "/login",
-    "/register",
-    "/verify-email",
-    "/process-verify-email",
-    "/forgot-password",
-    "/reset-password",
-    // private
-    "/user/profile",
-    "/user/password",
-    "/user/purchase",
-    "/cart",
-    "/checkout",
-    // admin
-    "/dashboard/users",
-    "/dashboard/statistic",
-    "/dashboard/orders",
-  ],
+  matcher: [...authPaths, ...privatePaths, ...adminPaths],
 };

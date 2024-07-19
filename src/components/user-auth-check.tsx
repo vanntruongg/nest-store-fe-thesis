@@ -7,6 +7,7 @@ import { useOutsideClick } from "~/hooks/useOutsideClick";
 import { routes } from "~/static";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { IUser } from "~/common/model/user.model";
+import { ROUTES } from "~/common/constants/routes";
 
 const menu = [
   {
@@ -52,7 +53,10 @@ export function UserAuthCheck() {
   return (
     <div>
       {true ? (
-        <Link href={"/login"} className="hover:bg-gray-100 p-2 rounded-full ">
+        <Link
+          href={ROUTES.AUTH.LOGIN}
+          className="hover:bg-gray-100 p-2 rounded-full "
+        >
           <UserRound strokeWidth={2} className="size-5 text-slate-700" />
         </Link>
       ) : (

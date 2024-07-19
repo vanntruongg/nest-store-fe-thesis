@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import authApi from "~/apis/auth-api";
 import { BaseUtil } from "~/common/utility/base.util";
 import { toast } from "~/components/ui/use-toast";
+import { ROUTES } from "~/common/constants/routes";
 
 const ForgotPassword = () => {
   const {
@@ -38,7 +39,7 @@ const ForgotPassword = () => {
   return (
     <Card className="relative flex flex-col lg:items-center justify-start lg:px-0 max-w-xl mx-auto min-h-screen">
       <Link
-        href="/login"
+        href={ROUTES.AUTH.LOGIN}
         className="self-start p-2 ml-4 mt-4 rounded-full hover:bg-gray-100"
       >
         <MoveLeft strokeWidth={2} className="" />

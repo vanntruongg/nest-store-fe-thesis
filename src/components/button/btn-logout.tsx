@@ -17,6 +17,7 @@ import {
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
 import { tokenStorage } from "~/common/utility/auth/token-storage";
+import { ROUTES } from "~/common/constants/routes";
 
 export default function ButtonLogout({ className }: { className?: string }) {
   const router = useRouter();
@@ -27,7 +28,7 @@ export default function ButtonLogout({ className }: { className?: string }) {
       await authApi.logoutFromNextClientToNextServer();
       clearUser();
       tokenStorage.clearToken();
-      router.push("/login");
+      router.push(ROUTES.AUTH.LOGIN);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     }

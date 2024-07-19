@@ -4,6 +4,7 @@ import ThankYouImage from "../../../../public/assets/thankyou.svg";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
 import { ArrowRight, MoveRight } from "lucide-react";
+import { ROUTES } from "~/common/constants/routes";
 
 const ThankYouPage = () => {
   return (
@@ -27,7 +28,7 @@ const ThankYouPage = () => {
               Cảm ơn bạn đã đặt hàng
             </h1>
             <Button variant={"outline"} className="space-x-2 group">
-              <Link href={"/shop"}>Tiếp tục mua sắm</Link>
+              <Link href={ROUTES.SHOP}>Tiếp tục mua sắm</Link>
               <MoveRight
                 strokeWidth={1}
                 className="group-hover:translate-x-2 transition-all duration-200"

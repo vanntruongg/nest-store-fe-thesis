@@ -2,6 +2,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import authApi from "~/apis/auth-api";
+import { ROUTES } from "~/common/constants/routes";
 import { tokenStorage } from "~/common/utility/auth/token-storage";
 import { BaseUtil } from "~/common/utility/base.util";
 import { useCheckout } from "~/hooks/useCheckout";
@@ -20,7 +21,7 @@ const Logout = () => {
           await authApi.logoutFromNextClientToNextServer(true);
           clearUser();
           tokenStorage.clearToken();
-          router.push("/login");
+          router.push(ROUTES.AUTH.LOGIN);
         } catch (error) {
           BaseUtil.handleErrorApi({ error });
         }

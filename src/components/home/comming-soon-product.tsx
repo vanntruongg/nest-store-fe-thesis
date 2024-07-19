@@ -2,6 +2,7 @@ import Image from "next/image";
 import MaxWidthWrapper from "../max-width-wrapper";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { ROUTES } from "~/common/constants/routes";
 
 export interface ICommingSoonProductProps {}
 
@@ -27,7 +28,7 @@ export function CommingSoonProduct(props: ICommingSoonProductProps) {
             ngay cho chúng tôi!
           </p>
           <Link
-            href={"/shop"}
+            href={ROUTES.SHOP}
             className="self-start px-4 py-2 flex gap-1 bg-white font-semibold hover:bg-primary hover:text-white shadow transition-all duration-200"
           >
             Mua ngay

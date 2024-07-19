@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import productApi from "~/apis/book-api";
+import { ROUTES } from "~/common/constants/routes";
 import { Product } from "~/common/model/product.model";
 import Breadrumbs from "~/components/breadrumbs";
 import { GridLayout } from "~/components/layout/grid-layout";
@@ -19,7 +20,7 @@ const ProductByCateogoryPage = ({
     {
       id: 1,
       name: "Sản phẩm",
-      href: "/shop",
+      href: ROUTES.SHOP,
     },
     {
       id: 2,

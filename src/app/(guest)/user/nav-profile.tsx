@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { ReactElement, useEffect, useState } from "react";
 import ButtonLogout from "~/components/button/btn-logout";
 import { Skeleton } from "~/components/ui/skeleton";
+import { ROUTES } from "~/common/constants/routes";
 
 interface ILinkNavUserProfile {
   href: string;
@@ -17,22 +18,22 @@ interface ILinkNavUserProfile {
 
 const links: ILinkNavUserProfile[] = [
   {
-    href: "/user/profile",
+    href: ROUTES.USER.PROFILE,
     label: "Tài khoản",
     icon: <User size={20} />,
   },
   {
-    href: "/user/purchase",
+    href: ROUTES.USER.PURCHASE,
     label: "Đơn mua",
     icon: <ShoppingBag size={20} />,
   },
   {
-    href: "/user/address",
+    href: ROUTES.USER.ADDRESS,
     label: "Địa chỉ",
     icon: <MapPinned size={20} />,
   },
   {
-    href: "/user/password",
+    href: ROUTES.USER.PASSWORD,
     label: "Mật khẩu",
     icon: <ShieldCheck size={20} />,
   },

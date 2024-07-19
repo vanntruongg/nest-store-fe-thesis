@@ -18,6 +18,7 @@ import { CartResponse, Item, ItemCheckout } from "~/common/model/cart.model";
 import { useCart } from "~/hooks/useCart";
 import { BaseUtil } from "~/common/utility/base.util";
 import Loading from "~/components/loading";
+import { ROUTES } from "~/common/constants/routes";
 
 const Cart = () => {
   const { user } = useUser();
@@ -146,7 +147,7 @@ const Cart = () => {
               </div>
               <div className="">
                 <Link
-                  href={"/checkout"}
+                  href={ROUTES.CHECKOUT}
                   className={cn(
                     buttonVariants({ size: "lg", className: "w-full" }),
                     {

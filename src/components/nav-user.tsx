@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { UserRound, ShoppingCart, Sun, AreaChart } from "lucide-react";
 import Link from "next/link";
 import { useOutsideClick } from "~/hooks/useOutsideClick";
-import { routes } from "~/static";
 import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { cn } from "~/lib/utils";
@@ -12,18 +11,19 @@ import { useUser } from "~/hooks/useUser";
 import ButtonLogout from "./button/btn-logout";
 import { UserRole } from "~/common/utility/enum.util";
 import { tokenStorage } from "~/common/utility/auth/token-storage";
+import { ROUTES } from "~/common/constants/routes";
 
 const menu = [
   {
     icon: <UserRound className="size-5" />,
     label: "Tài khoản",
-    href: routes.PROFILE,
+    href: ROUTES.USER.PROFILE,
     status: "available",
   },
   {
     icon: <ShoppingCart className="size-5" />,
     label: "Đơn hàng",
-    href: routes.PURCHASE,
+    href: ROUTES.USER.PURCHASE,
     status: "available",
   },
   {
@@ -71,7 +71,7 @@ const NavUser = () => {
             )}
           >
             <Link
-              href={routes.PROFILE}
+              href={ROUTES.USER.PROFILE}
               className="p-2 flex items-center gap-4 border-b hover:opacity-80"
             >
               <Avatar>
@@ -85,8 +85,8 @@ const NavUser = () => {
             <div className="p-2">
               {user.roles.includes(UserRole.ADMIN) && (
                 <Link
-                  key={routes.ADMIN.STATISTIC}
-                  href={routes.ADMIN.STATISTIC}
+                  key={ROUTES.ADMIN.STATISTIC}
+                  href={ROUTES.ADMIN.STATISTIC}
                   className="p-2 flex gap-4 items-center text-sm text-gray-500 hover:bg-gray-100 rounded-md"
                 >
                   <AreaChart />
@@ -121,7 +121,7 @@ const NavUser = () => {
         </div>
       ) : (
         <div className="hover:bg-gray-100 p-2 rounded-full cursor-pointer group">
-          <Link href={"/login"}>
+          <Link href={ROUTES.AUTH.LOGIN}>
             <UserRound
               strokeWidth={2}
               className="size-7 scale-75 text-slate-700"

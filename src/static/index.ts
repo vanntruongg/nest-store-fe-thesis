@@ -1,21 +1,4 @@
-export const routes = {
-  SHOP: "/shop",
-  // auth,
-  LOGIN: "/login",
-  LOGOUT: "/logout",
-  SIGNUP: "/sign-up",
-  PROFILE: "/user/profile",
-  PURCHASE: "/user/purchase",
-  CART: "/cart",
-  ABOUTUS: "",
-  GUIDE: "",
-  ADMIN: {
-    STATISTIC: "/dashboard/statistic",
-    USER: "/dashboard/users",
-    ORDER: "/dashboard/orders",
-    PRODUCT: "/dashboard/product",
-  },
-};
+import { ROUTES } from "~/common/constants/routes";
 
 export type ItemNav = {
   label: string;
@@ -26,26 +9,26 @@ export type ItemNav = {
 export const navLinks: ItemNav[] = [
   {
     label: "Trang chủ",
-    href: "/",
+    href: ROUTES.HOME,
   },
   {
     label: "Cửa hàng",
-    href: "/shop",
+    href: ROUTES.SHOP,
   },
   {
     label: "Liên hệ",
-    href: "/contact",
+    href: ROUTES.CONTACT,
   },
   {
     label: "Khác",
     children: [
       {
         label: "Hướng dẫn mua hàng",
-        href: "/guide",
+        href: ROUTES.GUIDE,
       },
       {
         label: "Giới thiệu",
-        href: "/introduce",
+        href: ROUTES.INTRODUCE,
       },
     ],
   },

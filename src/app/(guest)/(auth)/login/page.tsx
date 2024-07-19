@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import LoginForm from "./login-form";
 import { cookies } from "next/headers";
+import { ROUTES } from "~/common/constants/routes";
 
 const Login = () => {
   return (
@@ -45,7 +46,7 @@ const Login = () => {
 
         <div className="flex gap-1 text-sm">
           <p>Bạn chưa có tài khoản?</p>
-          <Link href="/register" className="float-end text-primary">
+          <Link href={ROUTES.AUTH.REGISTER} className="float-end text-primary">
             Đăng ký ngay
           </Link>
         </div>

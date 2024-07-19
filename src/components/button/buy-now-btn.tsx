@@ -12,6 +12,7 @@ import IconTextLoading from "../icon-text-loading";
 import { useCheckout } from "~/hooks/useCheckout";
 import { ProductUtil } from "~/common/utility/product.util";
 import { tokenStorage } from "~/common/utility/auth/token-storage";
+import { ROUTES } from "~/common/constants/routes";
 
 interface AddtoCartButtonProps {
   product: Product;
@@ -30,7 +31,7 @@ const BuyNowButton = ({ product, quantity }: AddtoCartButtonProps) => {
   const handleAddtoCartAndCheckout = async () => {
     setLoading(true);
     if (tokenStorage.value.rawToken.accessToken === "") {
-      router.push("/login");
+      router.push(ROUTES.AUTH.LOGIN);
       return;
     }
 
@@ -58,7 +59,7 @@ const BuyNowButton = ({ product, quantity }: AddtoCartButtonProps) => {
         quantity,
       });
       addToCart(item);
-      router.push("/checkout");
+      router.push(ROUTES.CHECKOUT);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     } finally {

@@ -12,8 +12,9 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 import { usePathname } from "next/navigation";
+import { ROUTES } from "~/common/constants/routes";
 
-const authPaths = ["/login", "/register"];
+const authPaths = [ROUTES.AUTH.LOGIN, ROUTES.AUTH.REGISTER];
 
 const Footer = () => {
   const pathname = usePathname();

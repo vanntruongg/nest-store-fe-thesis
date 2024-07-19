@@ -20,6 +20,7 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
+import { ROUTES } from "~/common/constants/routes";
 
 const ChangePasswordPage = () => {
   const router = useRouter();
@@ -39,7 +40,7 @@ const ChangePasswordPage = () => {
         data.newPassword
       );
       toast({ description: result.payload.message });
-      router.push("/user/profile");
+      router.push(ROUTES.USER.PROFILE);
     } catch (error) {
       BaseUtil.handleErrorApi({ error, setError: form.setError });
     }

@@ -12,12 +12,13 @@ import { useSearchParams } from "next/navigation";
 import { ProductPagination } from "~/common/model/product.model";
 import productApi from "~/apis/book-api";
 import { BaseUtil } from "~/common/utility/base.util";
+import { ROUTES } from "~/common/constants/routes";
 
 const BREADRUMBS = [
   {
     id: 1,
     name: "Sản phẩm",
-    href: "/shop",
+    href: ROUTES.SHOP,
   },
 ];
 

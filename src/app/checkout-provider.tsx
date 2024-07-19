@@ -1,6 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
 import { ReactNode, useEffect } from "react";
+import { ROUTES } from "~/common/constants/routes";
 import { useCheckout } from "~/hooks/useCheckout";
 
 export default function CheckoutProvider({
@@ -12,7 +13,7 @@ export default function CheckoutProvider({
   const { clearCheckout } = useCheckout();
 
   useEffect(() => {
-    if (pathname !== "/checkout" && pathname !== "/cart") {
+    if (pathname !== ROUTES.CHECKOUT && pathname !== ROUTES.CART) {
       clearCheckout();
     }
   }, [pathname, clearCheckout]);

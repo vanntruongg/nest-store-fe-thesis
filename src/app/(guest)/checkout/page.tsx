@@ -19,6 +19,8 @@ import { Textarea } from "~/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import { ItemCheckOutPlaceholder } from "~/components/skeleton/item-checkout";
 import { EPaymentMethod } from "~/common/utility/enum.util";
+import { MESSAGES } from "~/common/constants/messages";
+import { ROUTES } from "~/common/constants/routes";
 
 const CheckOutPage = () => {
   const { items, notes, deliveryAddress, setNotes, paymentMethod } =
@@ -27,6 +29,7 @@ const CheckOutPage = () => {
   const router = useRouter();
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -39,17 +42,26 @@ const CheckOutPage = () => {
   const handleCheckOut = () => {
     if (!paymentMethod) {
       toast({
-        description: "Vui lòng chọn phương thức thanh toán",
+        description: MESSAGES.SELECT_PAYMENT_METHOD,
         variant: "destructive",
       });
-    } else {
-      console.log(paymentMethod.method);
+      return;
+    }
 
-      if (paymentMethod.method === EPaymentMethod.COD) {
+    switch (paymentMethod.method) {
+      case EPaymentMethod.COD:
         processPaymentWithCOD();
-      } else if (paymentMethod.method === EPaymentMethod.VNPAY) {
+        break;
+      case EPaymentMethod.VNPAY:
         processPaymentWithVNPAY();
-      }
+        break;
+
+      default:
+        toast({
+          description: MESSAGES.INVALID_PAYMENT_METHOD,
+          variant: "destructive",
+        });
+        return;
     }
   };
 
@@ -72,8 +84,9 @@ const CheckOutPage = () => {
             quantity: item.quantity,
           })),
         };
+
         const result = await orderApi.createOrder(orderRequest);
-        router.push("/thank-you");
+        router.push(ROUTES.THANK_YOU);
         toast({ description: result.payload.message });
       }
     } catch (error) {

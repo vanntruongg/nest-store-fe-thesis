@@ -25,16 +25,10 @@ const authApi = {
     });
   },
 
-  logoutFromNextServer: (accessToken: string) => {
-    return httpClient.post<any>(
-      EndpointUtil.NEST.IDENTITY.AUTH.LOGOUT,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+  logoutFromNextServer: (token: string) => {
+    return httpClient.post<any>(EndpointUtil.NEST.IDENTITY.AUTH.LOGOUT, {
+      token,
+    });
   },
   logoutFromNextClientToNextServer: (force?: boolean | undefined) => {
     return httpClient.post<any>(

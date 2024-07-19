@@ -30,6 +30,7 @@ import { useToast } from "~/components/ui/use-toast";
 import { BaseUtil } from "~/common/utility/base.util";
 import { useAuth } from "~/hooks/useAuth";
 import { tokenStorage } from "~/common/utility/auth/token-storage";
+import { ROUTES } from "~/common/constants/routes";
 // import { clientAuthToken } from "~/lib/http";
 
 const LoginForm = () => {
@@ -83,7 +84,7 @@ const LoginForm = () => {
           action:
             errorDetails === "unVerify" ? (
               <Button variant={"outline"}>
-                <Link href={"/verify-email"}>Xác minh tài khoản</Link>
+                <Link href={ROUTES.AUTH.VERIFY_EMAIL}>Xác minh tài khoản</Link>
               </Button>
             ) : undefined,
         });
@@ -144,7 +145,7 @@ const LoginForm = () => {
           </Button>
 
           <Link
-            href={"/forgot-password"}
+            href={ROUTES.AUTH.FORGOT_PASSWORD}
             className="text-xs text-blue-500 float-end hover:text-blue-600"
           >
             Quên mật khẩu?

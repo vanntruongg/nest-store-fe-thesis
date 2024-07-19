@@ -1,7 +1,7 @@
 "use client";
 import { BaggageClaim, Loader2, Shirt, User } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import CountUp from "react-countup";
 import orderApi from "~/apis/order-api";
@@ -25,7 +25,6 @@ interface SummaryStatistic {
 
 const SummaryStatistic = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [summary, setSummary] = useState<SummaryStatistic>({
     users: 0,
@@ -34,17 +33,21 @@ const SummaryStatistic = () => {
   });
   useEffect(() => {
     const fetchData = async () => {
-      const [users, products, orders] = await Promise.all([
-        userApi.getUserCount(),
-        productApi.getProductCount(),
-        orderApi.getOrderCount(),
-      ]);
+      try {
+        const [users, products, orders] = await Promise.all([
+          userApi.getUserCount(),
+          productApi.getProductCount(),
+          orderApi.getOrderCount(),
+        ]);
 
-      setSummary({
-        users: users.payload.data,
-        products: products.payload.data,
-        orders: orders.payload.data,
-      });
+        setSummary({
+          users: users.payload.data,
+          products: products.payload.data,
+          orders: orders.payload.data,
+        });
+      } catch (error) {
+        BaseUtil.handleErrorApi({ error });
+      }
     };
     fetchData();
     setIsMounted(true);

@@ -15,6 +15,7 @@ import Link from "next/link";
 import { ProductUtil } from "~/common/utility/product.util";
 import { cn } from "~/lib/utils";
 import { tokenStorage } from "~/common/utility/auth/token-storage";
+import { ROUTES } from "~/common/constants/routes";
 
 interface AddtoCartButtonProps {
   product: Product;
@@ -35,7 +36,7 @@ const AddtoCartButton = ({
   const handleAddtoCart = async () => {
     setLoading(true);
     if (tokenStorage.value.rawToken.accessToken === "") {
-      router.push("/login");
+      router.push(ROUTES.AUTH.LOGIN);
       return;
     }
 

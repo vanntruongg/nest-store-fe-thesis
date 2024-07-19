@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { tokenStorage } from "./token-storage";
+import { ROUTES } from "~/common/constants/routes";
 
 export const handleLogout = async (options: any) => {
   if (typeof window !== "undefined") {
@@ -12,7 +13,7 @@ export const handleLogout = async (options: any) => {
     });
     tokenStorage.clearToken();
 
-    location.href = "/login";
+    location.href = ROUTES.AUTH.LOGIN;
   } else {
     const accessToken = (options?.headers as any).Authorization.split(" ")[1];
     redirect(`/logout?accesstoken=${accessToken}`);

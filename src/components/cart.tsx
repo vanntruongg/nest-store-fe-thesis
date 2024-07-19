@@ -2,6 +2,7 @@
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { ROUTES } from "~/common/constants/routes";
 import { useCart } from "~/hooks/useCart";
 
 const Cart = () => {
@@ -14,7 +15,7 @@ const Cart = () => {
 
   return (
     <Link
-      href={"/cart"}
+      href={ROUTES.CART}
       className="hover:bg-gray-100 p-2 rounded-full relative"
     >
       <ShoppingCart strokeWidth={2} className="size-5 text-slate-700" />

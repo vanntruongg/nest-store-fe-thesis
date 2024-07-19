@@ -23,6 +23,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 import Loading from "~/components/loading";
 import { useRouter } from "next/navigation";
+import { ROUTES } from "~/common/constants/routes";
 interface PageProps {
   searchParams: {
     [key: string]: string | string[] | undefined;
@@ -50,7 +51,7 @@ const ResetPassword = ({ searchParams }: PageProps) => {
         });
         toast({ description: result.payload.message });
       }
-      router.push("/login");
+      router.push(ROUTES.AUTH.LOGIN);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     } finally {

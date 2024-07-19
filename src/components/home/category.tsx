@@ -3,6 +3,7 @@ import Image from "next/image";
 import CategoryMen from "../../../public/assets/category-man.jpg";
 import CategoryWomen from "../../../public/assets/category-women.jpg";
 import Link from "next/link";
+import { ROUTES } from "~/common/constants/routes";
 
 const categories = [
   {
@@ -46,7 +47,7 @@ const Category = () => {
                 {categories.category}
               </p>
               <Link
-                href={"/shop"}
+                href={ROUTES.SHOP}
                 className="absolute bottom-5 left-5 px-6 py-3 font-bold border hover:bg-gray-900 hover:text-white transition-all duration-300"
               >
                 Mua ngay
