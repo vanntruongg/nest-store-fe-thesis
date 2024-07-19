@@ -18,6 +18,7 @@ import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import { ItemCheckOutPlaceholder } from "~/components/skeleton/item-checkout";
+import { EPaymentMethod } from "~/common/utility/enum.util";
 
 const CheckOutPage = () => {
   const { items, notes, deliveryAddress, setNotes, paymentMethod } =
@@ -26,7 +27,6 @@ const CheckOutPage = () => {
   const router = useRouter();
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -37,40 +37,45 @@ const CheckOutPage = () => {
   );
 
   const handleCheckOut = () => {
-    if (paymentMethod === 0) {
+    if (!paymentMethod) {
       toast({
         description: "Vui lòng chọn phương thức thanh toán",
         variant: "destructive",
       });
-    }
-
-    if (paymentMethod === 1) {
-      processPaymentWithCOD();
     } else {
-      processPaymentWithVNPAY();
+      console.log(paymentMethod.method);
+
+      if (paymentMethod.method === EPaymentMethod.COD) {
+        processPaymentWithCOD();
+      } else if (paymentMethod.method === EPaymentMethod.VNPAY) {
+        processPaymentWithVNPAY();
+      }
     }
   };
 
   const processPaymentWithCOD = async () => {
     setLoading(true);
     try {
-      const orderRequest: IOrderRequest = {
-        email: user.email,
-        addressId: deliveryAddress,
-        totalPrice,
-        notes,
-        paymentMethodId: paymentMethod,
-        listProduct: items.map((item) => ({
-          productId: item.id,
-          productName: item.name,
-          productPrice: item.price,
-          productImage: item.image,
-          quantity: item.quantity,
-        })),
-      };
-      const result = await orderApi.createOrder(orderRequest);
-      router.push("/thank-you");
-      toast({ description: result.payload.message });
+      let orderRequest: IOrderRequest;
+      if (deliveryAddress && paymentMethod) {
+        orderRequest = {
+          email: user.email,
+          addressId: deliveryAddress?.id,
+          totalPrice,
+          notes,
+          paymentMethodId: paymentMethod?.paymentMethodId,
+          listProduct: items.map((item) => ({
+            productId: item.id,
+            productName: item.name,
+            productPrice: item.price,
+            productImage: item.image,
+            quantity: item.quantity,
+          })),
+        };
+        const result = await orderApi.createOrder(orderRequest);
+        router.push("/thank-you");
+        toast({ description: result.payload.message });
+      }
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     } finally {
@@ -118,12 +123,10 @@ const CheckOutPage = () => {
                         sizes="100"
                         fill
                         alt="product image"
-                        className=" object-center sm:size-48"
+                        className="object-center sm:size-48"
                       />
                     </div>
-                    <div className="">
-                      <h3 className="text-base font-medium">{item.name}</h3>
-                    </div>
+                    <h3 className="text-base font-medium">{item.name}</h3>
                   </div>
                   <div className="col-span-3 flex flex-1 items-center justify-between text-sm text-muted-foreground">
                     <div className="w-full text-center">
