@@ -42,7 +42,7 @@ export function DeliveryAddress() {
       <div className="flex items-center space-x-10 pt-2">
         <div className="flex space-x-2 font-bold">
           <h4>{deliveryAddress?.name}</h4>
-          <h4>{BaseUtil.formatPhoneNUmber(deliveryAddress?.phone)}</h4>
+          <h4>{BaseUtil.formatPhoneNumber(deliveryAddress?.phone)}</h4>
         </div>
         <div className="flex items-center space-x-4">
           <p className="">{renderAddress()}</p>

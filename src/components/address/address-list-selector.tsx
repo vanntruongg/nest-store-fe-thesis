@@ -97,7 +97,7 @@ export function AddressListSelector() {
                   <div className="flex items-center divide-x-[1.5px]">
                     <span className="pr-2 text-base">{address.name}</span>
                     <span className="pl-2 text-muted-foreground">
-                      {BaseUtil.formatPhoneNUmber(address.phone)}
+                      {BaseUtil.formatPhoneNumber(address.phone)}
                     </span>
                   </div>
                   <div className="text-muted-foreground">
