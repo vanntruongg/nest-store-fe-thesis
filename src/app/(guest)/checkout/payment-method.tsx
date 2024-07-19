@@ -23,24 +23,24 @@ export function PaymentMethod() {
     <section className="flex items-center gap-4 bg-white p-4">
       <p>Phương thức thanh toán</p>
       <div className="flex gap-2">
-        {methods.map(({ paymentMethodId, method, description }) => (
+        {methods.map((method) => (
           <TooltipCustom
-            key={paymentMethodId}
+            key={method.paymentMethodId}
             trigger={
               <div
                 className={cn(
                   "border py-1 px-4 cursor-pointer rounded-sm hover:border-primary hover:text-primary transition-all duration-300",
                   {
                     "border-primary text-primary":
-                      paymentMethod === paymentMethodId,
+                      paymentMethod?.paymentMethodId === method.paymentMethodId,
                   }
                 )}
-                onClick={() => setPaymentMethod(paymentMethodId)}
+                onClick={() => setPaymentMethod(method)}
               >
-                {method}
+                {method.method}
               </div>
             }
-            content={description}
+            content={method.description}
           ></TooltipCustom>
         ))}
       </div>
