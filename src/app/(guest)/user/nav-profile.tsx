@@ -93,7 +93,7 @@ const NavLinkUser = () => {
           )
         )}
 
-        <ButtonLogout className="px-4 py-2 text-gray-500 border rounded-sm hover:text-gray-900 hover:bg-gray-100 transition-all duration-200" />
+        <ButtonLogout className="px-4 py-2 flex items-center space-x-2 text-gray-500 rounded-sm hover:text-gray-900 hover:bg-gray-100 transition-all duration-200" />
       </div>
     </div>
   );

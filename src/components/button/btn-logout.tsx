@@ -35,12 +35,7 @@ export default function ButtonLogout({ className }: { className?: string }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <div
-          className={cn(
-            "flex items-center space-x-2 cursor-pointer",
-            className
-          )}
-        >
+        <div className={cn("cursor-pointer", className)}>
           <LogOut className="size-5" />
           <p>Đăng xuất</p>
         </div>
