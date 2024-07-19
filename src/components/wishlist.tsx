@@ -13,10 +13,10 @@ import {
 import { buttonVariants } from "./ui/button";
 import Image from "next/image";
 import EmptyCart from "../../public/assets/empty-cart.svg";
-import { routes } from "~/static";
 import { useWishlist } from "~/hooks/useWishlist";
 import { ScrollArea } from "./ui/scroll-area";
 import CartItem from "./wishlist-item";
+import { ROUTES } from "~/common/constants/routes";
 
 const Wishlist = () => {
   const { items } = useWishlist();
@@ -75,7 +75,7 @@ const Wishlist = () => {
             </div>
             <SheetClose asChild>
               <Link
-                href={routes.SHOP}
+                href={ROUTES.SHOP}
                 className={buttonVariants({
                   variant: "link",
                   size: "sm",

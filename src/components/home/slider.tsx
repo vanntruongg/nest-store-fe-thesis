@@ -10,7 +10,7 @@ import ImgSlide1 from "../../assets/slide/slide-1.webp";
 import ImgSlide2 from "../../assets/slide/slide-2.webp";
 import ImgSlide3 from "../../assets/slide/slide-3.webp";
 import Link from "next/link";
-import { routes } from "~/static";
+import { ROUTES } from "~/common/constants/routes";
 
 const Slider = () => {
   return (
@@ -49,7 +49,7 @@ const Slider = () => {
                 <p className="text-5xl">Bộ sưu tập độc quyền dành cho bạn</p>
               </div>
               <Link
-                href={routes.SHOP}
+                href={ROUTES.SHOP}
                 className="bg-black px-6 py-3 text-18 text-white font-bold font-nunito hover:shadow-md hover:bg-primary hover:text-white transition-all duration-200"
               >
                 Mua sắm ngay
@@ -73,7 +73,7 @@ const Slider = () => {
                 <p className="text-5xl">Bộ sưu tập độc quyền dành cho bạn</p>
               </div>
               <Link
-                href={routes.SHOP}
+                href={ROUTES.SHOP}
                 className="bg-black px-6 py-3 text-18 text-white font-bold font-nunito hover:shadow-md hover:bg-primary hover:text-white transition-all duration-200"
               >
                 Mua sắm ngay
@@ -97,7 +97,7 @@ const Slider = () => {
                 <p className="text-5xl">Bộ sưu tập độc quyền dành cho bạn</p>
               </div>
               <Link
-                href={routes.SHOP}
+                href={ROUTES.SHOP}
                 className="bg-black px-6 py-3 text-18 text-white font-bold font-nunito hover:shadow-md hover:bg-primary hover:text-white transition-all duration-200"
               >
                 Mua sắm ngay
