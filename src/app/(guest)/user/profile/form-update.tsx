@@ -13,7 +13,6 @@ import { IUpdateUser } from "~/common/model/user.model";
 import { BaseUtil } from "~/common/utility/base.util";
 import { CloudinaryUtil } from "~/common/utility/cloudinary.util";
 import IconTextLoading from "~/components/icon-text-loading";
-import Loading from "~/components/loading";
 import { Button } from "~/components/ui/button";
 import {
   Dialog,
@@ -95,7 +94,6 @@ export function FormUpdateUser() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      {loading && <Loading />}
       <DialogTrigger asChild className="p-1.5 rounded-sm hover:bg-gray-100">
         <Button variant={"outline"} onClick={() => setOpen(true)}>
           Cập nhật hồ sơ
@@ -182,19 +180,6 @@ export function FormUpdateUser() {
                         placeholder="Vd: 0357 888 999"
                         {...field}
                       />
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="address"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Địa chỉ</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Địa chỉ" {...field} />
                     </FormControl>
                     <FormMessage className="text-xs" />
                   </FormItem>

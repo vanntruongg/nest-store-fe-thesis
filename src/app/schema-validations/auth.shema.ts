@@ -106,7 +106,6 @@ export const UpdateUserShema = z.object({
   firstName: z.string().min(1, { message: "Vui lòng nhập tên" }).max(20),
   lastName: z.string().min(1, { message: "Vui lòng nhập họ" }).max(20),
   phone: z.string().max(50),
-  address: z.string(),
   imageUrl: z.string(),
   roles: z.array(z.string()).min(1, "Chọn ít nhất 1 vai trò"),
 });

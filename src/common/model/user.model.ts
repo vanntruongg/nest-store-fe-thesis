@@ -46,7 +46,6 @@ interface IUpdateUser {
   firstName: string;
   lastName: string;
   phone: string;
-  address: string;
   imageUrl: string;
   roles?: string[];
 }
