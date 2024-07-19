@@ -9,6 +9,7 @@ import MaxWidthWrapper from "~/components/max-width-wrapper";
 import ProductDetail from "~/components/product/product-detail";
 import { RelatedProduct } from "~/components/product/related-product";
 import { Review } from "./review";
+import { Breadrumb } from "~/common/model/base.model";
 
 interface PageProps {
   params: {
