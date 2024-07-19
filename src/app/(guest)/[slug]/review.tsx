@@ -47,6 +47,7 @@ const filterOptions: {
 
 const reviews = [
   {
+    id: 1,
     avatar:
       "https://img.freepik.com/free-photo/cute-smiling-young-man-with-bristle-looking-satisfied_176420-18989.jpg?t=st=1718187081~exp=1718190681~hmac=80311aa1cbc7de41e582409c7116c98dbe3dd3235d359eaa65fdab14906bf0da&w=900",
     userName: "Văn Trường",
@@ -60,6 +61,7 @@ const reviews = [
     images: [""],
   },
   {
+    id: 2,
     avatar:
       "https://img.freepik.com/free-photo/cute-smiling-young-man-with-bristle-looking-satisfied_176420-18989.jpg?t=st=1718187081~exp=1718190681~hmac=80311aa1cbc7de41e582409c7116c98dbe3dd3235d359eaa65fdab14906bf0da&w=900",
     userName: "Văn Trường",
@@ -73,6 +75,7 @@ const reviews = [
     images: [""],
   },
   {
+    id: 3,
     avatar:
       "https://img.freepik.com/free-photo/cute-smiling-young-man-with-bristle-looking-satisfied_176420-18989.jpg?t=st=1718187081~exp=1718190681~hmac=80311aa1cbc7de41e582409c7116c98dbe3dd3235d359eaa65fdab14906bf0da&w=900",
     userName: "Văn Trường",
@@ -86,6 +89,7 @@ const reviews = [
     images: [""],
   },
   {
+    id: 4,
     avatar:
       "https://img.freepik.com/free-photo/cute-smiling-young-man-with-bristle-looking-satisfied_176420-18989.jpg?t=st=1718187081~exp=1718190681~hmac=80311aa1cbc7de41e582409c7116c98dbe3dd3235d359eaa65fdab14906bf0da&w=900",
     userName: "Văn Trường",
@@ -142,7 +146,7 @@ export function Review({ review }: IReviewProps) {
       </div>
       <div className="px-10 divide-y">
         {reviews.map((review) => (
-          <div className="py-4 flex gap-2">
+          <div key={review.id} className="py-4 flex gap-2">
             <div className="w-10 h-10 rounded-full overflow-hidden">
               <Image
                 src={review.avatar}
@@ -159,9 +163,9 @@ export function Review({ review }: IReviewProps) {
                 <div className="flex gap-0.5 text-base text-yellow-500">
                   {Array.from({ length: 5 }, (_, idx) =>
                     idx + 1 <= review.rating ? (
-                      <IoIosStar />
+                      <IoIosStar key={idx} />
                     ) : (
-                      <IoIosStarOutline />
+                      <IoIosStarOutline key={idx} />
                     )
                   )}
                 </div>
