@@ -1,4 +1,10 @@
-import { ReactNode, useEffect, useState } from "react";
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { BaseUtil } from "~/common/utility/base.util";
 
 import {
@@ -11,7 +17,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
-import { Plus } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -40,16 +45,19 @@ import {
   UpdateAddressRequest,
 } from "~/common/model/address.model";
 import { useUser } from "~/hooks/useUser";
+import { useCheckout } from "~/hooks/useCheckout";
 
 export interface IAddressFormDialogProps {
+  isOpen?: boolean;
   action: AddressAction;
   title: string;
   address?: Address;
   fetchData: () => void;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export function AddressFormDialog({
+  isOpen,
   action,
   title,
   address,
@@ -57,8 +65,10 @@ export function AddressFormDialog({
   children,
 }: IAddressFormDialogProps) {
   const { user } = useUser();
+  const { setDeliveryAddress } = useCheckout();
   const [loading, setLoading] = useState<boolean>(false);
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(isOpen || false);
+
   const form = useForm<AddressShemaType>({
     resolver: zodResolver(AddressShema),
     defaultValues: {
@@ -71,6 +81,10 @@ export function AddressFormDialog({
       isDefault: address?.default ?? false,
     },
   });
+
+  useEffect(() => {
+    if (isOpen) setOpen(isOpen);
+  }, [isOpen]);
 
   const onSubmit = async (data: AddressShemaType) => {
     if (loading) return;
@@ -87,6 +101,7 @@ export function AddressFormDialog({
 
         const res = await userAddressApi.createAddress(dataCreate);
         message = res.payload.message;
+        setDeliveryAddress(res.payload.data);
       } else if (action === AddressAction.UPDATE) {
         if (address) {
           const dataUpdate: UpdateAddressRequest = {
