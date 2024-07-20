@@ -5,47 +5,34 @@ import { cn } from "~/lib/utils";
 
 import Link from "next/link";
 import { buttonVariants } from "~/components/ui/button";
-import { Loader2 } from "lucide-react";
 import { Checkbox } from "~/components/ui/checkbox";
-import { ProductUtil } from "~/common/utility/product.util";
 import { useEffect, useMemo, useState } from "react";
 import { useCheckout } from "~/hooks/useCheckout";
 import { useUser } from "~/hooks/useUser";
 import cartApi from "~/apis/cart-api";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import CartItem from "~/app/(guest)/cart/cart-item";
-import { CartResponse, Item, ItemCheckout } from "~/common/model/cart.model";
-import { useCart } from "~/hooks/useCart";
+import { CartResponse, ItemCheckout } from "~/common/model/cart.model";
 import { BaseUtil } from "~/common/utility/base.util";
-import Loading from "~/components/loading";
 import { ROUTES } from "~/common/constants/routes";
+import { Skeleton } from "~/components/ui/skeleton";
+import { ItemCartPlaceholder } from "~/components/skeleton/item-cart";
+import { Loader2 } from "lucide-react";
+import { ProductUtil } from "~/common/utility/product.util";
 
 const Cart = () => {
   const { user } = useUser();
-  const { setItemToCart } = useCart();
   const { items, addItems, clearCheckout } = useCheckout();
   const [products, setProducts] = useState<CartResponse>();
   const [isMounted, setIsMounted] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
 
   const fetchData = async () => {
-    setLoading(true);
     try {
       const result = await cartApi.getAll(user.email);
-
-      const data = result.payload.data || [];
+      const data = result.payload.data;
       setProducts(data);
-
-      const items: Item[] | undefined = products?.items.map((item) => ({
-        productId: item.product.id,
-        price: item.product.price,
-        quantity: item.quantity,
-      }));
-      setItemToCart(items || []);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -75,7 +62,6 @@ const Cart = () => {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:max-w-7xl lg:px-8">
-      {loading && <Loading />}
       <h1 className="text-xl font-bold tracking-tight text-gray-900 sm:text-3xl">
         Giỏ hàng
       </h1>
@@ -124,13 +110,20 @@ const Cart = () => {
             </div>
 
             <div className="px-8 my-4 bg-white divide-y">
-              {products?.items.map((item) => (
-                <CartItem
-                  key={item.product.id}
-                  item={item}
-                  fetchData={fetchData}
-                />
-              ))}
+              {products?.items && products?.items.length > 0 ? (
+                products?.items.map((item) => (
+                  <CartItem
+                    key={item.product.id}
+                    item={item}
+                    fetchData={fetchData}
+                  />
+                ))
+              ) : (
+                <>
+                  <ItemCartPlaceholder />
+                  <ItemCartPlaceholder />
+                </>
+              )}
             </div>
             <section className="sticky bottom-0 flex items-center justify-between rounded-lg bg-white shadow py-4 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-6">
               <div className="flex items-center justify-between gap-4 border-gray-200">
@@ -145,19 +138,18 @@ const Cart = () => {
                   )}
                 </div>
               </div>
-              <div className="">
+              {isMounted ? (
                 <Link
                   href={ROUTES.CHECKOUT}
-                  className={cn(
-                    buttonVariants({ size: "lg", className: "w-full" }),
-                    {
-                      "opacity-50 pointer-events-none": items.length === 0,
-                    }
-                  )}
+                  className={cn(buttonVariants({ size: "lg", className: "" }), {
+                    "opacity-50 pointer-events-none": items.length === 0,
+                  })}
                 >
                   Thanh toán
                 </Link>
-              </div>
+              ) : (
+                <Skeleton className="w-36 h-10" />
+              )}
             </section>
           </div>
         )}

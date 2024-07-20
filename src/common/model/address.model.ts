@@ -17,6 +17,16 @@ interface Address {
   default: boolean;
 }
 
+interface DeliveryAddress {
+  id: number;
+  name: string;
+  phone: string;
+  street: string;
+  province: string;
+  district: string;
+  ward: string;
+}
+
 interface CreateAddressRequest {
   name: string;
   phone: string;

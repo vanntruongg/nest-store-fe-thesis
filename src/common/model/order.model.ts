@@ -5,7 +5,7 @@ interface IOrder {
   name: string;
   email: string;
   phone: string;
-  address: UserAddressOrder;
+  addressId: number;
   totalPrice: number;
   notes: string;
   orderStatus: string;
@@ -14,7 +14,7 @@ interface IOrder {
   orderDetail: IOrderDetail[];
 }
 
-interface UserAddressOrder {
+interface OrderDeliveryAddress {
   id: number;
   name: string;
   phone: string;
@@ -61,4 +61,5 @@ export type {
   IPaymentMethod,
   IOrder,
   IOrderDetail,
+  OrderDeliveryAddress,
 };

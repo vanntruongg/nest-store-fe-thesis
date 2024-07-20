@@ -56,6 +56,9 @@ export class EndpointUtil {
       GET_BY_EMAIL_AND_STATUS: "/order/get/email/status",
       UPDATE_STATUS: "/order/update/status",
     },
+    PAYMENT: {
+      VNPAY: "/payment/create/vnpay",
+    },
     STATISTIC: {
       GET_TOTAL_ORDER_COUNT_BY_STATUS: "/statistic/total-order",
       REVENUE_STATISTIC: "/statistic/revenue",
@@ -65,12 +68,17 @@ export class EndpointUtil {
       GET_ADDRESS_DATA_BY_PARENT_CODE: "/address/get/data",
     },
     ADDRESS: {
-      CREATE_ADDRESS: "/address/user/create",
-      GET_ALL_BY_USER_EMAIL: "/address/user",
-      GET_DEFAULT_ADDRESS: "/address/user/default",
-      UPDATE_ADDRESS: "/address/user/update",
-      UPDATE_DEFAULT_ADDRESS: "/address/user/update/default",
-      DELETE_ADDRESS: "/address/user/delete",
+      USER: {
+        CREATE_ADDRESS: "/address/user/create",
+        GET_ALL_BY_USER_EMAIL: "/address/user",
+        GET_DEFAULT_ADDRESS: "/address/user/default",
+        UPDATE_ADDRESS: "/address/user/update",
+        UPDATE_DEFAULT_ADDRESS: "/address/user/update/default",
+        DELETE_ADDRESS: "/address/user/delete",
+      },
+      ORDER: {
+        GET_DELIVERY_ADDRESS: "/address/order/get",
+      },
     },
   };
 }

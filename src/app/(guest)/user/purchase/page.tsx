@@ -4,11 +4,11 @@ import orderApi from "~/apis/order-api";
 import { IOrder } from "~/common/model/order.model";
 import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/components/icon-text-loading";
-import { Purchase } from "~/components/purchase";
 import { OrderStatus } from "~/components/order-status";
 import { useUser } from "~/hooks/useUser";
 import { orderStatus } from "~/static";
 import { useSearchParams } from "next/navigation";
+import { Order } from "./order";
 
 const PurchasePage = () => {
   const { user } = useUser();
@@ -16,6 +16,7 @@ const PurchasePage = () => {
   const [orders, setOrders] = useState<IOrder[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const status = searchParams.get("orderStatus") || orderStatus[0].type;
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -23,7 +24,6 @@ const PurchasePage = () => {
         if (status === orderStatus[0].type) {
           const result = await orderApi.getAllByEmail(user.email);
           setOrders(result.payload.data);
-          // console.log(result.payload.data);
         } else {
           const result = await orderApi.getByEmailAndStatus(user.email, status);
           setOrders(result.payload.data);
@@ -47,7 +47,7 @@ const PurchasePage = () => {
           <IconTextLoading />
         </div>
       ) : (
-        <Purchase orders={orders} />
+        <Order orders={orders} />
       )}
     </div>
   );
