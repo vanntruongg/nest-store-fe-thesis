@@ -55,10 +55,11 @@ export class EndpointUtil {
       GET_BY_STATUS: "/order/get/status",
       GET_BY_EMAIL_AND_STATUS: "/order/get/email/status",
       UPDATE_STATUS: "/order/update/status",
-      GET_TOTAL_ORDER_COUNT_BY_STATUS: "/order/total-order",
-      GET_REVENUE: "/order/get/revenue",
-      REVENUE_STATISTIC: "/order/revenue/statistic",
-      ORDER_STATISTIC: "/order/order/statistic",
+    },
+    STATISTIC: {
+      GET_TOTAL_ORDER_COUNT_BY_STATUS: "/statistic/total-order",
+      REVENUE_STATISTIC: "/statistic/revenue",
+      ORDER_STATISTIC: "/statistic/order",
     },
     ADDRESS_DATA: {
       GET_ADDRESS_DATA_BY_PARENT_CODE: "/address/get/data",

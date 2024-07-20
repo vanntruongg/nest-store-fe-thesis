@@ -1,8 +1,6 @@
 "use client";
 
 import { memo, useEffect, useState } from "react";
-import orderApi from "~/apis/order-api";
-import BarChart from "~/components/charts/bar-chart";
 
 const TotalRevenue = () => {
   const [dataAxis, setDataAxis] = useState<string[]>([]);

@@ -29,21 +29,6 @@ const orderApi = {
     httpClient.post<any>(
       EndpointUtil.NEST.ORDER.UPDATE_STATUS + `?id=${id}&status=${status}`
     ),
-  getOrderCount: () =>
-    httpClient.get<any>(
-      EndpointUtil.NEST.ORDER.GET_TOTAL_ORDER_COUNT_BY_STATUS
-    ),
-  getTotalRevenue: () =>
-    httpClient.get<any>(EndpointUtil.NEST.ORDER.GET_REVENUE),
-
-  revenueStatistic: (year: number, month: string) =>
-    httpClient.get<any>(
-      EndpointUtil.NEST.ORDER.REVENUE_STATISTIC + `?year=${year}&month=${month}`
-    ),
-  orderStatistic: (year: number, month: string) =>
-    httpClient.get<any>(
-      EndpointUtil.NEST.ORDER.ORDER_STATISTIC + `?year=${year}&month=${month}`
-    ),
 };
 
 export default orderApi;
