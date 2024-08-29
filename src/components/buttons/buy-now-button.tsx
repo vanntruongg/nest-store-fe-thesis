@@ -13,13 +13,22 @@ import { useCheckout } from "~/hooks/useCheckout";
 import { ProductUtil } from "~/common/utility/product.util";
 import { tokenStorage } from "~/common/utility/auth/token-storage";
 import { ROUTES } from "~/common/constants/routes";
+import { Size } from "~/common/model/inventory.model";
+import { CartUtil } from "~/common/utility/cart.util";
 
 interface AddtoCartButtonProps {
   product: Product;
+  size?: Size;
   quantity: number;
+  setError: (error: boolean) => void;
 }
 
-const BuyNowButton = ({ product, quantity }: AddtoCartButtonProps) => {
+const BuyNowButton = ({
+  product,
+  size,
+  quantity,
+  setError,
+}: AddtoCartButtonProps) => {
   const router = useRouter();
   const { user } = useUser();
   const { addToCart } = useCart();
@@ -36,12 +45,13 @@ const BuyNowButton = ({ product, quantity }: AddtoCartButtonProps) => {
     }
 
     try {
-      if (!ProductUtil.validateStock(product.stock, quantity)) {
+      if (!CartUtil.validateSize(size, setError)) {
         return;
       }
 
       const item: Item = {
         productId: product.id,
+        size: size!,
         quantity,
       };
       const data: CartRequest = {
@@ -55,8 +65,9 @@ const BuyNowButton = ({ product, quantity }: AddtoCartButtonProps) => {
         id: product.id,
         name: product.name,
         price: product.price,
-        image: product.imageUrl,
+        image: product.images[0].imageUrl,
         quantity,
+        size: size!,
       });
       addToCart(item);
       router.push(ROUTES.CHECKOUT);
@@ -70,6 +81,7 @@ const BuyNowButton = ({ product, quantity }: AddtoCartButtonProps) => {
     <Button
       onClick={handleAddtoCartAndCheckout}
       size={"sm"}
+      disabled={quantity === 0}
       className="w-full bg-transparent border border-black text-black hover:bg-transparent hover:border-primary hover:text-primary text-sm rounded-none transition-all duration-300"
     >
       {loading ? (

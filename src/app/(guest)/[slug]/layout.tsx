@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import productApi from "~/apis/book-api";
+import productApi from "~/apis/product-api";
 import { Product } from "~/common/model/product.model";
 import { ProductUtil } from "~/common/utility/product.util";
 // export const metadata: Metadata = {

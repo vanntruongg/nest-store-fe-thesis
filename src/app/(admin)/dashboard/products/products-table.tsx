@@ -34,7 +34,7 @@ import {
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import productApi from "~/apis/book-api";
+import productApi from "~/apis/product-api";
 import { Product } from "~/common/model/product.model";
 import { ProductUtil } from "~/common/utility/product.util";
 import { FormUpdate } from "./form-update";
@@ -50,6 +50,8 @@ export const GetDataAndColumns = () => {
     setLoading(true);
     try {
       const result = await productApi.getAll();
+      console.log("result: ", result);
+
       setData(result.payload.data);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
@@ -57,20 +59,24 @@ export const GetDataAndColumns = () => {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     fetchData();
   }, []);
+
+  console.log(data);
+
   const columns: ColumnDef<Product>[] = [
     {
       accessorKey: "name",
       header: () => <div className="text-left"> Sản phẩm</div>,
       cell: ({ row }) => {
-        const { name, imageUrl } = row.original;
+        const { name, images } = row.original;
         return (
           <div className="flex items-center space-x-2 capitalize">
             <div className="relative aspect-square h-8 min-w-fit overflow-hidden rounded-full cursor-pointer">
               <Image
-                src={imageUrl || "/assets/avatar-default.png"}
+                src={images[0].imageUrl || "/assets/avatar-default.png"}
                 alt={name}
                 fill
                 sizes="full"
@@ -104,25 +110,24 @@ export const GetDataAndColumns = () => {
         );
       },
     },
-
-    {
-      accessorKey: "stock",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="p-0 w-full"
-          >
-            Số lượng
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        );
-      },
-      cell: ({ row }) => {
-        return <div className="text-center">{row.getValue("stock")}</div>;
-      },
-    },
+    // {
+    //   accessorKey: "stock",
+    //   header: ({ column }) => {
+    //     return (
+    //       <Button
+    //         variant="ghost"
+    //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+    //         className="p-0 w-full"
+    //       >
+    //         Số lượng
+    //         <ArrowUpDown className="ml-2 h-4 w-4" />
+    //       </Button>
+    //     );
+    //   },
+    //   cell: ({ row }) => {
+    //     return <div className="text-center">{row.getValue("stock")}</div>;
+    //   },
+    // },
     {
       accessorKey: "category",
       header: ({ column }) => {

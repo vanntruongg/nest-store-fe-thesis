@@ -1,3 +1,5 @@
+import { SizeWithQuantity } from "./common.model";
+
 interface ICategory {
   category: Category;
   subCategories?: ICategory[];
@@ -13,14 +15,21 @@ interface Product {
   id: number;
   name: string;
   price: number;
-  material?: string;
-  style?: string;
-  imageUrl: string;
-  stock: number;
+  material: string;
+  style: string;
+  images: ProductImage[];
   category: Category;
+  categories: Category[];
+  sizeQuantity: SizeWithQuantity[];
 }
 
-interface ProductUpdate extends Omit<Product, "category"> {
+interface ProductImage {
+  id: number;
+  imageUrl: string;
+}
+
+interface ProductUpdate
+  extends Omit<Product, "category" | "sizeQuantity" | "categories"> {
   categoryId: number;
 }
 
@@ -47,6 +56,7 @@ interface ProductReview {
 
 export type {
   Product,
+  ProductImage,
   ICategory,
   Category,
   ProductPagination,

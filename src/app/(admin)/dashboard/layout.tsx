@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ReactNode } from "react";
 import { NavAdmin } from "~/components/admin/nav-admin";
-import ButtonLogout from "~/components/button/btn-logout";
+import ButtonLogout from "~/components/buttons/logout-button";
 
 export const metadata: Metadata = {
   title: "NEST | Trang quản trị",
@@ -25,7 +25,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           <Home strokeWidth={2.5} className="size-5" />
           <p>Cửa hàng</p>
         </Link>
-        <ButtonLogout className="px-2 py-4 text-white hover:text-primary hover:bg-white rounded-sm duration-200" />
+        <ButtonLogout className="px-2 py-4 flex space-x-2 text-white hover:text-primary hover:bg-white rounded-sm duration-200" />
       </div>
     </main>
   );

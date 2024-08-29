@@ -8,7 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { cn } from "~/lib/utils";
 import DevelopingTooltip from "./developing-tooltip";
 import { useUser } from "~/hooks/useUser";
-import ButtonLogout from "./button/btn-logout";
+import ButtonLogout from "./buttons/logout-button";
 import { UserRole } from "~/common/utility/enum.util";
 import { tokenStorage } from "~/common/utility/auth/token-storage";
 import { ROUTES } from "~/common/constants/routes";
@@ -120,7 +120,7 @@ const NavUser = () => {
           </div>
         </div>
       ) : (
-        <div className="hover:bg-gray-100 p-2 rounded-full cursor-pointer group">
+        <div className="hover:bg-gray-100 p-1 rounded-full cursor-pointer group">
           <Link href={ROUTES.AUTH.LOGIN}>
             <UserRound
               strokeWidth={2}

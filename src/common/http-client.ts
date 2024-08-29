@@ -74,8 +74,11 @@ const request = async <Response>(
       res.status === EErrorCode.UNAUTHORIZED &&
       tokenStorage.value.rawToken.accessToken
     ) {
-      refreshToken(options);
-      return request<Response>(method, url, options);
+      const res = await refreshToken(options);
+      if (res) {
+        console.log("refresh token thành công");
+        return request<Response>(method, url, options);
+      }
     }
   }
   const payload: Response = await res.json();

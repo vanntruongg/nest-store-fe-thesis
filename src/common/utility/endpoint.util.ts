@@ -25,7 +25,6 @@ export class EndpointUtil {
         GET_ALL_ADDRESS: "/identity/users/get/address",
       },
     },
-
     PRODUCT: {
       GET_ALL: "/product/get-all",
       GET_LIST: "/product",
@@ -42,27 +41,32 @@ export class EndpointUtil {
     },
     CART: {
       GET_ALL: "/cart/items",
+      GET_BY_USER_AND_PRODUCT_ID: "/cart/items/get-by-email-and-product-id",
       ADD: "/cart/add",
       UPDATE: "/cart/update",
-      REMOVE: "/cart/remove",
+      DELETE: "/cart/delete",
     },
     ORDER: {
       GET_ALL: "/order/orders",
       CREATE_ORDER: "/order/create",
       GET_URL_PAYMENT_VNPAY: "/order/get-link-payment",
-      GET_ALL_PAYMENT_METHOD: "/order/methods",
+      GET_ALL_PAYMENT_METHOD: "/order/payment-method",
       GET_BY_EMAIL: "/order/get/email",
       GET_BY_STATUS: "/order/get/status",
       GET_BY_EMAIL_AND_STATUS: "/order/get/email/status",
       UPDATE_STATUS: "/order/update/status",
     },
+    ORDER_PAYMENT: {
+      GET_BY_ORDER_ID: "/payments/get/order",
+      GET_ALL_PAYMENT_METHOD: "/order/payment-method",
+    },
     PAYMENT: {
-      VNPAY: "/payment/create/vnpay",
+      VN_PAY: "/payments/create/vnpay",
     },
     STATISTIC: {
-      GET_TOTAL_ORDER_COUNT_BY_STATUS: "/statistic/total-order",
-      REVENUE_STATISTIC: "/statistic/revenue",
-      ORDER_STATISTIC: "/statistic/order",
+      GET_TOTAL_ORDER_COUNT_BY_STATUS: "/order/statistic/total-order",
+      REVENUE_STATISTIC: "/order/statistic/revenue",
+      ORDER_STATISTIC: "/order/statistic/order",
     },
     ADDRESS_DATA: {
       GET_ADDRESS_DATA_BY_PARENT_CODE: "/address/get/data",
@@ -79,6 +83,10 @@ export class EndpointUtil {
       ORDER: {
         GET_DELIVERY_ADDRESS: "/address/order/get",
       },
+    },
+    INVENTORY: {
+      GET_BY_PRODUCT_ID: "/inventory/get",
+      GET_BY_PRODUCT_ID_AND_SIZE: "/inventory/get/size/id",
     },
   };
 }

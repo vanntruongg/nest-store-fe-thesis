@@ -35,7 +35,7 @@ import {
   ProductCreate,
   ProductUpdate,
 } from "~/common/model/product.model";
-import productApi from "~/apis/book-api";
+import productApi from "~/apis/product-api";
 import {
   ProductShema,
   ProductShemaType,

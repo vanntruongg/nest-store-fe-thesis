@@ -4,8 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import CountUp from "react-countup";
-import orderApi from "~/apis/order-api";
-import productApi from "~/apis/book-api";
+import productApi from "~/apis/product-api";
 import userApi from "~/apis/user-api";
 import { Button } from "~/components/ui/button";
 import {
@@ -17,6 +16,7 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { v4 as uuid } from "uuid";
 import { BaseUtil } from "~/common/utility/base.util";
+import statisticApi from "~/apis/statistic.api";
 interface SummaryStatistic {
   users: number;
   products: number;
@@ -37,7 +37,7 @@ const SummaryStatistic = () => {
         const [users, products, orders] = await Promise.all([
           userApi.getUserCount(),
           productApi.getProductCount(),
-          orderApi.getOrderCount(),
+          statisticApi.getOrderCount(),
         ]);
 
         setSummary({

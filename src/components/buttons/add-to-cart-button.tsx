@@ -6,27 +6,34 @@ import { BaseUtil } from "~/common/utility/base.util";
 import { useUser } from "~/hooks/useUser";
 import { Product } from "~/common/model/product.model";
 import cartApi from "~/apis/cart-api";
-import { CartRequest, Item } from "~/common/model/cart.model";
-import { toast } from "../ui/use-toast";
+import { CartRequest } from "~/common/model/cart.model";
 import { useRouter } from "next/navigation";
 import { useCart } from "~/hooks/useCart";
 import { ToastAction } from "../ui/toast";
 import Link from "next/link";
-import { ProductUtil } from "~/common/utility/product.util";
 import { cn } from "~/lib/utils";
-import { tokenStorage } from "~/common/utility/auth/token-storage";
 import { ROUTES } from "~/common/constants/routes";
+import { AuthUtil } from "~/common/utility/auth.util";
+import { Toast } from "../toast/toast";
+import { CartUtil } from "~/common/utility/cart.util";
 
 interface AddtoCartButtonProps {
   product: Product;
+  size?: string;
   quantity: number;
   className?: string;
+  setError: (error: boolean) => void;
+  setShowAlertDialog: (error: boolean) => void;
+  disable?: boolean;
 }
 
 const AddtoCartButton = ({
   product,
+  size,
   quantity,
   className,
+  setError,
+  disable,
 }: AddtoCartButtonProps) => {
   const { user } = useUser();
   const router = useRouter();
@@ -35,40 +42,42 @@ const AddtoCartButton = ({
 
   const handleAddtoCart = async () => {
     setLoading(true);
-    if (tokenStorage.value.rawToken.accessToken === "") {
+    if (!AuthUtil.isLogin()) {
       router.push(ROUTES.AUTH.LOGIN);
       return;
     }
 
     try {
-      if (!ProductUtil.validateStock(product.stock, quantity)) {
+      if (!CartUtil.validateSize(size, setError)) {
         return;
       }
 
-      const item: Item = {
+      const data: CartRequest = {
+        email: user.email,
         productId: product.id,
+        size: size!,
         quantity,
       };
 
-      const data: CartRequest = {
-        email: user.email,
-        itemDto: item,
-      };
+      const {
+        payload: { success, message },
+      } = await cartApi.add(data);
 
-      await cartApi.add(data);
+      if (success) {
+        addToCart({
+          productId: product.id,
+          size: size!,
+          quantity,
+        });
 
-      addToCart(item);
-
-      toast({
-        title: "Thành công",
-        description: "Thêm vào giỏ hàng thành công",
-        action: (
+        Toast.success(
+          message,
           <ToastAction altText="Xem giỏ hàng">
-            <Link href={"/cart"}>Xem giỏ hàng</Link>
+            <Link href={ROUTES.CART}>Xem giỏ hàng</Link>
           </ToastAction>
-        ),
-      });
-    } catch (error) {
+        );
+      }
+    } catch (error: any) {
       BaseUtil.handleErrorApi({ error });
     } finally {
       setLoading(false);
@@ -79,6 +88,7 @@ const AddtoCartButton = ({
     <Button
       onClick={handleAddtoCart}
       size={"sm"}
+      disabled={quantity === 0 || disable}
       className={cn(
         "hover:shadow-sm text-sm rounded-none transition-all duration-500",
         className

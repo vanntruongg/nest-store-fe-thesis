@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import orderApi from "~/apis/order-api";
+import statisticApi from "~/apis/statistic.api";
 import { ProductUtil } from "~/common/utility/product.util";
 import LineChart from "~/components/charts/line-chart";
 import {
@@ -27,7 +27,7 @@ const Revenue = () => {
   const month = searchParams.get("revenueByMonth") ?? "";
   useEffect(() => {
     const fetchData = async () => {
-      const result = await orderApi.revenueStatistic(parseInt(year), month);
+      const result = await statisticApi.revenueStatistic(parseInt(year), month);
 
       setDataAxis(Object.keys(result.payload.data));
       setData(Object.values(result.payload.data));

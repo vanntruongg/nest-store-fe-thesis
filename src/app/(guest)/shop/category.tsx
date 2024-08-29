@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import productApi from "~/apis/book-api";
+import productApi from "~/apis/product-api";
 import { Category as CategoryModel } from "~/common/model/product.model";
 import { BaseUtil } from "~/common/utility/base.util";
 import { ProductUtil } from "~/common/utility/product.util";

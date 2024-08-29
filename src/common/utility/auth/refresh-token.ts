@@ -6,13 +6,17 @@ import { toast } from "~/components/ui/use-toast";
 
 export const refreshToken = async (options: any) => {
   try {
+    console.log("refresh token");
+
     const refreshToken = tokenStorage.value.rawToken.refreshToken;
 
     const result = await authApi.refreshToken(refreshToken);
+    console.log("result refresh token: ", result);
 
     tokenStorage.value.rawToken.accessToken = result.payload.data.accessToken;
 
     await authApi.auth(result.payload.data);
+    return true;
   } catch (error) {
     toast({
       description: "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.",
@@ -21,5 +25,6 @@ export const refreshToken = async (options: any) => {
     });
     handleLogout(options);
     BaseUtil.handleErrorApi({ error });
+    return false;
   }
 };

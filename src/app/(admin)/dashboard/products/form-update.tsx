@@ -30,7 +30,7 @@ import { toast } from "~/components/ui/use-toast";
 import { CloudinaryUtil } from "~/common/utility/cloudinary.util";
 import IconTextLoading from "~/components/icon-text-loading";
 import { Category, Product, ProductUpdate } from "~/common/model/product.model";
-import productApi from "~/apis/book-api";
+import productApi from "~/apis/product-api";
 import {
   ProductShema,
   ProductShemaType,
@@ -46,7 +46,9 @@ interface IFormUpdateUserProps {
 export function FormUpdate({ product, fetchData }: IFormUpdateUserProps) {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [imagePreview, setImagePreview] = useState(product.imageUrl || "");
+  const [imagePreview, setImagePreview] = useState(
+    product.images[0].imageUrl || ""
+  );
   const [imageSelected, setImageSelected] = useState<FileWithPreview | null>(
     null
   );
@@ -58,8 +60,7 @@ export function FormUpdate({ product, fetchData }: IFormUpdateUserProps) {
       price: product.price,
       material: product.material,
       style: product.style,
-      imageUrl: product.imageUrl,
-      stock: product.stock,
+      imageUrl: product.images[0].imageUrl,
       category: { id: product.category.id, name: product.category.name },
     },
   });
@@ -107,8 +108,8 @@ export function FormUpdate({ product, fetchData }: IFormUpdateUserProps) {
         price,
         material,
         style,
-        imageUrl,
-        stock,
+        images: product.images,
+        // stock,
         categoryId: category.id,
       };
 

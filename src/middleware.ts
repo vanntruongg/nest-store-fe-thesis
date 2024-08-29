@@ -4,6 +4,7 @@ import type { NextRequest } from "next/server";
 import { IJWTDecoded } from "./common/model/auth.model";
 import { UserRole } from "./common/utility/enum.util";
 import { ROUTES } from "./common/constants/routes";
+import { useUser } from "./hooks/useUser";
 
 const authPaths = [
   ROUTES.AUTH.LOGIN,

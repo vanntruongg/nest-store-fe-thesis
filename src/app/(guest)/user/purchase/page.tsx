@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import orderApi from "~/apis/order-api";
 import { IOrder } from "~/common/model/order.model";
 import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/components/icon-text-loading";
@@ -9,6 +8,7 @@ import { useUser } from "~/hooks/useUser";
 import { orderStatus } from "~/static";
 import { useSearchParams } from "next/navigation";
 import { Order } from "./order";
+import orderApi from "~/apis/order-api";
 
 const PurchasePage = () => {
   const { user } = useUser();

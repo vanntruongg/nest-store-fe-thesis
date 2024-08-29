@@ -1,54 +1,34 @@
+import { SizeWithQuantity } from "./common.model";
 import { Product } from "./product.model";
 
 interface Cart {
-  email: string;
-  items: Item[];
-  totalPrice: number;
+  items: CartItem[];
 }
 
-interface Item {
-  productId: number;
-  price?: number;
-  quantity: number;
-}
-
-interface ItemCheckout {
-  id: number;
-  price: number;
-  name: string;
-  image: string;
-  quantity: number;
-}
-
-interface ItemResponse {
+interface CartItem {
   product: Product;
-  quantity: number;
+  sizeQuantities: SizeWithQuantity[];
 }
 
-interface CartResponse {
-  email: string;
-  items: ItemResponse[];
-  totalPrice: number;
-}
 interface CartRequest {
   email: string;
-  itemDto: {
-    productId: number;
-    quantity: number;
-  };
+  productId: number;
+  size: string;
+  quantity: number;
 }
 interface UpdateCartRequest {
   email: string;
-  itemId: number;
+  productId: number;
+  size: string;
   quantity: number;
 }
 
+type DelteCartRequest = Omit<UpdateCartRequest, "quantity">;
+
 export type {
-  ItemCheckout,
-  ItemResponse,
-  CartResponse,
   Cart,
-  Item,
+  CartItem,
   CartRequest,
   UpdateCartRequest,
+  DelteCartRequest,
 };

@@ -18,20 +18,10 @@ interface AddtoWishlistIconProps {
 
 const AddtoWishlistIcon = ({ product }: AddtoWishlistIconProps) => {
   const { items, addItem, removeItem } = useWishlist();
-  const [loading, setLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setLoading(false);
-    }, 500);
-
-    return () => clearTimeout(timeout);
-  }, [loading]);
 
   const existedProduct = items.find((item) => item.product.id === product?.id);
   const handleAddOrRemoveItem = () => {
     if (product) {
-      setLoading(true);
       if (existedProduct) {
         removeItem(product.id);
       } else {
@@ -50,13 +40,7 @@ const AddtoWishlistIcon = ({ product }: AddtoWishlistIconProps) => {
             )}
             onClick={handleAddOrRemoveItem}
           >
-            {loading ? (
-              <Loader2
-                strokeWidth={2}
-                size={18}
-                className=" animate-spin text-black"
-              />
-            ) : existedProduct ? (
+            {existedProduct ? (
               <FaHeart
                 size={18}
                 strokeWidth={2}

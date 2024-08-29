@@ -5,7 +5,7 @@ import Image from "next/image";
 import Logo from "../../../public/assets/nest-logo-tranparent.png";
 import { AreaChart, BaggageClaim, Home, Shirt, Users } from "lucide-react";
 import { usePathname } from "next/navigation";
-import ButtonLogout from "../button/btn-logout";
+import ButtonLogout from "../buttons/logout-button";
 
 const navLinks = [
   {

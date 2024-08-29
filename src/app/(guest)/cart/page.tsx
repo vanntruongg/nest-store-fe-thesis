@@ -6,24 +6,32 @@ import { cn } from "~/lib/utils";
 import Link from "next/link";
 import { buttonVariants } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useCheckout } from "~/hooks/useCheckout";
 import { useUser } from "~/hooks/useUser";
 import cartApi from "~/apis/cart-api";
 import { CheckedState } from "@radix-ui/react-checkbox";
-import CartItem from "~/app/(guest)/cart/cart-item";
-import { CartResponse, ItemCheckout } from "~/common/model/cart.model";
 import { BaseUtil } from "~/common/utility/base.util";
 import { ROUTES } from "~/common/constants/routes";
 import { Skeleton } from "~/components/ui/skeleton";
 import { ItemCartPlaceholder } from "~/components/skeleton/item-cart";
 import { Loader2 } from "lucide-react";
 import { ProductUtil } from "~/common/utility/product.util";
+import { Cart as CartModel } from "~/common/model/cart.model";
+import CartItemGroup from "./cart-item-group";
+import CartItem from "./cart-item";
+
+export interface ItemCheckout {
+  productId: number;
+  price: number;
+  size: string;
+  quantity: number;
+}
 
 const Cart = () => {
   const { user } = useUser();
   const { items, addItems, clearCheckout } = useCheckout();
-  const [products, setProducts] = useState<CartResponse>();
+  const [products, setProducts] = useState<CartModel | null>(null);
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
   const fetchData = async () => {
@@ -42,15 +50,17 @@ const Cart = () => {
   }, []);
 
   const toggleSelectAll = (checked: CheckedState) => {
-    if (checked) {
-      const items: ItemCheckout[] | undefined = products?.items.map((item) => ({
-        id: item.product.id,
-        name: item.product.name,
-        price: item.product.price,
-        image: item.product.imageUrl,
-        quantity: item.quantity,
-      }));
-      addItems(items || []);
+    if (checked && products) {
+      const items: ItemCheckout[] = products.items.flatMap(
+        ({ product, sizeQuantities }) =>
+          sizeQuantities.map(({ size, quantity }) => ({
+            productId: product.id,
+            price: product.price,
+            size,
+            quantity,
+          }))
+      );
+      addItems(items);
     } else {
       clearCheckout();
     }
@@ -59,6 +69,15 @@ const Cart = () => {
   const totalPrice = useMemo(() => {
     return items.reduce((acc, curr) => acc + curr.price * curr.quantity, 0);
   }, [items]);
+
+  const totalCartQuantity = useMemo(
+    () =>
+      products?.items.reduce((total, item) => {
+        const sizeTotal = item.sizeQuantities.length;
+        return total + sizeTotal;
+      }, 0),
+    [products]
+  );
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -95,29 +114,33 @@ const Cart = () => {
               <div className="mt-1 pr-4">
                 <Checkbox
                   onCheckedChange={toggleSelectAll}
-                  checked={products?.items.length === items.length}
+                  checked={totalCartQuantity === items.length}
+                  className="border-gray-500"
                 />
               </div>
-              <div className="grid grid-cols-12 w-full gap-4">
-                <div className="col-span-6 w-full">Sản phẩm</div>
-                <div className="col-span-6 grid grid-cols-4 text-center">
-                  <span>Đơn giá</span>
-                  <span>Số lượng</span>
-                  <span>Thành tiền</span>
-                  <span>Thao tác</span>
+              <div className="grid grid-cols-12 w-full gap-4 text-sm">
+                <div className="col-span-6 w-full">Sản Phẩm</div>
+                <div className="col-span-6 grid grid-cols-4 text-center text-gray-500">
+                  <span>Đơn Giá</span>
+                  <span>Số Lượng</span>
+                  <span>Thành Tiền</span>
+                  <span>Thao Tác</span>
                 </div>
               </div>
             </div>
 
-            <div className="px-8 my-4 bg-white divide-y">
+            <div className="bg-white p-4 my-4 space-y-4">
               {products?.items && products?.items.length > 0 ? (
-                products?.items.map((item) => (
-                  <CartItem
-                    key={item.product.id}
-                    item={item}
-                    fetchData={fetchData}
-                  />
-                ))
+                products.items.map((item) =>
+                  item.sizeQuantities.map(({ size, quantity }) => (
+                    <CartItem
+                      product={item.product}
+                      productSize={size}
+                      productQuantity={quantity}
+                      fetchData={fetchData}
+                    />
+                  ))
+                )
               ) : (
                 <>
                   <ItemCartPlaceholder />
@@ -125,6 +148,19 @@ const Cart = () => {
                 </>
               )}
             </div>
+
+            {/* <div className="my-4 space-y-4">
+              {products?.items && products?.items.length > 0 ? (
+                products.items.map((item) => (
+                  <CartItemGroup item={item} fetchData={fetchData} />
+                ))
+              ) : (
+                <>
+                  <ItemCartPlaceholder />
+                  <ItemCartPlaceholder />
+                </>
+              )}
+            </div> */}
             <section className="sticky bottom-0 flex items-center justify-between rounded-lg bg-white shadow py-4 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-6">
               <div className="flex items-center justify-between gap-4 border-gray-200">
                 <div className="text-base font-medium text-gray-900">

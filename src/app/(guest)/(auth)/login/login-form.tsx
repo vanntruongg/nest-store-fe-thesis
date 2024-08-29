@@ -63,9 +63,9 @@ const LoginForm = () => {
         await authApi.auth(data);
 
         if (isAdmin(tokenStorage.value.rawToken.accessToken)) {
-          router.push("/dashboard/statistic");
+          router.push(ROUTES.ADMIN.STATISTIC);
         } else {
-          router.back();
+          router.push(ROUTES.HOME);
         }
 
         fetchProfile();

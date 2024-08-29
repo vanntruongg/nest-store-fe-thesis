@@ -3,7 +3,7 @@ import { useSearchParams } from "next/navigation";
 import Breadrumbs from "~/components/breadrumbs";
 import MaxWidthWrapper from "~/components/max-width-wrapper";
 import { Product } from "~/common/model/product.model";
-import productApi from "~/apis/book-api";
+import productApi from "~/apis/product-api";
 import { useEffect, useState } from "react";
 import CardProduct from "~/components/product/card-product";
 import Image from "next/image";

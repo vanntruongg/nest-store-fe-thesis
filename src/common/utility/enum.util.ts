@@ -33,11 +33,6 @@ enum ELayoutProduct {
   "LIST" = "Danh sách",
 }
 
-enum EPaymentMethod {
-  COD = "COD",
-  VNPAY = "VNPAY",
-}
-
 export {
   EAllAllowHttpMethod,
   EUserStatus,
@@ -45,5 +40,4 @@ export {
   EErrorCode,
   ELayoutProduct,
   UserRole,
-  EPaymentMethod,
 };

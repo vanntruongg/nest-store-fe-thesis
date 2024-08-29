@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Skeleton } from "~/components/ui/skeleton";
 import RecursionCategory from "./recursion-category";
 import { useEffect, useState } from "react";
-import productApi from "~/apis/book-api";
+import productApi from "~/apis/product-api";
 
 const ListCategory = () => {
   const searchParams = useSearchParams();

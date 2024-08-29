@@ -10,8 +10,8 @@ import { Button } from "~/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { orderStatus as orderStts } from "~/static";
 import { BaseUtil } from "~/common/utility/base.util";
-import orderApi from "~/apis/order-api";
 import { toast } from "~/components/ui/use-toast";
+import orderApi from "~/apis/order-api";
 
 export interface IUpdateStatusProps {
   status: string;

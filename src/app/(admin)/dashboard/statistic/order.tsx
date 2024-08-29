@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import orderApi from "~/apis/order-api";
 import BarChart from "~/components/charts/bar-chart";
 import {
   Select,
@@ -14,6 +13,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
+import orderApi from "~/apis/order-api";
+import statisticApi from "~/apis/statistic.api";
 
 const OrderStatisticByMonth = () => {
   const [dataAxis, setDataAxis] = useState<string[]>([]);
@@ -29,7 +30,7 @@ const OrderStatisticByMonth = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await orderApi.orderStatistic(parseInt(year), month);
+      const result = await statisticApi.orderStatistic(parseInt(year), month);
       setDataAxis(Object.keys(result.payload.data));
       setData(Object.values(result.payload.data));
     };

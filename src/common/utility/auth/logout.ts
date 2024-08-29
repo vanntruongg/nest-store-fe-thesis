@@ -12,7 +12,6 @@ export const handleLogout = async (options: any) => {
       },
     });
     tokenStorage.clearToken();
-
     location.href = ROUTES.AUTH.LOGIN;
   } else {
     const accessToken = (options?.headers as any).Authorization.split(" ")[1];

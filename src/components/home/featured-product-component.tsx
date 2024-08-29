@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import FeaturedProduct from "./featured-product";
 import { Product } from "~/common/model/product.model";
-import productApi from "~/apis/book-api";
+import productApi from "~/apis/product-api";
 
 export function FeaturedProductComponent() {
   const [products, setProducts] = useState<Product[]>([]);

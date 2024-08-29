@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { ItemCheckout } from "~/app/(guest)/cart/page";
 import { Address } from "~/common/model/address.model";
-import { ItemCheckout } from "~/common/model/cart.model";
-import { IPaymentMethod } from "~/common/model/order.model";
+import { IPaymentMethod } from "~/common/model/payment.model";
 
 type CheckoutState = {
   items: ItemCheckout[];
@@ -10,7 +10,7 @@ type CheckoutState = {
   notes: string;
   paymentMethod: IPaymentMethod | null;
   addItem: (item: ItemCheckout) => void;
-  removeItem: (itemId: number) => void;
+  removeItem: (itemId: number, size: string) => void;
   addItems: (items: ItemCheckout[]) => void;
   setDeliveryAddress: (deliveryAddress: Address) => void;
   setPaymentMethod: (method: IPaymentMethod) => void;
@@ -31,9 +31,11 @@ export const useCheckout = create<CheckoutState>()(
           // item.quantity = quantity;
           return { items: [...state.items, item] };
         }),
-      removeItem: (itemId) =>
+      removeItem: (itemId, size) =>
         set((state) => ({
-          items: state.items.filter((item) => item.id !== itemId),
+          items: state.items.filter(
+            (item) => !(item.productId === itemId && item.size === size)
+          ),
         })),
       addItems: (items) =>
         set((state) => {
@@ -42,7 +44,9 @@ export const useCheckout = create<CheckoutState>()(
       updateQuantityItemCheckOut: (itemId: number, newQuantity: number) =>
         set((state) => ({
           items: state.items.map((item) =>
-            item.id === itemId ? { ...item, quantity: newQuantity } : item
+            item.productId === itemId
+              ? { ...item, quantity: newQuantity }
+              : item
           ),
         })),
       setDeliveryAddress: (deliveryAddress: Address) =>

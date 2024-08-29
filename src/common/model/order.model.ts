@@ -1,4 +1,4 @@
-import { EPaymentMethod } from "../utility/enum.util";
+import { Size } from "./inventory.model";
 
 interface IOrder {
   orderId: number;
@@ -9,7 +9,9 @@ interface IOrder {
   totalPrice: number;
   notes: string;
   orderStatus: string;
+  paymentStatus: string;
   paymentMethod: string;
+  created: string;
   createdDate: string;
   orderDetail: IOrderDetail[];
 }
@@ -29,6 +31,7 @@ interface IOrderShippingDetail {
   phone: string;
   address: number;
 }
+
 interface IOrderRequest {
   email: string;
   addressId: number;
@@ -37,6 +40,7 @@ interface IOrderRequest {
   paymentMethodId: number;
   listProduct: IOrderDetailRequest[];
 }
+
 interface IOrderDetail {
   orderDetailId: number;
   productId: number;
@@ -44,21 +48,15 @@ interface IOrderDetail {
   quantity: number;
   productPrice: number;
   productImage: string;
+  productSize: Size;
 }
 
 type IOrderDetailRequest = Omit<IOrderDetail, "orderDetailId">;
-
-interface IPaymentMethod {
-  paymentMethodId: number;
-  method: EPaymentMethod;
-  description: string;
-}
 
 export type {
   IOrderShippingDetail,
   IOrderRequest,
   IOrderDetailRequest,
-  IPaymentMethod,
   IOrder,
   IOrderDetail,
   OrderDeliveryAddress,

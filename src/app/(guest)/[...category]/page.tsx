@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import productApi from "~/apis/book-api";
+import productApi from "~/apis/product-api";
 import { ROUTES } from "~/common/constants/routes";
 import { Product } from "~/common/model/product.model";
 import Breadrumbs from "~/components/breadrumbs";

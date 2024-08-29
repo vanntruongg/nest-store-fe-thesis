@@ -2,12 +2,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "~/lib/utils";
-import AddtoWishlistIcon from "../button/add-to-wishlist-icon";
-import QuickViewIcon from "../button/quick-view-icon";
+import AddtoWishlistIcon from "../buttons/wishlist-icon";
+import QuickViewIcon from "../buttons/quick-view-icon";
 import { ProductUtil } from "~/common/utility/product.util";
 import { Product } from "~/common/model/product.model";
 import { ELayoutProduct } from "~/common/utility/enum.util";
-import AddtoCartButton from "../button/add-to-cart-btn";
 
 interface CardProductProps {
   product: Product;
@@ -32,7 +31,7 @@ const CardProduct = ({ product, layout }: CardProductProps) => {
         >
           <Image
             fill
-            src={product.imageUrl}
+            src={product.images[0].imageUrl}
             alt="image product"
             sizes="full"
             priority
@@ -91,11 +90,6 @@ const CardProduct = ({ product, layout }: CardProductProps) => {
         </p>
         {layout === ELayoutProduct.LIST && (
           <div className={cn("flex gap-4 transition-all duration-500")}>
-            <AddtoCartButton
-              product={product}
-              quantity={1}
-              className="bg-transparent h-full text-black border border-gray-300 hover:bg-primary hover:text-white hover:border-transparent"
-            />
             <QuickViewIcon product={product} />
             <AddtoWishlistIcon product={product} />
           </div>

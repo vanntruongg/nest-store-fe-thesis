@@ -6,7 +6,7 @@ import { MapPinned, ShieldCheck, ShoppingBag, User } from "lucide-react";
 import { useUser } from "~/hooks/useUser";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { ReactElement, useEffect, useState } from "react";
-import ButtonLogout from "~/components/button/btn-logout";
+import ButtonLogout from "~/components/buttons/logout-button";
 import { Skeleton } from "~/components/ui/skeleton";
 import { ROUTES } from "~/common/constants/routes";
 

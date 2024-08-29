@@ -30,7 +30,6 @@ const Breadrumbs = ({
 }: BreadrumbsProps) => {
   const pathname = usePathname();
 
-  const handleClickBreadCrumb = () => {};
   return (
     <div
       className={cn("bg-white flex items-center", className, {

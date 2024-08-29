@@ -20,22 +20,17 @@ export interface IOrderDetailsProps {
 }
 
 export function OrderDetails({ order }: IOrderDetailsProps) {
-  const {
-    orderId,
-    addressId,
-    notes,
-    orderStatus,
-    totalPrice,
-    paymentMethod,
-    createdDate,
-  } = order;
+  const { orderId, addressId, notes, orderStatus, totalPrice, createdDate } =
+    order;
   const [deliveryAddress, setDeliveryAddress] =
     useState<OrderDeliveryAddress | null>(null);
 
   const fetchData = async () => {
     try {
-      const res = await orderAddressApi.getOrderDeliveryAddressById(addressId);
-      setDeliveryAddress(res.payload.data);
+      const result = await orderAddressApi.getOrderDeliveryAddressById(
+        addressId
+      );
+      setDeliveryAddress(result.payload.data);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     }
@@ -94,11 +89,13 @@ export function OrderDetails({ order }: IOrderDetailsProps) {
           </div>
         </div>
         <DialogFooter>
-          <div className="w-full p-4 flex justify-between text-sm divide-x divide-dotted border-t border-dotted shadow-sm">
+          <div className="w-full p-4 flex items-center justify-between text-sm divide-x divide-dotted border-t border-dotted shadow-sm">
             <div className="">{OrderUtil.formatDate(createdDate)}</div>
-            <div className="px-4 flex text-muted-foreground">
+            <div className="px-4 flex items-center space-x-2 text-muted-foreground">
               <span>Phương thức thanh toán:</span>
-              <p className="px-4">{paymentMethod}</p>
+              <p className="py-1 px-2 border rounded-md">
+                {order.paymentMethod}
+              </p>
             </div>
           </div>
         </DialogFooter>

@@ -79,24 +79,24 @@ export function ShopToolBar({
         <div className="flex flex-1 space-x-8">
           {/* Layout toggle */}
           <div className="w-full flex gap-2 justify-end">
-            <TooltipCustom
-              trigger={<LayoutGrid strokeWidth={2} className="size-5" />}
-              content={ELayoutProduct.GRID}
-              customClick={setLayout}
-              options={{ layout }}
-              className={cn("text-gray-400 hover:text-primary", {
-                "text-primary": layout === ELayoutProduct.GRID,
-              })}
-            />
-            <TooltipCustom
-              trigger={<LayoutList strokeWidth={2} className="size-5" />}
-              content={ELayoutProduct.LIST}
-              customClick={setLayout}
-              options={{ layout }}
-              className={cn("text-gray-400 hover:text-primary", {
-                "text-primary": layout === ELayoutProduct.LIST,
-              })}
-            />
+            <TooltipCustom content={ELayoutProduct.GRID}>
+              <LayoutGrid
+                strokeWidth={2}
+                className={cn("size-5 text-gray-400 hover:text-primary", {
+                  "text-primary": layout === ELayoutProduct.GRID,
+                })}
+                onClick={() => setLayout(ELayoutProduct.GRID)}
+              />
+            </TooltipCustom>
+            <TooltipCustom content={ELayoutProduct.LIST}>
+              <LayoutList
+                strokeWidth={2}
+                className={cn("size-5 text-gray-400 hover:text-primary", {
+                  "text-primary": layout === ELayoutProduct.LIST,
+                })}
+                onClick={() => setLayout(ELayoutProduct.LIST)}
+              />
+            </TooltipCustom>
           </div>
           {/* Sort select */}
           <Select onValueChange={handleSortChange}>

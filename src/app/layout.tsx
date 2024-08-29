@@ -8,6 +8,7 @@ import { Toaster } from "~/components/ui/toaster";
 import AppTokenProvider from "./app-token-provider";
 
 import { baseOpenGraph } from "~/app/shared-metadata";
+import { useUser } from "~/hooks/useUser";
 
 export const metadata: Metadata = {
   title: "NEST Store - Cửa hàng thời trang",
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
     siteName: "NEST Store",
     images: [
       {
-        url: "/assets/og-image.png", // Must be an absolute URL
+        url: "/assets/og-image.png", // must be an absolute URL
       },
     ],
     publishedTime: "2024-04-03T11:34:00.000Z",

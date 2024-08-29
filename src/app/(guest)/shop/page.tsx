@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { ELayoutProduct } from "~/common/utility/enum.util";
 import { useSearchParams } from "next/navigation";
 import { ProductPagination } from "~/common/model/product.model";
-import productApi from "~/apis/book-api";
+import productApi from "~/apis/product-api";
 import { BaseUtil } from "~/common/utility/base.util";
 import { ROUTES } from "~/common/constants/routes";
 

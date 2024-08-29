@@ -6,10 +6,8 @@ import { cn } from "~/lib/utils";
 import { useCheckout } from "~/hooks/useCheckout";
 import { ProductUtil } from "~/common/utility/product.util";
 import { BaseUtil } from "~/common/utility/base.util";
-import orderApi from "~/apis/order-api";
 import { IOrderRequest } from "~/common/model/order.model";
 import { DeliveryAddress } from "./delivery-address";
-import { toast } from "~/components/ui/use-toast";
 import { PaymentMethod } from "./payment-method";
 import { useUser } from "~/hooks/useUser";
 import IconTextLoading from "~/components/icon-text-loading";
@@ -18,8 +16,8 @@ import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import { ItemCheckOutPlaceholder } from "~/components/skeleton/item-checkout";
-import { EPaymentMethod } from "~/common/utility/enum.util";
-import { MESSAGES } from "~/common/constants/messages";
+import orderApi from "~/apis/order-api";
+import { EPaymentMethod } from "~/common/model/payment.model";
 import { ROUTES } from "~/common/constants/routes";
 
 const CheckOutPage = () => {
@@ -29,6 +27,7 @@ const CheckOutPage = () => {
   const router = useRouter();
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [paymentMethodError, setPaymentMethodError] = useState<boolean>(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -39,64 +38,53 @@ const CheckOutPage = () => {
     [items]
   );
 
-  const handleCheckOut = () => {
+  const handleCheckOut = async () => {
     if (!paymentMethod) {
-      toast({
-        description: MESSAGES.SELECT_PAYMENT_METHOD,
-        variant: "destructive",
-      });
+      setPaymentMethodError(true);
       return;
     }
-
-    switch (paymentMethod.method) {
-      case EPaymentMethod.COD:
-        processPaymentWithCOD();
-        break;
-      case EPaymentMethod.VNPAY:
-        processPaymentWithVNPAY();
-        break;
-
-      default:
-        toast({
-          description: MESSAGES.INVALID_PAYMENT_METHOD,
-          variant: "destructive",
-        });
-        return;
-    }
-  };
-
-  const processPaymentWithCOD = async () => {
     setLoading(true);
     try {
-      let orderRequest: IOrderRequest;
-      if (deliveryAddress && paymentMethod) {
-        orderRequest = {
-          email: user.email,
-          addressId: deliveryAddress?.id,
-          totalPrice,
-          notes,
-          paymentMethodId: paymentMethod?.paymentMethodId,
-          listProduct: items.map((item) => ({
-            productId: item.id,
-            productName: item.name,
-            productPrice: item.price,
-            productImage: item.image,
-            quantity: item.quantity,
-          })),
-        };
-
-        const result = await orderApi.createOrder(orderRequest);
-        router.push(ROUTES.THANK_YOU);
-        toast({ description: result.payload.message });
-      }
+      await createOrder();
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     } finally {
       setLoading(false);
     }
   };
-  const processPaymentWithVNPAY = async () => {
-    //  business logic
+
+  const createOrder = async () => {
+    let orderRequest: IOrderRequest;
+    if (deliveryAddress && paymentMethod) {
+      orderRequest = {
+        email: user.email,
+        addressId: deliveryAddress?.id,
+        totalPrice,
+        notes,
+        paymentMethodId: paymentMethod?.paymentMethodId,
+        listProduct: items.map(
+          ({ id, name, price, image, quantity, size }) => ({
+            productId: id,
+            productName: name,
+            productPrice: price,
+            productImage: image,
+            quantity: quantity,
+            productSize: size,
+          })
+        ),
+      };
+
+      try {
+        const result = await orderApi.createOrder(orderRequest);
+        if (result.payload.data.paymentMethod.method === EPaymentMethod.COD) {
+          router.push(ROUTES.THANK_YOU);
+        } else {
+          window.location.href = result.payload.data.urlPayment;
+        }
+      } catch (error) {
+        BaseUtil.handleErrorApi({ error });
+      }
+    }
   };
 
   return (
@@ -163,7 +151,7 @@ const CheckOutPage = () => {
         </div>
       </div>
       {/* Order */}
-      <div className="rounded-sm divide-y">
+      <div className="">
         {/* notes */}
         <section className="py-6">
           <Label>Ghi chú:</Label>
@@ -174,10 +162,13 @@ const CheckOutPage = () => {
           />
         </section>
 
-        <PaymentMethod />
+        <PaymentMethod
+          error={paymentMethodError}
+          setError={setPaymentMethodError}
+        />
 
         <section className="flex items-center justify-between bg-white py-4 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-6">
-          <div className="flex items-center justify-between gap-4 border-gray-200">
+          <div className="flex items-center justify-between gap-4 ">
             <div className="text-base font-medium text-gray-900">
               Tổng thanh toán {`(${isMounted ? items.length : 0} Sản phẩm)`}:
             </div>

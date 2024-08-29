@@ -19,7 +19,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import ItemProductSearch from "../../../components/item-search";
 import { cn } from "~/lib/utils";
 import { Product } from "~/common/model/product.model";
-import productApi from "~/apis/book-api";
+import productApi from "~/apis/product-api";
 import { BaseUtil } from "~/common/utility/base.util";
 
 const SearchComp = () => {

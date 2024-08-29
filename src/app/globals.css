@@ -194,6 +194,36 @@ input {
   animation: animate-fadeIn 0.5s linear;
 }
 
+@keyframes fadeInVerticalFromTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOutVerticalFromTop {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInVerticalFromTop 0.5s ease-in-out forwards;
+}
+
+.animate-fade-out {
+  animation: fadeOutVerticalFromTop 0.5s ease-in-out forwards;
+}
+
 /* styles.css */
 .SliderRoot {
   position: relative;
@@ -265,4 +295,12 @@ input {
 }
 .bg-shipping {
   background-color: rgba(155, 89, 182, 0.1);
+}
+
+.product-images-slider .swiper-button-next:after {
+  font-size: 24px !important;
+}
+
+.product-images-slider-thumbs .swiper-slide-thumb-active {
+  border-color: #8104fd;
 }

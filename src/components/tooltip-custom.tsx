@@ -1,4 +1,4 @@
-import { ELayoutProduct } from "~/common/utility/enum.util";
+import { ReactNode } from "react";
 import {
   Tooltip,
   TooltipTrigger,
@@ -8,42 +8,31 @@ import {
 import { cn } from "~/lib/utils";
 
 export interface ITooltipCustomProps {
+  children: ReactNode;
   content: string;
-  trigger: any;
-  customClick?: (params: any) => void;
-  options?: any;
-  className?: string;
+  disable?: boolean;
+  classNameTrigger?: string;
+  classNameContent?: string;
 }
 
 const TooltipCustom = ({
-  trigger,
+  children,
   content,
-  customClick,
-  options,
-  className,
+  disable,
+  classNameTrigger,
+  classNameContent,
 }: ITooltipCustomProps) => {
-  const handleClick = () => {
-    if (customClick) {
-      if (options.layout) {
-        customClick(
-          options.layout === ELayoutProduct.GRID
-            ? ELayoutProduct.LIST
-            : ELayoutProduct.GRID
-        );
-      }
-    }
-  };
   return (
     <TooltipProvider>
       <Tooltip delayDuration={200}>
-        <TooltipTrigger>
-          <div onClick={handleClick} className={className}>
-            {trigger}
-          </div>
+        <TooltipTrigger
+          className={cn(classNameTrigger, {
+            "cursor-not-allowed": disable,
+          })}
+        >
+          {children}
         </TooltipTrigger>
-        <TooltipContent>
-          <div className="">{content}</div>
-        </TooltipContent>
+        <TooltipContent className={classNameContent}>{content}</TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );

@@ -6,7 +6,7 @@ import {
 } from "../ui/tooltip";
 import { Eye } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
-import ProductDetail from "../product/product-detail";
+import ProductDetail from "../product-detail/product-detail";
 import { Product } from "~/common/model/product.model";
 
 const QuickViewIcon = ({ product }: { product: Product }) => {

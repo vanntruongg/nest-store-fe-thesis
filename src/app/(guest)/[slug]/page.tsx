@@ -1,14 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import productApi from "~/apis/book-api";
+import productApi from "~/apis/product-api";
 import { Category, Product } from "~/common/model/product.model";
 import { BaseUtil } from "~/common/utility/base.util";
 import { ProductUtil } from "~/common/utility/product.util";
 import Breadrumbs from "~/components/breadrumbs";
 import MaxWidthWrapper from "~/components/max-width-wrapper";
-import ProductDetail from "~/components/product/product-detail";
-import { RelatedProduct } from "~/components/product/related-product";
-import { Review } from "./review";
+import ProductDetail from "~/components/product-detail/product-detail";
 import { Breadrumb } from "~/common/model/base.model";
 
 interface PageProps {
@@ -18,7 +16,7 @@ interface PageProps {
 }
 
 const ProductDetailPage = ({ params }: PageProps) => {
-  const [product, setProduct] = useState<Product>();
+  const [product, setProduct] = useState<Product | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
@@ -27,8 +25,11 @@ const ProductDetailPage = ({ params }: PageProps) => {
         const result = await productApi.getProductById(
           ProductUtil.extractProductIdFromSlug(params.slug)
         );
-        setProduct(result.payload.data.product || {});
-        setCategories(result.payload.data.categories);
+
+        const { categories, ...product } = result.payload.data;
+
+        setProduct(product);
+        setCategories(categories);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
       }
@@ -52,7 +53,7 @@ const ProductDetailPage = ({ params }: PageProps) => {
         options={product?.name}
         optionPage={true}
       />
-      <ProductDetail product={product} />
+      <ProductDetail product={product!} />
 
       <MaxWidthWrapper className="space-y-4">
         <div className="bg-white p-4">
@@ -80,13 +81,13 @@ const ProductDetailPage = ({ params }: PageProps) => {
             </DevelopingTooltip>
           </div> */}
         </div>
-        <Review
+        {/* <Review
           review={{ userId: "", productId: 5, rating: 5, reviewContent: "" }}
-        />
+        /> */}
       </MaxWidthWrapper>
-      <MaxWidthWrapper>
+      {/* <MaxWidthWrapper>
         {product ? <RelatedProduct product={product} /> : <></>}
-      </MaxWidthWrapper>
+      </MaxWidthWrapper> */}
     </div>
   );
 };

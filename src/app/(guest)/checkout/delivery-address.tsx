@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "~/hooks/useUser";
 import { MapPin } from "lucide-react";
 import userAddressApi from "~/apis/user-address";
@@ -15,8 +15,10 @@ export function DeliveryAddress() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await userAddressApi.getDefaultAddress(user.email);
-      setDeliveryAddress(res.payload.data);
+      if (deliveryAddress === null) {
+        const res = await userAddressApi.getDefaultAddress(user.email);
+        setDeliveryAddress(res.payload.data);
+      }
     };
     fetchData();
     setIsMounted(true);

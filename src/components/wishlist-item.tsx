@@ -20,6 +20,7 @@ const WishListItem = ({
     setOpenWishList(false);
     router.push(`${ProductUtil.createSlug(product.name, product.id)}`);
   };
+  console.log(product);
 
   return (
     <div className="space-y-3 py-2">
@@ -31,7 +32,7 @@ const WishListItem = ({
             className="relative aspect-square h-16 min-w-fit overflow-hidden rounded cursor-pointer"
           >
             <Image
-              src={product.imageUrl}
+              src={product.images[0].imageUrl}
               alt={product.name}
               fill
               sizes="full"

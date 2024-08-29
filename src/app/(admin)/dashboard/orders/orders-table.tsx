@@ -32,7 +32,6 @@ import {
 } from "~/components/ui/table";
 import { ArrowUpDown, ChevronDown } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import orderApi from "~/apis/order-api";
 import { IOrder } from "~/common/model/order.model";
 import { ProductUtil } from "~/common/utility/product.util";
 import OrderDetail from "./order-detail";
@@ -42,6 +41,7 @@ import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/components/icon-text-loading";
 import { UpdateStatus } from "./update-status";
 import { useSearchParams } from "next/navigation";
+import orderApi from "~/apis/order-api";
 
 export const GetDataAndColumns = () => {
   const [data, setData] = useState<IOrder[]>([]);
