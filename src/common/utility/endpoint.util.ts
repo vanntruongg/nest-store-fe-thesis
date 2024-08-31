@@ -42,6 +42,7 @@ export class EndpointUtil {
     CART: {
       GET_ALL: "/cart/items",
       GET_BY_USER_AND_PRODUCT_ID: "/cart/items/get-by-email-and-product-id",
+      COUNT: "/cart/count",
       ADD: "/cart/add",
       UPDATE: "/cart/update",
       DELETE: "/cart/delete",

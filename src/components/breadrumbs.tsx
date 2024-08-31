@@ -14,6 +14,7 @@ import { cn } from "~/lib/utils";
 import MaxWidthWrapper from "./max-width-wrapper";
 import { Home } from "lucide-react";
 import { Breadrumb } from "~/common/model/base.model";
+import { ROUTES } from "~/common/constants/routes";
 
 interface BreadrumbsProps {
   breadrumbs?: Breadrumb[];
@@ -47,22 +48,24 @@ const Breadrumbs = ({
             </BreadcrumbLink>
             <BreadcrumbSeparator />
             {breadrumbs &&
-              breadrumbs.map(({ name, href }, idx) => (
-                <div key={href} className="flex items-center gap-2">
-                  <BreadcrumbItem>
-                    {href === pathname ? (
-                      <BreadcrumbPage>{name}</BreadcrumbPage>
-                    ) : (
-                      <BreadcrumbLink asChild>
-                        <Link href={href}>{name}</Link>
-                      </BreadcrumbLink>
-                    )}
-                  </BreadcrumbItem>
-                  {idx !== breadrumbs.length - 1 || options ? (
-                    <BreadcrumbSeparator />
-                  ) : null}
-                </div>
-              ))}
+              breadrumbs.map(({ name, href }, idx) => {
+                return (
+                  <div key={href} className="flex items-center gap-2">
+                    <BreadcrumbItem>
+                      {href === pathname ? (
+                        <BreadcrumbPage>{name}</BreadcrumbPage>
+                      ) : (
+                        <BreadcrumbLink asChild>
+                          <Link href={href}>{name}</Link>
+                        </BreadcrumbLink>
+                      )}
+                    </BreadcrumbItem>
+                    {idx !== breadrumbs.length - 1 || options ? (
+                      <BreadcrumbSeparator />
+                    ) : null}
+                  </div>
+                );
+              })}
             {options &&
               (optionPage ? (
                 <BreadcrumbPage>{options}</BreadcrumbPage>

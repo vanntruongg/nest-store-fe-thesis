@@ -1,5 +1,3 @@
-import { Size } from "./inventory.model";
-
 interface IOrder {
   orderId: number;
   name: string;
@@ -35,7 +33,6 @@ interface IOrderShippingDetail {
 interface IOrderRequest {
   email: string;
   addressId: number;
-  totalPrice: number;
   notes: string;
   paymentMethodId: number;
   listProduct: IOrderDetailRequest[];
@@ -44,11 +41,8 @@ interface IOrderRequest {
 interface IOrderDetail {
   orderDetailId: number;
   productId: number;
-  productName: string;
   quantity: number;
-  productPrice: number;
-  productImage: string;
-  productSize: Size;
+  size: string;
 }
 
 type IOrderDetailRequest = Omit<IOrderDetail, "orderDetailId">;
