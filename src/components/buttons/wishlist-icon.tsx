@@ -36,7 +36,7 @@ const AddtoWishlistIcon = ({ product }: AddtoWishlistIconProps) => {
         <TooltipTrigger asChild>
           <button
             className={cn(
-              "p-2.5 bg-white border border-gray-300 rounded-full hover:border-transparent hover:bg-primary hover:text-white transition-all duration-300 self-start group/icon"
+              "p-2.5 bg-white border border-gray-300 rounded-full hover:border-transparent hover:bg-primary hover:text-white transition-all duration-500 self-start group/icon translate-y-14 group-hover:translate-y-0"
             )}
             onClick={handleAddOrRemoveItem}
           >

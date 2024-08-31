@@ -44,7 +44,7 @@ const CardProduct = ({ product, layout }: CardProductProps) => {
           />
         </Link>
         {layout === ELayoutProduct.GRID && (
-          <div className="w-full -bottom-10 absolute flex gap-4 justify-center group-hover:bottom-4 transition-all duration-500">
+          <div className="w-full bottom-0 absolute flex gap-4 justify-center">
             <QuickViewIcon product={product} />
             <AddtoWishlistIcon product={product} />
           </div>

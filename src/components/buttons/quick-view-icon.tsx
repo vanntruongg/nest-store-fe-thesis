@@ -15,8 +15,8 @@ const QuickViewIcon = ({ product }: { product: Product }) => {
       <DialogTrigger>
         <TooltipProvider>
           <Tooltip delayDuration={200}>
-            <TooltipTrigger asChild>
-              <div className="p-2.5 bg-white border border-gray-300 rounded-full hover:border-transparent hover:bg-primary hover:text-white transition-all duration-300 self-start">
+            <TooltipTrigger>
+              <div className="p-2.5 bg-white border border-gray-300 rounded-full hover:border-transparent hover:bg-primary hover:text-white transition-all duration-500 self-start translate-y-14 group-hover:translate-y-0">
                 <Eye strokeWidth={2} size={18} />
               </div>
             </TooltipTrigger>

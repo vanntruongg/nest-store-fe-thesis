@@ -6,6 +6,7 @@ import { buttonVariants } from "~/components/ui/button";
 import NotFoundImg from "../../../public/assets/not-found.svg";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { ROUTES } from "~/common/constants/routes";
 
 const NotFound = () => {
   const router = useRouter();
@@ -14,7 +15,7 @@ const NotFound = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (countDown === 0) {
-        router.push("/");
+        router.push(ROUTES.HOME);
       } else {
         setCountDown((prevCounDown) => prevCounDown - 1);
       }
@@ -24,14 +25,17 @@ const NotFound = () => {
   }, [countDown, router]);
 
   return (
-    <div className="h-full flex flex-col justify-center items-center">
+    <div className="h-[90vh] flex flex-col justify-center items-center">
       <div className="relative mb-4 h-52 w-52 text-muted-foreground">
         <Image src={NotFoundImg} fill alt="not found" priority />
       </div>
       <p className="text-muted-foreground text-center mt-1">
         Không tìm thấy trang.
       </p>
-      <Link href={"/"} className={buttonVariants({ className: "mt-4" })}>
+      <Link
+        href={ROUTES.HOME}
+        className={buttonVariants({ className: "mt-4" })}
+      >
         Trở lại trang chủ sau {countDown}s
       </Link>
     </div>
