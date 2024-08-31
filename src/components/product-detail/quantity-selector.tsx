@@ -56,20 +56,21 @@ export function QuantitySelector({
   }, [productId, user.email]);
 
   useEffect(() => {
-    if (selectedSize) {
-      const selectedSizeData = sizeQuantity.find(
-        (size) => size.size === selectedSize
-      );
-      if (selectedSizeData) {
-        setAvailableQuantity(selectedSizeData!.quantity);
-        setError(false);
+    if (!selectedSize) return;
+    const selectedSizeData = sizeQuantity.find(
+      (size) => size.size === selectedSize
+    );
 
-        const sizeInCart = sizeQuantityInCart.find(
-          (size) => size.size === selectedSize
-        );
-        setQuantity(sizeInCart?.quantity === availableQuantity ? 0 : 1);
-      }
-    }
+    if (!selectedSizeData) return;
+
+    setAvailableQuantity(selectedSizeData!.quantity);
+    setError(false);
+
+    const sizeInCart = sizeQuantityInCart?.find(
+      (size) => size.size === selectedSize
+    );
+    const newQuantity = sizeInCart?.quantity === availableQuantity ? 0 : 1;
+    setQuantity(newQuantity);
   }, [sizeQuantity, selectedSize, sizeQuantityInCart, availableQuantity]);
 
   const handleInCreaseQuantity = () => {
