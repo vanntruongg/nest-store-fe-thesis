@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MaxWidthWrapper from "../max-width-wrapper";
 
 import { Check } from "lucide-react";
@@ -31,30 +31,6 @@ const ProductDetail = ({ product }: { product: Product }) => {
     sizeError: false,
     showDialogWarning: false,
   });
-
-  // useEffect(() => {
-  //   if (product) {
-  //     const totalAvailableQuantity = product.sizeQuantity.reduce(
-  //       (acc, curr) => acc + curr.quantity,
-  //       0
-  //     );
-  //     setAvailableQuantity(totalAvailableQuantity);
-  //   }
-  // }, [product]);
-
-  useEffect(() => {
-    if (selectedSize) {
-      const size = product.sizeQuantity.find(
-        (size) => size.size === selectedSize
-      );
-
-      setAvailableQuantity(size!.quantity);
-
-      setQuantity(1);
-
-      setErrors((prev) => ({ ...prev, quantityError: false }));
-    }
-  }, [selectedSize]);
 
   return (
     <MaxWidthWrapper>
@@ -105,6 +81,7 @@ const ProductDetail = ({ product }: { product: Product }) => {
               quantity={quantity}
               setQuantity={setQuantity}
               availableQuantity={availableQuantity}
+              setAvailableQuantity={setAvailableQuantity}
               error={errors.quantityError}
               setError={(error) =>
                 setErrors((prev) => ({ ...prev, quantityError: error }))

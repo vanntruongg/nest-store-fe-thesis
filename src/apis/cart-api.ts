@@ -9,6 +9,8 @@ import { EndpointUtil } from "~/common/utility/endpoint.util";
 const cartApi = {
   getAll: (email: string) =>
     httpClient.get<any>(EndpointUtil.NEST.CART.GET_ALL + `?email=${email}`),
+  countItems: (email: string) =>
+    httpClient.get<any>(EndpointUtil.NEST.CART.COUNT + `?email=${email}`),
   getByUserAndProductId: (email: string, productId: number) =>
     httpClient.get<any>(
       EndpointUtil.NEST.CART.GET_BY_USER_AND_PRODUCT_ID +

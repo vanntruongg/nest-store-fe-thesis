@@ -37,7 +37,7 @@ const AddtoCartButton = ({
 }: AddtoCartButtonProps) => {
   const { user } = useUser();
   const router = useRouter();
-  const { addToCart } = useCart();
+  const { setCartLength } = useCart();
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleAddtoCart = async () => {
@@ -59,19 +59,12 @@ const AddtoCartButton = ({
         quantity,
       };
 
-      const {
-        payload: { success, message },
-      } = await cartApi.add(data);
+      const result = await cartApi.add(data);
 
-      if (success) {
-        addToCart({
-          productId: product.id,
-          size: size!,
-          quantity,
-        });
-
+      if (result.payload.success) {
+        setCartLength(result.payload.data);
         Toast.success(
-          message,
+          result.payload.message,
           <ToastAction altText="Xem giỏ hàng">
             <Link href={ROUTES.CART}>Xem giỏ hàng</Link>
           </ToastAction>

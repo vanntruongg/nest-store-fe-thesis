@@ -4,21 +4,20 @@ import { Button } from "../ui/button";
 import { Product } from "~/common/model/product.model";
 import { BaseUtil } from "~/common/utility/base.util";
 import { useRouter } from "next/navigation";
-import { CartRequest, Item } from "~/common/model/cart.model";
+import { CartRequest } from "~/common/model/cart.model";
 import { useUser } from "~/hooks/useUser";
-import cartApi from "~/apis/cart-api";
 import { useCart } from "~/hooks/useCart";
 import IconTextLoading from "../icon-text-loading";
 import { useCheckout } from "~/hooks/useCheckout";
-import { ProductUtil } from "~/common/utility/product.util";
 import { tokenStorage } from "~/common/utility/auth/token-storage";
 import { ROUTES } from "~/common/constants/routes";
-import { Size } from "~/common/model/inventory.model";
 import { CartUtil } from "~/common/utility/cart.util";
+import { ItemCheckout } from "~/app/(guest)/cart/page";
+import cartApi from "~/apis/cart-api";
 
 interface AddtoCartButtonProps {
   product: Product;
-  size?: Size;
+  size?: string;
   quantity: number;
   setError: (error: boolean) => void;
 }
@@ -31,7 +30,7 @@ const BuyNowButton = ({
 }: AddtoCartButtonProps) => {
   const router = useRouter();
   const { user } = useUser();
-  const { addToCart } = useCart();
+  const { setCartLength } = useCart();
   const { addItem } = useCheckout();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -49,27 +48,26 @@ const BuyNowButton = ({
         return;
       }
 
-      const item: Item = {
+      const data: CartRequest = {
+        email: user.email,
         productId: product.id,
         size: size!,
         quantity,
       };
-      const data: CartRequest = {
-        email: user.email,
-        itemDto: item,
-      };
 
-      await cartApi.add(data);
+      const result = await cartApi.add(data);
+      setCartLength(result.payload.data);
 
-      addItem({
-        id: product.id,
+      const item: ItemCheckout = {
+        productId: product.id,
+        image: product.images[0].imageUrl,
         name: product.name,
         price: product.price,
-        image: product.images[0].imageUrl,
-        quantity,
         size: size!,
-      });
-      addToCart(item);
+        quantity,
+      };
+
+      addItem(item);
       router.push(ROUTES.CHECKOUT);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });

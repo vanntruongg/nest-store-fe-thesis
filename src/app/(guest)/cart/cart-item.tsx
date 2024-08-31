@@ -12,13 +12,13 @@ import { useUser } from "~/hooks/useUser";
 import cartApi from "~/apis/cart-api";
 import { BaseUtil } from "~/common/utility/base.util";
 import { toast } from "~/components/ui/use-toast";
-import { useCart } from "~/hooks/useCart";
 import useDebounce from "~/hooks/useDebounce";
 import { cn } from "~/lib/utils";
 import inventoryApi from "~/apis/inventory-api";
 import { DelteCartRequest, UpdateCartRequest } from "~/common/model/cart.model";
 import { Product } from "~/common/model/product.model";
 import { SizeWithQuantity } from "~/common/model/common.model";
+import { useCart } from "~/hooks/useCart";
 
 interface CartItemProps {
   product: Product;
@@ -34,7 +34,7 @@ const CartItem = ({
   fetchData,
 }: CartItemProps) => {
   const { user } = useUser();
-  const { removeFromCart } = useCart();
+  const { setCartLength } = useCart();
   const { items, addItem, removeItem, updateQuantityItemCheckOut } =
     useCheckout();
   const [quantity, setQuantity] = useState<number>(productQuantity);
@@ -123,6 +123,8 @@ const CartItem = ({
     if (checked) {
       addItem({
         productId: product.id,
+        image: product.images[0].imageUrl,
+        name: product.name,
         price: product.price,
         quantity,
         size: productSize,
@@ -141,9 +143,13 @@ const CartItem = ({
         productId: product.id,
       };
       const result = await cartApi.delete(data);
-      // set to cart localsotorage
 
-      removeFromCart(product.id);
+      //
+      removeItem(product.id, productSize);
+      // set to cart localsotorage
+      setCartLength(result.payload.data);
+
+      // removeFromCart(product.id);
       toast({
         description: result.payload.message,
       });

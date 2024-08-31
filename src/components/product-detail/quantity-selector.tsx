@@ -11,7 +11,6 @@ import { MESSAGES } from "~/common/constants/messages";
 import cartApi from "~/apis/cart-api";
 import { useUser } from "~/hooks/useUser";
 import { CartUtil } from "~/common/utility/cart.util";
-import { useCart } from "~/hooks/useCart";
 import { SizeWithQuantity } from "~/common/model/common.model";
 import { cn } from "~/lib/utils";
 
@@ -22,6 +21,7 @@ export interface IQuantitySelectorProps {
   quantity: number;
   setQuantity: Dispatch<SetStateAction<number>>;
   availableQuantity: number;
+  setAvailableQuantity: Dispatch<SetStateAction<number>>;
   error: boolean | null;
   setError: (error: boolean) => void;
   setShowAlertDialog: (error: boolean) => void;
@@ -34,29 +34,20 @@ export function QuantitySelector({
   quantity,
   setQuantity,
   availableQuantity,
+  setAvailableQuantity,
   error,
   setError,
   setShowAlertDialog,
 }: IQuantitySelectorProps) {
   const { user } = useUser();
-  const { itemsCart } = useCart();
   const prevQuantityRef = useRef<number>(quantity);
-  const [isMounted, setIsMounted] = useState<boolean>(false);
   const [sizeQuantityInCart, setSizeQuantityInCart] = useState<
     SizeWithQuantity[]
   >([]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsMounted(true);
-    }, 600);
-
-    return () => clearTimeout(timer);
-  }, [isMounted]);
-
-  useEffect(() => {
     const fetchData = async () => {
-      if (user.email !== "" && itemsCart.length > 0) {
+      if (user.email !== "") {
         const res = await cartApi.getByUserAndProductId(user.email, productId);
         setSizeQuantityInCart(res.payload.data);
       }
@@ -65,38 +56,44 @@ export function QuantitySelector({
   }, [productId, user.email]);
 
   useEffect(() => {
-    if (sizeQuantityInCart && selectedSize) {
-      if (
-        !CartUtil.validateQuantity(
-          sizeQuantityInCart,
-          selectedSize,
-          quantity,
-          availableQuantity
-        )
-      ) {
-        setQuantity(0);
+    if (selectedSize) {
+      const selectedSizeData = sizeQuantity.find(
+        (size) => size.size === selectedSize
+      );
+      if (selectedSizeData) {
+        setAvailableQuantity(selectedSizeData!.quantity);
+        setError(false);
+
+        const sizeInCart = sizeQuantityInCart.find(
+          (size) => size.size === selectedSize
+        );
+        setQuantity(sizeInCart?.quantity === availableQuantity ? 0 : 1);
       }
     }
-  }, [sizeQuantityInCart, selectedSize, availableQuantity]);
+  }, [sizeQuantity, selectedSize, sizeQuantityInCart, availableQuantity]);
 
-  const inCreaseQuantity = () => {
+  const handleInCreaseQuantity = () => {
     if (selectedSize) {
       const quantityInCart = sizeQuantityInCart
         ? CartUtil.getProductQuantityBySize(sizeQuantityInCart, selectedSize)
         : 0;
       if (quantityInCart) {
-        const totalQuantityInCart = quantity + quantityInCart;
-        if (totalQuantityInCart >= availableQuantity) {
+        if (quantity + quantityInCart >= availableQuantity) {
           setShowAlertDialog(true);
           return;
         }
       }
+      if (quantity < availableQuantity) {
+        inCreaseQuantity();
+      } else {
+        setError(true);
+      }
+    } else {
+      inCreaseQuantity();
     }
+  };
 
-    if (quantity === availableQuantity) {
-      setError(true);
-      return;
-    }
+  const inCreaseQuantity = () => {
     setQuantity((prev) => {
       const newQuantity = prev + 1;
       prevQuantityRef.current = newQuantity;
@@ -125,10 +122,8 @@ export function QuantitySelector({
     } else {
       prevQuantityRef.current = quantity;
     }
-    if (availableQuantity) {
-      if (quantity > availableQuantity) {
-        setQuantity(availableQuantity);
-      }
+    if (availableQuantity && quantity > availableQuantity) {
+      setQuantity(availableQuantity);
     }
   }, [quantity, availableQuantity, setQuantity]);
 
@@ -150,7 +145,7 @@ export function QuantitySelector({
               </div>
               <div className="flex flex-col divide-y divide-gray-300">
                 <button
-                  onClick={inCreaseQuantity}
+                  onClick={handleInCreaseQuantity}
                   className="p-1 text-gray-500 hover:bg-black hover:text-white transition-all duration-300"
                 >
                   <ChevronUp strokeWidth={2} className="size-5" />

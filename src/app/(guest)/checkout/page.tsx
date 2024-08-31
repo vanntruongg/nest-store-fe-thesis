@@ -59,28 +59,22 @@ const CheckOutPage = () => {
       orderRequest = {
         email: user.email,
         addressId: deliveryAddress?.id,
-        totalPrice,
         notes,
         paymentMethodId: paymentMethod?.paymentMethodId,
-        listProduct: items.map(
-          ({ id, name, price, image, quantity, size }) => ({
-            productId: id,
-            productName: name,
-            productPrice: price,
-            productImage: image,
-            quantity: quantity,
-            productSize: size,
-          })
-        ),
+        listProduct: items.map(({ productId, quantity, size }) => ({
+          productId: productId,
+          quantity: quantity,
+          size,
+        })),
       };
 
       try {
-        const result = await orderApi.createOrder(orderRequest);
-        if (result.payload.data.paymentMethod.method === EPaymentMethod.COD) {
-          router.push(ROUTES.THANK_YOU);
-        } else {
-          window.location.href = result.payload.data.urlPayment;
-        }
+        // const result = await orderApi.createOrder(orderRequest);
+        // if (result.payload.data.paymentMethod.method === EPaymentMethod.COD) {
+        //   router.push(ROUTES.THANK_YOU);
+        // } else {
+        //   window.location.href = result.payload.data.urlPayment;
+        // }
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
       }
@@ -114,7 +108,7 @@ const CheckOutPage = () => {
             items.map((item) => {
               return (
                 <div
-                  key={item.id}
+                  key={item.productId}
                   className="w-full grid grid-cols-6 gap-4 py-6 sm:py-10"
                 >
                   <div className="flex flex-1 gap-4 col-span-3">
@@ -127,7 +121,13 @@ const CheckOutPage = () => {
                         className="object-center sm:size-48"
                       />
                     </div>
-                    <h3 className="text-base font-medium">{item.name}</h3>
+                    <div className="">
+                      <h3 className="text-base font-medium">{item.name}</h3>
+                      <div className="">
+                        <span>Phân loại (size):</span>
+                        <p>{item.size}</p>
+                      </div>
+                    </div>
                   </div>
                   <div className="col-span-3 flex flex-1 items-center justify-between text-sm text-muted-foreground">
                     <div className="w-full text-center">

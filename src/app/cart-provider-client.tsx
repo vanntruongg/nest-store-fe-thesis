@@ -1,5 +1,4 @@
 "use client";
-import { log } from "console";
 import { ReactNode, useEffect } from "react";
 import cartApi from "~/apis/cart-api";
 import { tokenStorage } from "~/common/utility/auth/token-storage";
@@ -14,25 +13,23 @@ interface CartProviderClientProps {
 export default function CartProviderClient({
   children,
 }: CartProviderClientProps) {
-  const { setItemToCart } = useCart();
   const { user } = useUser();
+  const { setCartLength } = useCart();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await cartApi.getAll(user.email);
-
-        const data = result.payload.data.items || [];
-        setItemToCart(data);
+        const result = await cartApi.countItems(user.email);
+        setCartLength(result.payload.data);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
       }
     };
-    if (!tokenStorage.value.rawToken.accessToken) {
-      setItemToCart([]);
-    } else {
+    if (tokenStorage.value.rawToken.accessToken) {
       fetchData();
+    } else {
+      setCartLength(0);
     }
-  }, [tokenStorage.value.rawToken.accessToken, setItemToCart, user.email]);
+  }, [tokenStorage.value.rawToken.accessToken, user.email]);
   return <>{children}</>;
 }

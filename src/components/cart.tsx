@@ -7,7 +7,7 @@ import { useCart } from "~/hooks/useCart";
 
 const Cart = () => {
   const [isMounted, setIsMounted] = useState<boolean>(false);
-  const { itemsCart } = useCart();
+  const { cartLength } = useCart();
 
   useEffect(() => {
     setIsMounted(true);
@@ -20,7 +20,7 @@ const Cart = () => {
     >
       <ShoppingCart strokeWidth={2} className="size-5 text-slate-700" />
       <span className="absolute top-0.5 right-0.5 size-4 flex justify-center items-center text-xs bg-primary text-white rounded-full">
-        {isMounted ? itemsCart.length : 0}
+        {isMounted ? cartLength : 0}
       </span>
     </Link>
   );

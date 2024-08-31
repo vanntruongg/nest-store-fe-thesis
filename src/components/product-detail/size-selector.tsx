@@ -23,6 +23,7 @@ export function SizeSelector({
     setSelectedSize(size);
     setError(false);
   };
+  console.log(sizes);
 
   return (
     <div
