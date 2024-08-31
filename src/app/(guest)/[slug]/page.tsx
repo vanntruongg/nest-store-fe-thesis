@@ -8,16 +8,18 @@ import Breadrumbs from "~/components/breadrumbs";
 import MaxWidthWrapper from "~/components/max-width-wrapper";
 import ProductDetail from "~/components/product-detail/product-detail";
 import { Breadrumb } from "~/common/model/base.model";
+import { ROUTES } from "~/common/constants/routes";
 
-interface PageProps {
+interface ProductDetailPageProps {
   params: {
     slug: string;
   };
 }
 
-const ProductDetailPage = ({ params }: PageProps) => {
+const ProductDetailPage = ({ params }: ProductDetailPageProps) => {
   const [product, setProduct] = useState<Product | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
+  const { slug } = params;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,7 +44,7 @@ const ProductDetailPage = ({ params }: PageProps) => {
     breadcrumbs.unshift({
       id: category.id,
       name: category.name,
-      href: ProductUtil.createSlugCategory(category.name, category.id),
+      href: ROUTES.SHOP + `?category=${category.id}`,
     });
   });
 
