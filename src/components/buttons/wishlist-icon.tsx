@@ -13,10 +13,11 @@ import { cn } from "~/lib/utils";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 interface AddtoWishlistIconProps {
-  product?: Product;
+  product: Product;
+  className?: string;
 }
 
-const AddtoWishlistIcon = ({ product }: AddtoWishlistIconProps) => {
+const AddtoWishlistIcon = ({ product, className }: AddtoWishlistIconProps) => {
   const { items, addItem, removeItem } = useWishlist();
 
   const existedProduct = items.find((item) => item.product.id === product?.id);
@@ -36,7 +37,7 @@ const AddtoWishlistIcon = ({ product }: AddtoWishlistIconProps) => {
         <TooltipTrigger asChild>
           <button
             className={cn(
-              "p-2.5 bg-white border border-gray-300 rounded-full hover:border-transparent hover:bg-primary hover:text-white transition-all duration-500 self-start group/icon translate-y-14 group-hover:translate-y-0"
+              `p-2.5 bg-white border border-gray-300 rounded-full hover:border-transparent hover:bg-primary hover:text-white transition-all duration-500 self-start group/icon group-hover:translate-y-0 ${className}`
             )}
             onClick={handleAddOrRemoveItem}
           >
