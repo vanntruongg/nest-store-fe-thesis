@@ -60,7 +60,7 @@ const CheckOutPage = () => {
         email: user.email,
         addressId: deliveryAddress?.id,
         notes,
-        paymentMethodId: paymentMethod?.paymentMethodId,
+        paymentMethodId: paymentMethod?.id,
         listProduct: items.map(({ productId, quantity, size }) => ({
           productId: productId,
           quantity: quantity,
