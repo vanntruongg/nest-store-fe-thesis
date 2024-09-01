@@ -28,6 +28,7 @@ export function PaymentMethod({ error, setError }: PaymentMethodProps) {
   useEffect(() => {
     setError(false);
   }, [paymentMethod]);
+  console.log(methods);
 
   return (
     <section
@@ -39,16 +40,13 @@ export function PaymentMethod({ error, setError }: PaymentMethodProps) {
         <p className="col-span-2">Phương thức thanh toán</p>
         <div className="col-span-8 flex gap-2">
           {methods.map((method) => (
-            <TooltipCustom
-              key={method.paymentMethodId}
-              content={method.description}
-            >
+            <TooltipCustom key={method.id} content={method.description}>
               <div
                 className={cn(
                   "bg-white border py-1 px-4 cursor-pointer rounded-sm hover:border-primary hover:text-primary transition-all duration-300 relative overflow-hidden",
                   {
                     "border-primary text-primary":
-                      paymentMethod?.paymentMethodId === method.paymentMethodId,
+                      paymentMethod?.id === method.id,
                   }
                 )}
                 onClick={() => setPaymentMethod(method)}
@@ -64,7 +62,7 @@ export function PaymentMethod({ error, setError }: PaymentMethodProps) {
                     </span>
                   </div>
                 )}
-                {method.name}
+                {method.method}
               </div>
             </TooltipCustom>
           ))}

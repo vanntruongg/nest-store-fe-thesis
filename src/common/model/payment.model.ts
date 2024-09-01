@@ -6,9 +6,9 @@ export enum EPaymentMethod {
 }
 
 interface IPaymentMethod {
-  paymentMethodId: number;
-  name: string;
-  method: EPaymentMethod;
+  id: number;
+  slug: EPaymentMethod;
+  method: string;
   description: string;
 }
 
