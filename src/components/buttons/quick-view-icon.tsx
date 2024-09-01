@@ -8,15 +8,25 @@ import { Eye } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import ProductDetail from "../product-detail/product-detail";
 import { Product } from "~/common/model/product.model";
+import { cn } from "~/lib/utils";
 
-const QuickViewIcon = ({ product }: { product: Product }) => {
+interface QuickViewIconProps {
+  product: Product;
+  className?: string;
+}
+
+const QuickViewIcon = ({ product, className }: QuickViewIconProps) => {
   return (
     <Dialog>
       <DialogTrigger>
         <TooltipProvider>
           <Tooltip delayDuration={200}>
             <TooltipTrigger>
-              <div className="p-2.5 bg-white border border-gray-300 rounded-full hover:border-transparent hover:bg-primary hover:text-white transition-all duration-500 self-start translate-y-14 group-hover:translate-y-0">
+              <div
+                className={cn(
+                  `p-2.5 bg-white border border-gray-300 rounded-full hover:border-transparent hover:bg-primary hover:text-white transition-all duration-500 self-start group-hover:translate-y-0 ${className}`
+                )}
+              >
                 <Eye strokeWidth={2} size={18} />
               </div>
             </TooltipTrigger>

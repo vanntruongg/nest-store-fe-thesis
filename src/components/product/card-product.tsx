@@ -45,8 +45,8 @@ const CardProduct = ({ product, layout }: CardProductProps) => {
         </Link>
         {layout === ELayoutProduct.GRID && (
           <div className="w-full bottom-0 absolute flex gap-4 justify-center">
-            <QuickViewIcon product={product} />
-            <AddtoWishlistIcon product={product} />
+            <QuickViewIcon product={product} className="translate-y-14" />
+            <AddtoWishlistIcon product={product} className="translate-y-14" />
           </div>
         )}
       </figure>
