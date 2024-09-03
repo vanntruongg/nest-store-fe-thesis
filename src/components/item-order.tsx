@@ -22,8 +22,12 @@ const ItemOrder = ({ item }: ItemOrderProps) => {
         />
       </div>
       <div className="col-span-8 flex flex-col justify-between">
-        <p className="capitalize">{item.productName.toLowerCase()}</p>
-        <span>x{item.quantity}</span>
+        <p className="capitalize">{item.productName}</p>
+        <div className="space-x-1">
+          <span className="text-primary">{item.size}</span>
+          <span>x</span>
+          <span>{item.quantity}</span>
+        </div>
       </div>
       <div className="col-span-2 flex justify-center items-center">
         <p> {ProductUtil.formatPrice(item.productPrice)}</p>
