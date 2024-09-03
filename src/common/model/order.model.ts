@@ -41,6 +41,9 @@ interface IOrderRequest {
 interface IOrderDetail {
   orderDetailId: number;
   productId: number;
+  productImage: string;
+  productName: string;
+  productPrice: number;
   quantity: number;
   size: string;
 }
