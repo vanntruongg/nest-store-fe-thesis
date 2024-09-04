@@ -19,6 +19,7 @@ import { ItemCheckOutPlaceholder } from "~/components/skeleton/item-checkout";
 import orderApi from "~/apis/order-api";
 import { EPaymentMethod } from "~/common/model/payment.model";
 import { ROUTES } from "~/common/constants/routes";
+import { OrderUtil } from "~/common/utility/order.util";
 
 const CheckOutPage = () => {
   const { items, notes, deliveryAddress, setNotes, paymentMethod } =
@@ -58,7 +59,9 @@ const CheckOutPage = () => {
     if (deliveryAddress && paymentMethod) {
       orderRequest = {
         email: user.email,
-        addressId: deliveryAddress?.id,
+        name: deliveryAddress.name,
+        phone: deliveryAddress.phone,
+        address: OrderUtil.combineAddress(deliveryAddress),
         notes,
         paymentMethodId: paymentMethod?.id,
         listProduct: items.map(({ productId, quantity, size }) => ({
@@ -67,14 +70,14 @@ const CheckOutPage = () => {
           size,
         })),
       };
-
       try {
-        // const result = await orderApi.createOrder(orderRequest);
-        // if (result.payload.data.paymentMethod.method === EPaymentMethod.COD) {
-        //   router.push(ROUTES.THANK_YOU);
-        // } else {
-        //   window.location.href = result.payload.data.urlPayment;
-        // }
+        const result = await orderApi.createOrder(orderRequest);
+
+        if (result.payload.data.paymentMethod.slug === EPaymentMethod.COD) {
+          router.push(ROUTES.THANK_YOU);
+        } else {
+          window.location.href = result.payload.data.urlPayment;
+        }
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
       }
@@ -108,7 +111,7 @@ const CheckOutPage = () => {
             items.map((item) => {
               return (
                 <div
-                  key={item.productId}
+                  key={`${item.productId}-${item.size}`}
                   className="w-full grid grid-cols-6 gap-4 py-6 sm:py-10"
                 >
                   <div className="flex flex-1 gap-4 col-span-3">

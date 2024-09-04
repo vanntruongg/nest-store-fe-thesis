@@ -5,29 +5,21 @@ import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/components/icon-text-loading";
 import { OrderStatus } from "~/components/order-status";
 import { useUser } from "~/hooks/useUser";
-import { orderStatus } from "~/static";
 import { useSearchParams } from "next/navigation";
 import { Order } from "./order";
 import orderApi from "~/apis/order-api";
 
 const PurchasePage = () => {
   const { user } = useUser();
-  const searchParams = useSearchParams();
   const [orders, setOrders] = useState<IOrder[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const status = searchParams.get("orderStatus") || orderStatus[0].type;
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        if (status === orderStatus[0].type) {
-          const result = await orderApi.getAllByEmail(user.email);
-          setOrders(result.payload.data);
-        } else {
-          const result = await orderApi.getByEmailAndStatus(user.email, status);
-          setOrders(result.payload.data);
-        }
+        const result = await orderApi.getAllByEmail(user.email);
+        setOrders(result.payload.data);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
       } finally {
@@ -35,7 +27,7 @@ const PurchasePage = () => {
       }
     };
     fetchData();
-  }, [status, user.email]);
+  }, [user.email]);
 
   return (
     <div className="h-full flex flex-col gap-4 rounded-sm">
