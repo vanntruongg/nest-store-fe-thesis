@@ -1,5 +1,6 @@
 import React from "react";
-import { ProductImageSlider } from "~/components/product-detail/product-image-slider";
+import { PostRatingForm } from "~/modules/rating/components/post-rating-form";
+import { RatingList } from "~/modules/rating/components/rating-list";
 
 const images = [
   {
@@ -36,14 +37,18 @@ const images = [
 
 const page = () => {
   return (
-    <div className="bg-white mx-auto h-screen flex items-center justify-center">
-      {/* <div className="bg-blue-500 h-full flex-1 ">{}</div>
-      <Button type="submit">Tìm kiếm</Button>
+    // <div className="bg-white mx-auto h-screen flex items-center justify-center">
+    //   {/* <div className="bg-blue-500 h-full flex-1 ">{}</div>
+    //   <Button type="submit">Tìm kiếm</Button>
 
-      <Loading /> */}
-      <div className="w-[400px] h-[500px] bg-gray-300">
-        <ProductImageSlider images={images} />
-      </div>
+    //   <Loading /> */}
+    //   {/* <div className="w-[400px] h-[500px] bg-gray-300">
+    //     <ProductImageSlider images={images} />
+    //   </div> */}
+    // </div>
+    <div className="w-full h-screen flex justify-center items-center p-20">
+      {/* <RatingList productId={1} /> */}
+      {/* <PostRatingForm productId={1} productName="Quần tây" /> */}
     </div>
   );
 };

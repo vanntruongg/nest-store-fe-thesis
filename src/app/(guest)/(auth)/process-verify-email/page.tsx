@@ -9,8 +9,8 @@ import { Loader2, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import authApi from "~/apis/auth-api";
 import { BaseUtil } from "~/common/utility/base.util";
-import { buttonVariants } from "~/components/ui/button";
-import { toast } from "~/components/ui/use-toast";
+import { buttonVariants } from "~/common/components/ui/button";
+import { toast } from "~/common/components/ui/use-toast";
 interface PageProps {
   searchParams: {
     [key: string]: string | string[] | undefined;

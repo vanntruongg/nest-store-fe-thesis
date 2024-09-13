@@ -20,13 +20,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import Loading from "~/components/loading";
+} from "~/common/components/ui/form";
+import { Button } from "~/common/components/ui/button";
+import { Input } from "~/common/components/ui/input";
+import Loading from "~/common/components/loading";
 import authApi from "~/apis/auth-api";
 import userApi from "~/apis/user-api";
-import { useToast } from "~/components/ui/use-toast";
+import { useToast } from "~/common/components/ui/use-toast";
 import { BaseUtil } from "~/common/utility/base.util";
 import { useAuth } from "~/hooks/useAuth";
 import { tokenStorage } from "~/common/utility/auth/token-storage";

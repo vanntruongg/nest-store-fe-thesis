@@ -3,32 +3,33 @@ import { Dispatch, SetStateAction, useCallback } from "react";
 
 import { cn } from "~/lib/utils";
 
-import MaxWidthWrapper from "../../../components/max-width-wrapper";
-import CardProduct from "../../../components/product/card-product";
-import { ProductPagination } from "~/common/model/product.model";
-import ProductsPlaceHolder from "../../../components/skeleton/product-list-skeleton";
+import MaxWidthWrapper from "../../../common/components/max-width-wrapper";
+import CardProduct from "../../../modules/product/components/card-product";
+import { ProductGet } from "~/common/model/product.model";
+import ProductsPlaceHolder from "../../../common/components/skeleton/product-list-skeleton";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ELayoutProduct } from "~/common/utility/enum.util";
-import { GridLayout } from "../../../components/layout/grid-layout";
-import { ListLayout } from "../../../components/layout/list-layout";
+import { GridLayout } from "../../../common/components/layout/grid-layout";
+import { ListLayout } from "../../../common/components/layout/list-layout";
 import { PaginationSection } from "./pagination";
 
 interface ProductListingProps {
   layout: ELayoutProduct;
-  data: ProductPagination;
-  setData: Dispatch<SetStateAction<ProductPagination>>;
+  products: ProductGet | null;
+  setProducts: Dispatch<SetStateAction<ProductGet | null>>;
 }
 
-const ProductListing = ({ data, layout, setData }: ProductListingProps) => {
+const ProductListing = ({
+  products,
+  layout,
+  setProducts,
+}: ProductListingProps) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
 
   const handleChangePage = (page: number) => {
-    setData((prevData) => ({ ...prevData, pageNumber: page }));
-    router.push(
-      pathname + "?" + createQueryString("pageNumber", page.toString())
-    );
+    router.push(pathname + "?" + createQueryString("pageNo", page.toString()));
   };
 
   const createQueryString = useCallback(
@@ -42,13 +43,13 @@ const ProductListing = ({ data, layout, setData }: ProductListingProps) => {
 
   return (
     <MaxWidthWrapper>
-      <div className="flex flex-col mb-6">
+      <div className="flex flex-col mb-6 py-4">
         {/* categories & products */}
         <div className={cn("")}>
-          {data.products.length > 0 ? (
+          {products && products.productContent.length > 0 ? (
             layout === ELayoutProduct.GRID ? (
               <GridLayout>
-                {data.products.map((product) => (
+                {products.productContent.map((product) => (
                   <CardProduct
                     key={product.id}
                     product={product}
@@ -58,7 +59,7 @@ const ProductListing = ({ data, layout, setData }: ProductListingProps) => {
               </GridLayout>
             ) : (
               <ListLayout>
-                {data.products.map((product) => (
+                {products.productContent.map((product) => (
                   <CardProduct
                     key={product.id}
                     product={product}
@@ -70,8 +71,11 @@ const ProductListing = ({ data, layout, setData }: ProductListingProps) => {
           ) : (
             <ProductsPlaceHolder layout={layout} />
           )}
-          {data.products.length > 0 && (
-            <PaginationSection data={data} onChangePage={handleChangePage} />
+          {products && products.productContent.length > 0 && (
+            <PaginationSection
+              data={products}
+              onChangePage={handleChangePage}
+            />
           )}
         </div>
       </div>

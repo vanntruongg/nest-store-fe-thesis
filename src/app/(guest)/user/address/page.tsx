@@ -6,8 +6,7 @@ import {
   AddressAction,
   AddressDetails,
 } from "~/common/model/address.model";
-import { Button } from "~/components/ui/button";
-import { useUser } from "~/hooks/useUser";
+import { Button } from "~/common/components/ui/button";
 import { AddressFormDialog } from "./address-form-dialog";
 
 import {
@@ -19,18 +18,17 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "~/components/ui/alert-dialog";
+} from "~/common/components/ui/alert-dialog";
 import { BaseUtil } from "~/common/utility/base.util";
-import { toast } from "~/components/ui/use-toast";
+import { toast } from "~/common/components/ui/use-toast";
 import { Plus } from "lucide-react";
-import AddressPlaholder from "~/components/skeleton/address-skeleton";
+import AddressPlaholder from "~/common/components/skeleton/address-skeleton";
 
 const AddressPage = () => {
-  const { user } = useUser();
   const [addresses, setAddresses] = useState<Address[]>([]);
 
   const fetchData = async () => {
-    const res = await userAddressApi.getAllAddress(user.email);
+    const res = await userAddressApi.getAllAddress();
     setAddresses(res.payload.data);
   };
 
@@ -46,13 +44,10 @@ const AddressPage = () => {
       let message: string = "";
 
       if (action === AddressAction.DELETE) {
-        const res = await userAddressApi.deleteAddress(user.email, addressId);
+        const res = await userAddressApi.deleteAddress(addressId);
         message = res.payload.message;
       } else if (action === AddressAction.SET_DEFAULT) {
-        const res = await userAddressApi.setDefaultAddress(
-          user.email,
-          addressId
-        );
+        const res = await userAddressApi.setDefaultAddress(addressId);
         message = res.payload.message;
       }
 
@@ -104,7 +99,7 @@ const AddressPage = () => {
                       )}
                     </p>
                   </div>
-                  {address.default && (
+                  {address.isDefault && (
                     <div className="text-primary border border-primary self-start px-1.5 py-0.5 relative overflow-hidden">
                       <span className="size-2 bg-primary absolute top-0 left-0 -translate-x-1 -translate-y-1 rotate-45"></span>
                       <span>Mặc định</span>
@@ -124,7 +119,7 @@ const AddressPage = () => {
                       </Button>
                     </AddressFormDialog>
 
-                    {addresses.length > 1 && address.default ? null : (
+                    {addresses.length > 1 && address.isDefault ? null : (
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
                           <Button variant={"link"} className="text-red-500 p-0">
@@ -156,7 +151,7 @@ const AddressPage = () => {
                   </div>
                   <Button
                     variant={"outline"}
-                    disabled={address.default}
+                    disabled={address.isDefault}
                     onClick={() =>
                       handleAddressAction(AddressAction.SET_DEFAULT, address.id)
                     }

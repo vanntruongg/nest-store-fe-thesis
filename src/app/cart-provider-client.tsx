@@ -13,13 +13,12 @@ interface CartProviderClientProps {
 export default function CartProviderClient({
   children,
 }: CartProviderClientProps) {
-  const { user } = useUser();
   const { setCartLength } = useCart();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await cartApi.countItems(user.email);
+        const result = await cartApi.countItems();
         setCartLength(result.payload.data);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
@@ -30,6 +29,6 @@ export default function CartProviderClient({
     } else {
       setCartLength(0);
     }
-  }, [tokenStorage.value.rawToken.accessToken, user.email]);
+  }, [tokenStorage.value.rawToken.accessToken]);
   return <>{children}</>;
 }

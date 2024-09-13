@@ -1,12 +1,12 @@
 "use client";
 import { ICategory } from "~/common/model/product.model";
-import { buttonVariants } from "../../../components/ui/button";
+import { buttonVariants } from "../../../common/components/ui/button";
 import { cn } from "~/lib/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Skeleton } from "~/components/ui/skeleton";
+import { Skeleton } from "~/common/components/ui/skeleton";
 import RecursionCategory from "./recursion-category";
 import { useEffect, useState } from "react";
-import productApi from "~/apis/product-api";
+import categoryApi from "~/apis/category-api";
 
 const ListCategory = () => {
   const searchParams = useSearchParams();
@@ -16,7 +16,7 @@ const ListCategory = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await productApi.getCategory();
+      const result = await categoryApi.getAll();
       const data: ICategory[] = result.payload.data;
 
       const sortedCategories = data.sort(
@@ -29,7 +29,7 @@ const ListCategory = () => {
 
   const handleFetchData = (categoryId: number) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("pageNumber", "1");
+    params.set("pageNo", "1");
     params.set("category", categoryId.toString());
     router.push(pathname + "?" + params.toString());
   };

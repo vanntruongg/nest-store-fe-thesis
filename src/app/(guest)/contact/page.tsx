@@ -1,10 +1,10 @@
 "use client";
 import { Mail, MapPin } from "lucide-react";
-import MaxWidthWrapper from "~/components/max-width-wrapper";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
-import { Textarea } from "~/components/ui/textarea";
+import MaxWidthWrapper from "~/common/components/max-width-wrapper";
+import { Button } from "~/common/components/ui/button";
+import { Input } from "~/common/components/ui/input";
+import { Label } from "~/common/components/ui/label";
+import { Textarea } from "~/common/components/ui/textarea";
 
 const ContactPage = () => {
   return (

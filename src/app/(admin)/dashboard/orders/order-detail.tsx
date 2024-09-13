@@ -1,7 +1,7 @@
 import { IOrder } from "~/common/model/order.model";
 import { ProductUtil } from "~/common/utility/product.util";
-import ItemOrder from "~/components/item-order";
-import { Button } from "~/components/ui/button";
+import ItemOrder from "~/common/components/item-order";
+import { Button } from "~/common/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog";
+} from "~/common/components/ui/dialog";
 
 interface IOrderDetailProps {
   order: IOrder;

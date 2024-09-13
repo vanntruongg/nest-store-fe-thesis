@@ -1,9 +1,11 @@
+import { EPaymentMethod } from "./payment.model";
+
 interface IOrder {
   orderId: number;
   name: string;
   email: string;
   phone: string;
-  addressId: number;
+  address: string;
   totalPrice: number;
   notes: string;
   orderStatus: string;
@@ -11,7 +13,7 @@ interface IOrder {
   paymentMethod: string;
   created: string;
   createdDate: string;
-  orderDetail: IOrderDetail[];
+  orderItems: OrderItem[];
 }
 
 interface OrderDeliveryAddress {
@@ -30,15 +32,16 @@ interface IOrderShippingDetail {
   address: number;
 }
 
-interface IOrderRequest {
-  email: string;
-  addressId: number;
+interface OrderRequest {
+  name: string;
+  phone: string;
+  address: string;
   notes: string;
-  paymentMethodId: number;
-  listProduct: IOrderDetailRequest[];
+  paymentMethod: EPaymentMethod;
+  orderItemRequests: OrderItemRequest[];
 }
 
-interface IOrderDetail {
+interface OrderItem {
   orderDetailId: number;
   productId: number;
   productImage: string;
@@ -48,13 +51,13 @@ interface IOrderDetail {
   size: string;
 }
 
-type IOrderDetailRequest = Omit<IOrderDetail, "orderDetailId">;
+type OrderItemRequest = Omit<OrderItem, "orderDetailId">;
 
 export type {
   IOrderShippingDetail,
-  IOrderRequest,
-  IOrderDetailRequest,
+  OrderRequest,
+  OrderItemRequest,
   IOrder,
-  IOrderDetail,
+  OrderItem,
   OrderDeliveryAddress,
 };

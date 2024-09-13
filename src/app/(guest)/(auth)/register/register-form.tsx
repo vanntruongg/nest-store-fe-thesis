@@ -12,16 +12,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
+} from "~/common/components/ui/form";
+import { Button } from "~/common/components/ui/button";
+import { Input } from "~/common/components/ui/input";
 import { useState } from "react";
 import authApi from "~/apis/auth-api";
 import { useRouter } from "next/navigation";
-import Loading from "~/components/loading";
-import { Toast } from "~/components/ui/toast";
+import Loading from "~/common/components/loading";
+import { Toast } from "~/common/components/ui/toast";
 import { BaseUtil } from "~/common/utility/base.util";
-import { toast } from "~/components/ui/use-toast";
+import { toast } from "~/common/components/ui/use-toast";
 
 const RegisterForm = () => {
   const router = useRouter();

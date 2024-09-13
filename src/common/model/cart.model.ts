@@ -11,13 +11,11 @@ interface CartItem {
 }
 
 interface CartRequest {
-  email: string;
   productId: number;
   size: string;
   quantity: number;
 }
 interface UpdateCartRequest {
-  email: string;
   productId: number;
   size: string;
   quantity: number;

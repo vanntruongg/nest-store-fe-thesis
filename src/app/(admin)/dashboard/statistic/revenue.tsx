@@ -4,7 +4,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import statisticApi from "~/apis/statistic.api";
 import { ProductUtil } from "~/common/utility/product.util";
-import LineChart from "~/components/charts/line-chart";
+import LineChart from "~/common/components/charts/line-chart";
 import {
   Select,
   SelectContent,
@@ -13,7 +13,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "~/components/ui/select";
+} from "~/common/components/ui/select";
 
 const Revenue = () => {
   const [dataAxis, setDataAxis] = useState<string[]>([]);

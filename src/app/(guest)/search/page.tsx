@@ -1,11 +1,11 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import Breadrumbs from "~/components/breadrumbs";
-import MaxWidthWrapper from "~/components/max-width-wrapper";
+import Breadrumbs from "~/common/components/breadrumbs";
+import MaxWidthWrapper from "~/common/components/max-width-wrapper";
 import { Product } from "~/common/model/product.model";
 import productApi from "~/apis/product-api";
 import { useEffect, useState } from "react";
-import CardProduct from "~/components/product/card-product";
+import CardProduct from "~/modules/product/components/card-product";
 import Image from "next/image";
 import { BaseUtil } from "~/common/utility/base.util";
 import { ELayoutProduct } from "~/common/utility/enum.util";

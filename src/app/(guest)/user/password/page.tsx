@@ -9,9 +9,9 @@ import {
 } from "~/app/schema-validations/auth.shema";
 import { IChangePasswordRequest } from "~/common/model/user.model";
 import { BaseUtil } from "~/common/utility/base.util";
-import { Button } from "~/components/ui/button";
-import { toast } from "~/components/ui/use-toast";
-import { Input } from "~/components/ui/input";
+import { Button } from "~/common/components/ui/button";
+import { toast } from "~/common/components/ui/use-toast";
+import { Input } from "~/common/components/ui/input";
 import {
   Form,
   FormControl,
@@ -19,7 +19,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
+} from "~/common/components/ui/form";
 import { ROUTES } from "~/common/constants/routes";
 
 const ChangePasswordPage = () => {

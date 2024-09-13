@@ -1,6 +1,6 @@
 import { CartItem as CartItemModel } from "~/common/model/cart.model";
 import CartItem from "./cart-item";
-import { Checkbox } from "~/components/ui/checkbox";
+import { Checkbox } from "~/common/components/ui/checkbox";
 
 interface CartItemGroupProps {
   item: CartItemModel;

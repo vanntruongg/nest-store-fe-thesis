@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ReactNode } from "react";
-import MaxWidthWrapper from "~/components/max-width-wrapper";
+import MaxWidthWrapper from "~/common/components/max-width-wrapper";
 import NavProfile from "~/app/(guest)/user/nav-profile";
 
 export const metadata: Metadata = {

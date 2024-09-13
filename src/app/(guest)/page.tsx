@@ -1,8 +1,8 @@
-import Category from "~/components/home/category";
-import Slider from "~/components/home/slider";
-import ServiceBenefits from "~/components/home/service-benefits";
-import { CommingSoonProduct } from "~/components/home/comming-soon-product";
-import { FeaturedProductComponent } from "~/components/home/featured-product-component";
+import Category from "~/modules/home/components/category";
+import Slider from "~/modules/home/components/slider";
+import ServiceBenefits from "~/modules/home/components/service-benefits";
+import { CommingSoonProduct } from "~/modules/home/components/comming-soon-product";
+import { FeaturedProductComponent } from "~/modules/home/components/featured-product-component";
 
 export default function Home() {
   return (

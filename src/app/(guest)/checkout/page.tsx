@@ -1,21 +1,20 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { Button } from "~/components/ui/button";
+import { Button } from "~/common/components/ui/button";
 import { cn } from "~/lib/utils";
 import { useCheckout } from "~/hooks/useCheckout";
 import { ProductUtil } from "~/common/utility/product.util";
 import { BaseUtil } from "~/common/utility/base.util";
-import { IOrderRequest } from "~/common/model/order.model";
+import { OrderRequest } from "~/common/model/order.model";
 import { DeliveryAddress } from "./delivery-address";
 import { PaymentMethod } from "./payment-method";
-import { useUser } from "~/hooks/useUser";
-import IconTextLoading from "~/components/icon-text-loading";
-import Loading from "~/components/loading";
-import { Label } from "~/components/ui/label";
-import { Textarea } from "~/components/ui/textarea";
+import IconTextLoading from "~/common/components/icon-text-loading";
+import Loading from "~/common/components/loading";
+import { Label } from "~/common/components/ui/label";
+import { Textarea } from "~/common/components/ui/textarea";
 import { useRouter } from "next/navigation";
-import { ItemCheckOutPlaceholder } from "~/components/skeleton/item-checkout";
+import { ItemCheckOutPlaceholder } from "~/common/components/skeleton/item-checkout";
 import orderApi from "~/apis/order-api";
 import { EPaymentMethod } from "~/common/model/payment.model";
 import { ROUTES } from "~/common/constants/routes";
@@ -24,7 +23,6 @@ import { OrderUtil } from "~/common/utility/order.util";
 const CheckOutPage = () => {
   const { items, notes, deliveryAddress, setNotes, paymentMethod } =
     useCheckout();
-  const { user } = useUser();
   const router = useRouter();
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -55,25 +53,30 @@ const CheckOutPage = () => {
   };
 
   const createOrder = async () => {
-    let orderRequest: IOrderRequest;
+    let orderRequest: OrderRequest;
     if (deliveryAddress && paymentMethod) {
       orderRequest = {
-        email: user.email,
         name: deliveryAddress.name,
         phone: deliveryAddress.phone,
         address: OrderUtil.combineAddress(deliveryAddress),
         notes,
-        paymentMethodId: paymentMethod?.id,
-        listProduct: items.map(({ productId, quantity, size }) => ({
-          productId: productId,
-          quantity: quantity,
-          size,
-        })),
+        paymentMethod: paymentMethod.method,
+        orderItemRequests: items.map(
+          ({ productId, quantity, name, image, price, size }) => ({
+            productId: productId,
+            productName: name,
+            productImage: image,
+            productPrice: price,
+            quantity: quantity,
+            size,
+          })
+        ),
       };
       try {
+        // console.log("data: ", orderRequest);
         const result = await orderApi.createOrder(orderRequest);
 
-        if (result.payload.data.paymentMethod.slug === EPaymentMethod.COD) {
+        if (result.payload.data.paymentMethod === EPaymentMethod.COD) {
           router.push(ROUTES.THANK_YOU);
         } else {
           window.location.href = result.payload.data.urlPayment;

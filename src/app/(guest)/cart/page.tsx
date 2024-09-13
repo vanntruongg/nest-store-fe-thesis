@@ -4,8 +4,8 @@ import Image from "next/image";
 import { cn } from "~/lib/utils";
 
 import Link from "next/link";
-import { buttonVariants } from "~/components/ui/button";
-import { Checkbox } from "~/components/ui/checkbox";
+import { Button, buttonVariants } from "~/common/components/ui/button";
+import { Checkbox } from "~/common/components/ui/checkbox";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useCheckout } from "~/hooks/useCheckout";
 import { useUser } from "~/hooks/useUser";
@@ -13,13 +13,13 @@ import cartApi from "~/apis/cart-api";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { BaseUtil } from "~/common/utility/base.util";
 import { ROUTES } from "~/common/constants/routes";
-import { Skeleton } from "~/components/ui/skeleton";
-import { ItemCartPlaceholder } from "~/components/skeleton/item-cart";
+import { Skeleton } from "~/common/components/ui/skeleton";
+import { ItemCartPlaceholder } from "~/common/components/skeleton/item-cart";
 import { Loader2 } from "lucide-react";
 import { ProductUtil } from "~/common/utility/product.util";
 import { Cart as CartModel } from "~/common/model/cart.model";
 import CartItem from "./cart-item";
-import Breadrumbs from "~/components/breadrumbs";
+import Breadrumbs from "~/common/components/breadrumbs";
 import { Breadrumb } from "~/common/model/base.model";
 
 export interface ItemCheckout {
@@ -39,14 +39,13 @@ const breadcrumbs: Breadrumb[] = [
 ];
 
 const Cart = () => {
-  const { user } = useUser();
   const { items, addItems, clearCheckout } = useCheckout();
   const [products, setProducts] = useState<CartModel | null>(null);
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
   const fetchData = async () => {
     try {
-      const result = await cartApi.getAll(user.email);
+      const result = await cartApi.getAll();
       setProducts(result.payload.data);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
@@ -95,7 +94,7 @@ const Cart = () => {
 
   return (
     <>
-      <Breadrumbs breadrumbs={breadcrumbs} />
+      <Breadrumbs breadrumbs={breadcrumbs} context="page" />
       <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:max-w-7xl lg:px-8">
         <h1 className="text-xl font-bold tracking-tight text-gray-900 sm:text-3xl">
           Giỏ hàng
@@ -122,6 +121,9 @@ const Cart = () => {
                 <p className="text-muted-foreground text-center">
                   Rất tiếc! Chưa có gì để hiển thị ở đây.
                 </p>
+                <Link href={ROUTES.SHOP}>
+                  <Button>Mua sắm ngay</Button>
+                </Link>
               </div>
             </div>
           ) : (
@@ -150,6 +152,7 @@ const Cart = () => {
                   products.items.map((item) =>
                     item.sizeQuantities.map(({ size, quantity }) => (
                       <CartItem
+                        key={`${item.product.id}-${size}`}
                         product={item.product}
                         productSize={size}
                         productQuantity={quantity}
@@ -165,18 +168,6 @@ const Cart = () => {
                 )}
               </div>
 
-              {/* <div className="my-4 space-y-4">
-                {products?.items && products?.items.length > 0 ? (
-                  products.items.map((item) => (
-                    <CartItemGroup item={item} fetchData={fetchData} />
-                  ))
-                ) : (
-                  <>
-                    <ItemCartPlaceholder />
-                    <ItemCartPlaceholder />
-                  </>
-                )}
-              </div> */}
               <section className="sticky bottom-0 flex items-center justify-between rounded-lg bg-white shadow py-4 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-6">
                 <div className="flex items-center justify-between gap-4 border-gray-200">
                   <div className="text-base font-medium text-gray-900">

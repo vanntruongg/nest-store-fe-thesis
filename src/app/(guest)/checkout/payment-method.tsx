@@ -3,10 +3,25 @@
 import { useEffect, useState } from "react";
 import orderApi from "~/apis/order-api";
 import { MESSAGES } from "~/common/constants/messages";
-import { IPaymentMethod } from "~/common/model/payment.model";
-import TooltipCustom from "~/components/tooltip-custom";
+import { EPaymentMethod, IPaymentMethod } from "~/common/model/payment.model";
+import TooltipCustom from "~/common/components/tooltip-custom";
 import { useCheckout } from "~/hooks/useCheckout";
 import { cn } from "~/lib/utils";
+
+const paymentMethods: IPaymentMethod[] = [
+  {
+    id: 1,
+    name: "Thanh toán khi nhận hàng",
+    method: EPaymentMethod.COD,
+    description: "Thanh toán khi nhận hàng",
+  },
+  {
+    id: 2,
+    name: "Ví VN Pay",
+    method: EPaymentMethod.VN_PAY,
+    description: "Thanh toán qua ví điện tử VN Pay",
+  },
+];
 
 interface PaymentMethodProps {
   error: boolean;
@@ -15,20 +30,10 @@ interface PaymentMethodProps {
 
 export function PaymentMethod({ error, setError }: PaymentMethodProps) {
   const { paymentMethod, setPaymentMethod } = useCheckout();
-  const [methods, setMethods] = useState<IPaymentMethod[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await orderApi.getAllPaymentMethod();
-      setMethods(result.payload.data);
-    };
-    fetchData();
-  }, []);
 
   useEffect(() => {
     setError(false);
   }, [paymentMethod]);
-  console.log(methods);
 
   return (
     <section
@@ -39,7 +44,7 @@ export function PaymentMethod({ error, setError }: PaymentMethodProps) {
       <div className="grid grid-cols-10 items-center">
         <p className="col-span-2">Phương thức thanh toán</p>
         <div className="col-span-8 flex gap-2">
-          {methods.map((method) => (
+          {paymentMethods.map((method) => (
             <TooltipCustom key={method.id} content={method.description}>
               <div
                 className={cn(
@@ -62,7 +67,7 @@ export function PaymentMethod({ error, setError }: PaymentMethodProps) {
                     </span>
                   </div>
                 )}
-                {method.method}
+                {method.name}
               </div>
             </TooltipCustom>
           ))}

@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "~/components/ui/button";
+import { Button } from "~/common/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,8 +7,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog";
-import { Input } from "~/components/ui/input";
+} from "~/common/components/ui/dialog";
+import { Input } from "~/common/components/ui/input";
 import {
   Form,
   FormControl,
@@ -16,7 +16,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
+} from "~/common/components/ui/form";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,11 +24,11 @@ import { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import { FileWithPreview } from "~/common/model/file.model";
 
-import Loading from "~/components/loading";
+import Loading from "~/common/components/loading";
 import { BaseUtil } from "~/common/utility/base.util";
-import { toast } from "~/components/ui/use-toast";
+import { toast } from "~/common/components/ui/use-toast";
 import { CloudinaryUtil } from "~/common/utility/cloudinary.util";
-import IconTextLoading from "~/components/icon-text-loading";
+import IconTextLoading from "~/common/components/icon-text-loading";
 import {
   Category,
   Product,
@@ -40,7 +40,7 @@ import {
   ProductShema,
   ProductShemaType,
 } from "~/app/schema-validations/product.shema";
-import { Separator } from "~/components/ui/separator";
+import { Separator } from "~/common/components/ui/separator";
 import { CategorySelect } from "./category-select";
 
 interface IFormUpdateUserProps {

@@ -2,7 +2,7 @@
 import Image from "next/image";
 import ThankYouImage from "../../../../public/assets/thankyou.svg";
 import Link from "next/link";
-import { Button } from "~/components/ui/button";
+import { Button } from "~/common/components/ui/button";
 import { ArrowRight, MoveLeft, MoveRight } from "lucide-react";
 import { ROUTES } from "~/common/constants/routes";
 

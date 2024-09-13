@@ -6,14 +6,14 @@ import { useRouter } from "next/navigation";
 import CountUp from "react-countup";
 import productApi from "~/apis/product-api";
 import userApi from "~/apis/user-api";
-import { Button } from "~/components/ui/button";
+import { Button } from "~/common/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
+} from "~/common/components/ui/dropdown-menu";
 import { v4 as uuid } from "uuid";
 import { BaseUtil } from "~/common/utility/base.util";
 import statisticApi from "~/apis/statistic.api";

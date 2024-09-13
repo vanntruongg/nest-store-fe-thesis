@@ -3,7 +3,7 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { Search, X, Trash2, Loader2 } from "lucide-react";
 import useDebounce from "~/hooks/useDebounce";
-import { Button } from "../../../components/ui/button";
+import { Button } from "../../../common/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -11,12 +11,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog";
-import { Input } from "../../../components/ui/input";
+} from "~/common/components/ui/dialog";
+import { Input } from "../../../common/components/ui/input";
 import { useHistorySearch } from "~/hooks/useHistorySearch";
 import { v4 as uuid } from "uuid";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import ItemProductSearch from "../../../components/item-search";
+import ItemProductSearch from "../../../common/components/item-search";
 import { cn } from "~/lib/utils";
 import { Product } from "~/common/model/product.model";
 import productApi from "~/apis/product-api";

@@ -16,7 +16,11 @@ type CheckoutState = {
   setPaymentMethod: (method: IPaymentMethod) => void;
   setNotes: (notes: string) => void;
   clearCheckout: () => void;
-  updateQuantityItemCheckOut: (itemId: number, quantity: number) => void;
+  updateQuantityItemCheckOut: (
+    itemId: number,
+    quantity: number,
+    size: string
+  ) => void;
 };
 
 export const useCheckout = create<CheckoutState>()(
@@ -41,10 +45,14 @@ export const useCheckout = create<CheckoutState>()(
         set((state) => {
           return { items: items };
         }),
-      updateQuantityItemCheckOut: (itemId: number, newQuantity: number) =>
+      updateQuantityItemCheckOut: (
+        itemId: number,
+        newQuantity: number,
+        size: string
+      ) =>
         set((state) => ({
           items: state.items.map((item) =>
-            item.productId === itemId
+            item.productId === itemId && item.size === size
               ? { ...item, quantity: newQuantity }
               : item
           ),

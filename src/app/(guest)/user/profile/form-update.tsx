@@ -12,8 +12,8 @@ import { FileWithPreview } from "~/common/model/file.model";
 import { IUpdateUser } from "~/common/model/user.model";
 import { BaseUtil } from "~/common/utility/base.util";
 import { CloudinaryUtil } from "~/common/utility/cloudinary.util";
-import IconTextLoading from "~/components/icon-text-loading";
-import { Button } from "~/components/ui/button";
+import IconTextLoading from "~/common/components/icon-text-loading";
+import { Button } from "~/common/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -21,7 +21,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog";
+} from "~/common/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -29,9 +29,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
-import { toast } from "~/components/ui/use-toast";
+} from "~/common/components/ui/form";
+import { Input } from "~/common/components/ui/input";
+import { toast } from "~/common/components/ui/use-toast";
 import { useUser } from "~/hooks/useUser";
 
 export function FormUpdateUser() {

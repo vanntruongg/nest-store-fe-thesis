@@ -1,37 +1,54 @@
 "use client";
 import { useEffect, useState } from "react";
-import productApi from "~/apis/product-api";
-import { Category, Product } from "~/common/model/product.model";
+import { Product } from "~/common/model/product.model";
 import { BaseUtil } from "~/common/utility/base.util";
-import { ProductUtil } from "~/common/utility/product.util";
-import Breadrumbs from "~/components/breadrumbs";
-import MaxWidthWrapper from "~/components/max-width-wrapper";
-import ProductDetail from "~/components/product-detail/product-detail";
-import { Breadrumb } from "~/common/model/base.model";
-import { ROUTES } from "~/common/constants/routes";
+import Breadrumbs from "~/common/components/breadrumbs";
+import ProductDetail from "~/modules/product/components/product-detail";
+import { ProductDetailPlaceholder } from "~/common/components/skeleton/product-detail-skeleton";
+import { RatingList } from "~/modules/rating/components/rating-list";
+import { Rating } from "~/modules/rating/models/Rating";
+import {
+  createRating,
+  getAverageStarByProductId,
+  getRatingByProductId,
+  getRatingStarPercentage,
+} from "~/modules/rating/services/RatingService";
+import { getProductById } from "~/modules/product/services/ProductService";
+import { RatingBreakdown } from "~/modules/rating/models/RatingBreakdown";
+import { RatingShemaType } from "~/app/schema-validations/rating.shema";
+import { RatingPost } from "~/modules/rating/models/RatingPost";
+import { toast } from "~/common/components/ui/use-toast";
 
-interface ProductDetailPageProps {
+interface props {
   params: {
     slug: string;
   };
 }
 
-const ProductDetailPage = ({ params }: ProductDetailPageProps) => {
+const ProductDetailPage = ({ params }: props) => {
   const [product, setProduct] = useState<Product | null>(null);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const { slug } = params;
+  // const [categories, setCategories] = useState<Category[]>([]);
+  const [ratingList, setRatingList] = useState<Rating[]>([]);
+  const [pageNo, setPageNo] = useState<number>(0);
+  const [totalElements, setTotalElement] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [averageStar, setAverageStar] = useState<number>(0);
+  const [ratingStarPercentage, setRatingStarPercentage] = useState<
+    RatingBreakdown[]
+  >([]);
+  const [isPost, setIsPost] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await productApi.getProductById(
-          ProductUtil.extractProductIdFromSlug(params.slug)
-        );
-
-        const { categories, ...product } = result.payload.data;
-
+        const product = await getProductById(params.slug);
         setProduct(product);
-        setCategories(categories);
+
+        const averageStar = await getAverageStarByProductId(product.id);
+        setAverageStar(averageStar);
+
+        const response = await getRatingStarPercentage(product.id);
+        setRatingStarPercentage(response);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
       }
@@ -39,57 +56,63 @@ const ProductDetailPage = ({ params }: ProductDetailPageProps) => {
     fetchData();
   }, [params.slug]);
 
-  const breadcrumbs: Breadrumb[] = [];
-  categories.map((category) => {
-    breadcrumbs.unshift({
-      id: category.id,
-      name: category.name,
-      href: ROUTES.SHOP + `?category=${category.id}`,
-    });
-  });
+  useEffect(() => {
+    const fetchData = async () => {
+      if (product) {
+        const ratings = await getRatingByProductId(product.id, pageNo);
+        setRatingList(ratings.ratingList);
+        setTotalElement(ratings.totalElements);
+        setTotalPages(ratings.totalPages);
+      }
+    };
+    fetchData();
+  }, [product, pageNo, isPost]);
+
+  const handlePageChange = ({ selected }: any) => {
+    setPageNo(selected);
+  };
+
+  const handleCreateRating = async (data: RatingShemaType) => {
+    if (product) {
+      const ratingPost: RatingPost = {
+        star: data.ratingStar,
+        content: data.content,
+        productId: product.id,
+        productName: product.name,
+      };
+      const res = await createRating(ratingPost);
+      if (res.success) {
+        toast({ description: res.message });
+        setIsPost(!isPost);
+      }
+    }
+  };
 
   return (
     <div className="bg-gray-100 flex flex-col space-y-4 mb-4">
-      <Breadrumbs
-        breadrumbs={breadcrumbs}
-        options={product?.name}
-        optionPage={true}
-      />
-      <ProductDetail product={product!} />
+      <Breadrumbs options={product?.name} optionPage={true} context="page" />
 
-      <MaxWidthWrapper className="space-y-4">
-        <div className="bg-white p-4">
-          <h3 className="text-xl">Chi tiết sản phẩm</h3>
-          <div className="py-8 flex flex-col gap-2 text-sm">
-            <div className="flex gap-2 items-center">
-              <span className="text-muted-foreground">Danh mục:</span>
-              <Breadrumbs
-                breadrumbs={breadcrumbs}
-                className="-translate-x-10 h-4 bg-transparent"
-              />
-            </div>
-            <div className="flex gap-2">
-              <span className="text-muted-foreground">Chất liệu:</span>
-              <p>{product?.material}</p>
-            </div>
-            <div className="flex gap-2">
-              <span className="text-muted-foreground">Phong cách:</span>
-              <p>{product?.style}</p>
-            </div>
-          </div>
-          {/* <div className="bg-gray-100">
-            <DevelopingTooltip>
-              <h2 className="text-xl p-2">Đánh giá sản phẩm</h2>
-            </DevelopingTooltip>
-          </div> */}
-        </div>
-        {/* <Review
-          review={{ userId: "", productId: 5, rating: 5, reviewContent: "" }}
-        /> */}
-      </MaxWidthWrapper>
-      {/* <MaxWidthWrapper>
-        {product ? <RelatedProduct product={product} /> : <></>}
-      </MaxWidthWrapper> */}
+      {product ? (
+        <ProductDetail
+          product={product}
+          averageStar={averageStar}
+          totalRating={totalElements}
+        />
+      ) : (
+        <ProductDetailPlaceholder />
+      )}
+
+      {/* Rating */}
+      <RatingList
+        ratingList={ratingList}
+        pageNo={pageNo}
+        totalElements={totalElements}
+        totalPages={totalPages}
+        averageStar={averageStar}
+        ratingStarPercentage={ratingStarPercentage}
+        handleChangePage={handlePageChange}
+        handleCreateRating={handleCreateRating}
+      />
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import productApi from "~/apis/product-api";
 import { Product } from "~/common/model/product.model";
-import MaxWidthWrapper from "../../../components/max-width-wrapper";
-import CardProduct from "../../../components/product/card-product";
+import MaxWidthWrapper from "../../../common/components/max-width-wrapper";
+import CardProduct from "../../../modules/product/components/card-product";
 import { ProductUtil } from "~/common/utility/product.util";
 import { useRouter } from "next/navigation";
 import { ELayoutProduct } from "~/common/utility/enum.util";

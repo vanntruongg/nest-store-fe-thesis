@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { buttonVariants } from "~/components/ui/button";
+import { buttonVariants } from "~/common/components/ui/button";
 
 import NotFoundImg from "../../../public/assets/not-found.svg";
 import { useEffect, useState } from "react";

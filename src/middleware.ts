@@ -64,5 +64,22 @@ export function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: [...authPaths, ...privatePaths, ...adminPaths],
+  matcher: [
+    "/login",
+    "/register",
+    "/verify-email",
+    "/process-verify-email",
+    "/forgot-password",
+    "/reset-password",
+    "/user/profile",
+    "/user/password",
+    "/user/purchase",
+    "/user/address",
+    "/cart",
+    "/checkout",
+    "/dashboard/users",
+    "/dashboard/statistic",
+    "/dashboard/orders",
+    "/dashboard/products",
+  ],
 };

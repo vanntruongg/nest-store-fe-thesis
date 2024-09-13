@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import BarChart from "~/components/charts/bar-chart";
+import BarChart from "~/common/components/charts/bar-chart";
 import {
   Select,
   SelectContent,
@@ -12,7 +12,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "~/components/ui/select";
+} from "~/common/components/ui/select";
 import orderApi from "~/apis/order-api";
 import statisticApi from "~/apis/statistic.api";
 

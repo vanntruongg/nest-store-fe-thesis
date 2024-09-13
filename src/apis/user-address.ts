@@ -16,23 +16,18 @@ const userAddressApi = {
       EndpointUtil.NEST.ADDRESS.USER.UPDATE_ADDRESS,
       payload
     ),
-  deleteAddress: (email: string, addressId: number) =>
+  deleteAddress: (addressId: number) =>
     httpClient.delete<any>(
-      EndpointUtil.NEST.ADDRESS.USER.DELETE_ADDRESS +
-        `?email=${email}&addressId=${addressId}`
+      EndpointUtil.NEST.ADDRESS.USER.DELETE_ADDRESS + `?addressId=${addressId}`
     ),
-  getAllAddress: (email: string) =>
-    httpClient.get<any>(
-      EndpointUtil.NEST.ADDRESS.USER.GET_ALL_BY_USER_EMAIL + `/${email}`
-    ),
-  getDefaultAddress: (email: string) =>
-    httpClient.get<any>(
-      EndpointUtil.NEST.ADDRESS.USER.GET_DEFAULT_ADDRESS + `/${email}`
-    ),
-  setDefaultAddress: (email: string, addressId: number) =>
+  getAllAddress: () =>
+    httpClient.get<any>(EndpointUtil.NEST.ADDRESS.USER.GET_ALL_BY_USER_EMAIL),
+  getDefaultAddress: () =>
+    httpClient.get<any>(EndpointUtil.NEST.ADDRESS.USER.GET_DEFAULT_ADDRESS),
+  setDefaultAddress: (addressId: number) =>
     httpClient.post<any>(
       EndpointUtil.NEST.ADDRESS.USER.UPDATE_DEFAULT_ADDRESS +
-        `?email=${email}&addressId=${addressId}`
+        `?addressId=${addressId}`
     ),
 };
 

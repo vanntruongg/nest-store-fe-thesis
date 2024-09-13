@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ReactNode, Suspense } from "react";
-import Loading from "~/components/loading";
+import Loading from "~/common/components/loading";
 
 export const metadata: Metadata = {
   title: "Đăng nhập - NEST Store: Truy cập vào tài khoản của bạn",

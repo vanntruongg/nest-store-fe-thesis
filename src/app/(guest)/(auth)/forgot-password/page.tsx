@@ -1,21 +1,26 @@
 "use client";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Input } from "~/components/ui/input";
-import { Button } from "~/components/ui/button";
-import { Label } from "~/components/ui/label";
+import { Input } from "~/common/components/ui/input";
+import { Button } from "~/common/components/ui/button";
+import { Label } from "~/common/components/ui/label";
 import {
   ForgotPasswordShema,
   TForgotPasswordShema,
 } from "~/app/schema-validations/auth.shema";
 import { cn } from "~/lib/utils";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "~/common/components/ui/card";
 import { MoveLeft } from "lucide-react";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import authApi from "~/apis/auth-api";
 import { BaseUtil } from "~/common/utility/base.util";
-import { toast } from "~/components/ui/use-toast";
+import { toast } from "~/common/components/ui/use-toast";
 import { ROUTES } from "~/common/constants/routes";
 
 const ForgotPassword = () => {

@@ -3,7 +3,7 @@ import { Check, Mail, MapPin, Phone, User } from "lucide-react";
 import { useUser } from "~/hooks/useUser";
 import { FormUpdateUser } from "./form-update";
 import { useEffect, useState } from "react";
-import { Skeleton } from "~/components/ui/skeleton";
+import { Skeleton } from "~/common/components/ui/skeleton";
 
 const Profile = () => {
   const { user } = useUser();

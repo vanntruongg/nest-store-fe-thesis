@@ -1,17 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
-import { Checkbox } from "../../../components/ui/checkbox";
+import { Checkbox } from "../../../common/components/ui/checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown, ChevronUp, Loader2 } from "lucide-react";
-import { Button } from "../../../components/ui/button";
+import { Button } from "../../../common/components/ui/button";
 import { useCheckout } from "~/hooks/useCheckout";
 import { ProductUtil } from "~/common/utility/product.util";
 
 import { useUser } from "~/hooks/useUser";
 import cartApi from "~/apis/cart-api";
 import { BaseUtil } from "~/common/utility/base.util";
-import { toast } from "~/components/ui/use-toast";
+import { toast } from "~/common/components/ui/use-toast";
 import useDebounce from "~/hooks/useDebounce";
 import { cn } from "~/lib/utils";
 import inventoryApi from "~/apis/inventory-api";
@@ -33,7 +33,6 @@ const CartItem = ({
   productQuantity,
   fetchData,
 }: CartItemProps) => {
-  const { user } = useUser();
   const { setCartLength } = useCart();
   const { items, addItem, removeItem, updateQuantityItemCheckOut } =
     useCheckout();
@@ -63,7 +62,6 @@ const CartItem = ({
       setLoading(true);
       try {
         const data: UpdateCartRequest = {
-          email: user.email,
           size: productSize,
           productId: product.id,
           quantity,
@@ -92,7 +90,7 @@ const CartItem = ({
     updateItem(debounceQuantity);
 
     // update quantity item in storage to update total price items checkout
-    updateQuantityItemCheckOut(product.id, debounceQuantity);
+    updateQuantityItemCheckOut(product.id, debounceQuantity, productSize);
   }, [debounceQuantity]);
 
   const handleBlurInputQuantity = (quantity: number) => {
@@ -138,7 +136,6 @@ const CartItem = ({
   const deleteItem = async () => {
     try {
       const data: DelteCartRequest = {
-        email: user.email,
         size: productSize,
         productId: product.id,
       };

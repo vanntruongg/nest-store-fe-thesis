@@ -3,20 +3,21 @@ import { useUser } from "~/hooks/useUser";
 import { MapPin } from "lucide-react";
 import userAddressApi from "~/apis/user-address";
 import { Address } from "~/common/model/address.model";
-import { AddressListSelector } from "~/components/address/address-list-selector";
+import { AddressListSelector } from "~/modules/address/components/address-list-selector";
 import { BaseUtil } from "~/common/utility/base.util";
 import { useCheckout } from "~/hooks/useCheckout";
-import { Skeleton } from "~/components/ui/skeleton";
+import { Skeleton } from "~/common/components/ui/skeleton";
 
 export function DeliveryAddress() {
-  const { user } = useUser();
   const { deliveryAddress, setDeliveryAddress } = useCheckout();
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
       if (deliveryAddress === null) {
-        const res = await userAddressApi.getDefaultAddress(user.email);
+        const res = await userAddressApi.getDefaultAddress();
+        // console.log(res);
+
         setDeliveryAddress(res.payload.data);
       }
     };
@@ -48,7 +49,7 @@ export function DeliveryAddress() {
         </div>
         <div className="flex items-center space-x-4">
           <p className="">{renderAddress()}</p>
-          {deliveryAddress?.default && (
+          {deliveryAddress?.isDefault && (
             <div className="text-primary text-[10px] border border-primary px-1.5 py-0.5 relative overflow-hidden">
               <span className="size-2 bg-primary absolute top-0 left-0 -translate-x-1 -translate-y-1 rotate-45"></span>
               <span>Mặc định</span>

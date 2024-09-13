@@ -13,15 +13,15 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Button } from "~/components/ui/button";
+import { Button } from "~/common/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
+} from "~/common/components/ui/dropdown-menu";
 
-import { Input } from "~/components/ui/input";
+import { Input } from "~/common/components/ui/input";
 import {
   Table,
   TableBody,
@@ -29,19 +29,20 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "~/components/ui/table";
+} from "~/common/components/ui/table";
 import { ArrowUpDown, ChevronDown } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { IOrder } from "~/common/model/order.model";
 import { ProductUtil } from "~/common/utility/product.util";
 import OrderDetail from "./order-detail";
-import { OrderStatus } from "~/components/order-status";
-import { orderStatus, statusClasses } from "~/static";
+import { OrderStatus } from "~/common/components/order-status";
+import { statusClasses } from "~/static";
 import { BaseUtil } from "~/common/utility/base.util";
-import IconTextLoading from "~/components/icon-text-loading";
+import IconTextLoading from "~/common/components/icon-text-loading";
 import { UpdateStatus } from "./update-status";
 import { useSearchParams } from "next/navigation";
 import orderApi from "~/apis/order-api";
+import { orderStatus } from "~/common/utility/order.util";
 
 export const GetDataAndColumns = () => {
   const [data, setData] = useState<IOrder[]>([]);

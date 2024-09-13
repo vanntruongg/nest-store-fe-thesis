@@ -11,8 +11,8 @@ import {
 import productApi from "~/apis/product-api";
 import { Category, ICategory } from "~/common/model/product.model";
 import { BaseUtil } from "~/common/utility/base.util";
-import { Button } from "~/components/ui/button";
-import { Separator } from "~/components/ui/separator";
+import { Button } from "~/common/components/ui/button";
+import { Separator } from "~/common/components/ui/separator";
 import { cn } from "~/lib/utils";
 
 export interface ICategorySelectProps {

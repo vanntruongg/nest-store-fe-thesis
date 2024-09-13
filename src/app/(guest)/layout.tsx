@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { ReactNode } from "react";
 
-import Header from "~/components/header";
-import Footer from "~/components/footer";
+import Header from "~/common/components/header";
+import Footer from "~/common/components/footer";
 import CartProvider from "../cart-provider";
 import CheckoutProvider from "../checkout-provider";
 

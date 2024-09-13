@@ -1,10 +1,10 @@
 import Image from "next/image";
 import NoData from "../../../../../public/assets/no-data.png";
 import { IOrder } from "~/common/model/order.model";
-import ItemOrder from "~/components/item-order";
+import ItemOrder from "~/common/components/item-order";
 import { ProductUtil } from "~/common/utility/product.util";
 import { statusClasses } from "~/static";
-import { OrderDetails } from "./order-details";
+import { OrderItem } from "./order-item";
 import { OrderUtil } from "~/common/utility/order.util";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
@@ -50,12 +50,12 @@ export function Order({ orders }: IOrderProps) {
                 </div>
               </div>
               <div className="px-6 divide-y">
-                {order.orderDetail.map((itemOrder) => (
+                {order.orderItems.map((itemOrder) => (
                   <ItemOrder key={itemOrder.orderDetailId} item={itemOrder} />
                 ))}
               </div>
               <div className="bg-zinc-50 p-6 flex justify-between items-center gap-4 border-t border-dotted">
-                <OrderDetails order={order} />
+                <OrderItem order={order} />
 
                 <div className="flex gap-2">
                   Thành tiền:

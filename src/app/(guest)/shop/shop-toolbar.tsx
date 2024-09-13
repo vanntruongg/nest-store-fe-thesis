@@ -1,4 +1,4 @@
-import MaxWidthWrapper from "~/components/max-width-wrapper";
+import MaxWidthWrapper from "~/common/components/max-width-wrapper";
 
 import {
   Select,
@@ -7,9 +7,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "~/components/ui/select";
+} from "~/common/components/ui/select";
 import { LayoutGrid, LayoutList } from "lucide-react";
-import TooltipCustom from "~/components/tooltip-custom";
+import TooltipCustom from "~/common/components/tooltip-custom";
 import { ELayoutProduct } from "~/common/utility/enum.util";
 import { cn } from "~/lib/utils";
 import { Dispatch, SetStateAction } from "react";
@@ -36,7 +36,7 @@ export function ShopToolBar({
     // setSort(value);
     // setData((prevData) => ({ ...prevData, pageNumber: 1 }));
 
-    params.set("order", value);
+    params.set("sortOrder", value);
     params.set("sortBy", "price");
     router.push(pathname + "?" + params.toString());
   };
@@ -47,7 +47,7 @@ export function ShopToolBar({
     // setData((prevData) => ({ ...prevData, pageNumber: 1 }));
 
     params.set("pageSize", value);
-    params.set("pageNumber", "1");
+    params.set("pageNo", "1");
     router.push(pathname + "?" + params.toString());
   };
 

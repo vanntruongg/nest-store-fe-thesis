@@ -1,10 +1,4 @@
-import {
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { BaseUtil } from "~/common/utility/base.util";
 
 import {
@@ -16,7 +10,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "~/components/ui/alert-dialog";
+} from "~/common/components/ui/alert-dialog";
 import {
   Form,
   FormControl,
@@ -24,27 +18,26 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
+} from "~/common/components/ui/form";
+import { Input } from "~/common/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   AddressShema,
   AddressShemaType,
 } from "~/app/schema-validations/address.shema";
-import Loading from "~/components/loading";
-import { Textarea } from "~/components/ui/textarea";
-import { Checkbox } from "~/components/ui/checkbox";
-import { AddressData } from "~/components/address/address-data";
+import Loading from "~/common/components/loading";
+import { Textarea } from "~/common/components/ui/textarea";
+import { Checkbox } from "~/common/components/ui/checkbox";
+import { AddressData } from "~/modules/address/components/address-data";
 import userAddressApi from "~/apis/user-address";
-import { toast } from "~/components/ui/use-toast";
+import { toast } from "~/common/components/ui/use-toast";
 import {
   Address,
   AddressAction,
   CreateAddressRequest,
   UpdateAddressRequest,
 } from "~/common/model/address.model";
-import { useUser } from "~/hooks/useUser";
 import { useCheckout } from "~/hooks/useCheckout";
 
 export interface IAddressFormDialogProps {
@@ -64,7 +57,6 @@ export function AddressFormDialog({
   fetchData,
   children,
 }: IAddressFormDialogProps) {
-  const { user } = useUser();
   const { setDeliveryAddress } = useCheckout();
   const [loading, setLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(isOpen || false);
@@ -78,7 +70,7 @@ export function AddressFormDialog({
       districtId: address?.district.id ?? 0,
       provinceId: address?.province.id ?? 0,
       street: address?.street ?? "",
-      isDefault: address?.default ?? false,
+      isDefault: address?.isDefault ?? false,
     },
   });
 
@@ -94,23 +86,15 @@ export function AddressFormDialog({
         return;
       let message = "";
       if (action === AddressAction.CREATE) {
-        const dataCreate: CreateAddressRequest = {
-          ...data,
-          userEmail: user.email,
-        };
-
-        const res = await userAddressApi.createAddress(dataCreate);
+        const res = await userAddressApi.createAddress(data);
         message = res.payload.message;
         setDeliveryAddress(res.payload.data);
       } else if (action === AddressAction.UPDATE) {
         if (address) {
-          const dataUpdate: UpdateAddressRequest = {
-            id: address?.id,
+          const res = await userAddressApi.updateAddress({
+            id: address.id,
             ...data,
-            userEmail: user.email,
-          };
-
-          const res = await userAddressApi.updateAddress(dataUpdate);
+          });
           message = res.payload.message;
         }
       }

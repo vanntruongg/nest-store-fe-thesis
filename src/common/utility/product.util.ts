@@ -1,5 +1,5 @@
 import slugify from "slugify";
-import { toast } from "~/components/ui/use-toast";
+import { toast } from "~/common/components/ui/use-toast";
 
 export class ProductUtil {
   static createSlug(name: string, id: number): string {

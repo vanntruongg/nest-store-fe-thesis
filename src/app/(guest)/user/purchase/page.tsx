@@ -2,15 +2,14 @@
 import React, { useEffect, useState } from "react";
 import { IOrder } from "~/common/model/order.model";
 import { BaseUtil } from "~/common/utility/base.util";
-import IconTextLoading from "~/components/icon-text-loading";
-import { OrderStatus } from "~/components/order-status";
+import IconTextLoading from "~/common/components/icon-text-loading";
+import { OrderStatus } from "~/common/components/order-status";
 import { useUser } from "~/hooks/useUser";
 import { useSearchParams } from "next/navigation";
 import { Order } from "./order";
 import orderApi from "~/apis/order-api";
 
 const PurchasePage = () => {
-  const { user } = useUser();
   const [orders, setOrders] = useState<IOrder[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -18,7 +17,7 @@ const PurchasePage = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const result = await orderApi.getAllByEmail(user.email);
+        const result = await orderApi.getAllByUser();
         setOrders(result.payload.data);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
@@ -27,7 +26,7 @@ const PurchasePage = () => {
       }
     };
     fetchData();
-  }, [user.email]);
+  }, []);
 
   return (
     <div className="h-full flex flex-col gap-4 rounded-sm">

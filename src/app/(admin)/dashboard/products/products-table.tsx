@@ -12,7 +12,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Button } from "~/components/ui/button";
+import { Button } from "~/common/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -21,8 +21,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
-import { Input } from "~/components/ui/input";
+} from "~/common/components/ui/dropdown-menu";
+import { Input } from "~/common/components/ui/input";
 import {
   Table,
   TableBody,
@@ -30,7 +30,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "~/components/ui/table";
+} from "~/common/components/ui/table";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -40,7 +40,7 @@ import { ProductUtil } from "~/common/utility/product.util";
 import { FormUpdate } from "./form-update";
 import { FormCreate } from "./form-create";
 import { BaseUtil } from "~/common/utility/base.util";
-import IconTextLoading from "~/components/icon-text-loading";
+import IconTextLoading from "~/common/components/icon-text-loading";
 
 export const GetDataAndColumns = () => {
   const [data, setData] = useState<Product[]>([]);

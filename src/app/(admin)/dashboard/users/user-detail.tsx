@@ -3,7 +3,7 @@ import { Mail, Phone } from "lucide-react";
 import Image from "next/image";
 import { IUser } from "~/common/model/user.model";
 import { ERole, EUserStatus } from "~/common/utility/enum.util";
-import { Button } from "~/components/ui/button";
+import { Button } from "~/common/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog";
+} from "~/common/components/ui/dialog";
 import { cn } from "~/lib/utils";
 
 interface IViewUserDetailProps {

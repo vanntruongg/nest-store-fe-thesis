@@ -22,11 +22,11 @@ export const orderStatus = [
     typeName: "Tất cả",
   },
   {
-    type: "PENDING_CONFIRM",
+    type: "PENDING",
     typeName: "Chờ xác nhận",
   },
   {
-    type: "PROCESSING",
+    type: "ACCEPTED",
     typeName: "Đang xử lý",
   },
   {

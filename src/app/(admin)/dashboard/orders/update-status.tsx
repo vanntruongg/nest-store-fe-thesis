@@ -5,12 +5,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
-import { Button } from "~/components/ui/button";
+} from "~/common/components/ui/dropdown-menu";
+import { Button } from "~/common/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
-import { orderStatus as orderStts } from "~/static";
+import { orderStatus as orderStt } from "~/common/utility/order.util";
 import { BaseUtil } from "~/common/utility/base.util";
-import { toast } from "~/components/ui/use-toast";
+import { toast } from "~/common/components/ui/use-toast";
 import orderApi from "~/apis/order-api";
 
 export interface IUpdateStatusProps {
@@ -46,7 +46,7 @@ export function UpdateStatus({
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Cập nhật trạng thái đơn đơn hàng</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {orderStts
+        {orderStt
           .filter(
             ({ type, typeName }) =>
               type !== status && typeName != orderStatus && type !== "ALL"

@@ -38,10 +38,14 @@ export class EndpointUtil {
       CREATE_PRODUCT: "/product/create",
       UPDATE_PRODUCT: "/product/update",
       COUNT_PRODUCT: "/product/count",
+      CATEGORY: {
+        GET_ALL: "/product/category",
+        GET_ALL_PARENT_BY_ID: "/product/category/get/all-parent",
+      },
     },
     CART: {
       GET_ALL: "/cart/items",
-      GET_BY_USER_AND_PRODUCT_ID: "/cart/items/get-by-email-and-product-id",
+      GET_BY_PRODUCT_ID: "/cart/items/product-id",
       COUNT: "/cart/count",
       ADD: "/cart/add",
       UPDATE: "/cart/update",
@@ -52,9 +56,9 @@ export class EndpointUtil {
       CREATE_ORDER: "/order/create",
       GET_URL_PAYMENT_VNPAY: "/order/get-link-payment",
       GET_ALL_PAYMENT_METHOD: "/order/payment-method",
-      GET_BY_EMAIL: "/order/get/email",
+      GET_BY_USER: "/order/get/user",
       GET_BY_STATUS: "/order/get/status",
-      GET_BY_EMAIL_AND_STATUS: "/order/get/email/status",
+      GET_BY_USER_AND_STATUS: "/order/get/user/status",
       UPDATE_STATUS: "/order/update/status",
     },
     ORDER_PAYMENT: {
@@ -88,6 +92,13 @@ export class EndpointUtil {
     INVENTORY: {
       GET_BY_PRODUCT_ID: "/inventory/get",
       GET_BY_PRODUCT_ID_AND_SIZE: "/inventory/get/size/id",
+    },
+    RATING: {
+      GET_RATING_LIST: "/ratings/get/products",
+      CREATE_RATING: "/ratings",
+      DELETE_RATING: "/ratings",
+      GET_AVERAGE_STAR_OF_PRODUCT: "/ratings/get/product",
+      GET_RATING_STAR_PERCENTAGE: "/ratings/get/product",
     },
   };
 }

@@ -1,5 +1,5 @@
-import GoogleButton from "~/components/auth/google-button";
-import FacebookButton from "~/components/auth/facebook-button";
+import GoogleButton from "~/common/components/auth/google-button";
+import FacebookButton from "~/common/components/auth/facebook-button";
 import {
   Card,
   CardContent,
@@ -7,7 +7,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card";
+} from "~/common/components/ui/card";
 import Link from "next/link";
 import LoginForm from "./login-form";
 import { cookies } from "next/headers";
