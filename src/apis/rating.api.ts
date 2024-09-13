@@ -8,6 +8,7 @@ const ratingApi = {
       EndpointUtil.NEST.RATING.GET_RATING_LIST +
         `/${productId}?pageNo=${pageNo}`
     ),
+
   createRating: (payload: RatingPost) =>
     httpClient.get<any>(EndpointUtil.NEST.RATING.CREATE_RATING),
   deleteRating: (ratingId: string) =>
