@@ -1,33 +1,27 @@
 import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
-import {
-  ChangeEvent,
-  Dispatch,
-  MouseEvent,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 import productApi from "~/apis/product-api";
-import { Category, ICategory } from "~/common/model/product.model";
 import { BaseUtil } from "~/common/utility/base.util";
 import { Button } from "~/common/components/ui/button";
 import { Separator } from "~/common/components/ui/separator";
 import { cn } from "~/lib/utils";
+import { Category } from "~/modules/product/models/Category";
+import categoryApi from "~/apis/category-api";
 
-export interface ICategorySelectProps {
+export interface Props {
   category?: Category;
   setValue: any;
 }
 
-export function CategorySelect({ category, setValue }: ICategorySelectProps) {
-  const [categories, setCategories] = useState<ICategory[]>([]);
+export function CategorySelect({ category, setValue }: Props) {
+  const [categories, setCategories] = useState<Category[]>([]);
   // lưu categories trước khi chọn, để sử dụng chức năng quay lại
-  const [historyCategories, setHistoryCategories] = useState<ICategory[][]>([]);
+  const [historyCategories, setHistoryCategories] = useState<Category[][]>([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await productApi.getCategory();
+        const result = await categoryApi.getAll();
         setCategories(result.payload.data);
         // console.log(result.payload.data);
       } catch (error) {
@@ -39,15 +33,16 @@ export function CategorySelect({ category, setValue }: ICategorySelectProps) {
 
   const handleSelectSubCategory = (
     e: any,
-    category: Category,
-    subCategories: ICategory[] | undefined
+    categoryId: number,
+    categoryName: string,
+    subCategories: Category[] | undefined
   ) => {
     e.preventDefault();
     if (subCategories && subCategories?.length > 0) {
       setCategories(subCategories);
       setHistoryCategories((prev) => [...prev, categories]);
     } else {
-      setValue("category", category);
+      setValue("category", { id: categoryId, name: categoryName });
     }
   };
 
@@ -87,25 +82,25 @@ export function CategorySelect({ category, setValue }: ICategorySelectProps) {
         >
           <ChevronLeft />
         </Button>
-        {categories.map(({ category, subCategories }) => {
+        {categories.map(({ id, name, image, subCategories }) => {
           return (
             <Button
-              key={category.id}
+              key={id}
               variant={"outline"}
               className="py-6 space-x-2"
               onClick={(e) =>
-                handleSelectSubCategory(e, category, subCategories)
+                handleSelectSubCategory(e, id, name, subCategories)
               }
             >
               <div className="aspect-square h-8 rounded-sm">
                 <Image
-                  src={category.image || "/assets/product-default.jpg"}
-                  alt={`${category.name}`}
+                  src={image || "/assets/product-default.jpg"}
+                  alt={`${name}`}
                   width={50}
                   height={50}
                 />
               </div>
-              <p className="text-sm">{category.name}</p>
+              <p className="text-sm">{name}</p>
             </Button>
           );
         })}

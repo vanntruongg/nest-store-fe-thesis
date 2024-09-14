@@ -314,6 +314,10 @@ input {
   justify-content: flex-end;
 }
 
+.pagination-center {
+  justify-content: center;
+}
+
 .pagination-container .previous-btn a {
   border-top-left-radius: 18px;
   border-bottom-left-radius: 18px;

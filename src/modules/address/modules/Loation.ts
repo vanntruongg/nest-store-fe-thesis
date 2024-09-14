@@ -6,4 +6,4 @@ export type Location = {
   parentCode: string;
 };
 
-type LocationType = "city" | "district" | "town" | "ward" | "commune";
+export type LocationType = "city" | "district" | "town" | "ward" | "commune";

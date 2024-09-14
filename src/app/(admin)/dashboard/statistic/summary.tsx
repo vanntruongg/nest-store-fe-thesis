@@ -17,6 +17,7 @@ import {
 import { v4 as uuid } from "uuid";
 import { BaseUtil } from "~/common/utility/base.util";
 import statisticApi from "~/apis/statistic.api";
+import { OrderUtil } from "~/common/utility/order.util";
 interface SummaryStatistic {
   users: number;
   products: number;
@@ -107,7 +108,7 @@ const SummaryStatistic = () => {
                     onClick={() => handleSelectStatus(status)}
                     className="cursor-pointer"
                   >
-                    {BaseUtil.mapOrderStatus(status)}: {value}
+                    {OrderUtil.mapOrderStatus(status)}: {value}
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>

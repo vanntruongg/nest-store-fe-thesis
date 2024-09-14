@@ -1,6 +1,6 @@
 import { Star } from "~/modules/rating/components/star";
 
-export interface props {
+export interface Props {
   productName: string;
   averagerStar: number;
   ratingCount: number;
@@ -10,7 +10,7 @@ export function DetailHeader({
   productName,
   averagerStar,
   ratingCount,
-}: props) {
+}: Props) {
   return (
     <div>
       <h3 className="text-2xl font-semibold">{productName}</h3>

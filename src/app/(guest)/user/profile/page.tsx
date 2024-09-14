@@ -1,5 +1,5 @@
 "use client";
-import { Check, Mail, MapPin, Phone, User } from "lucide-react";
+import { Check, Mail, Phone, User } from "lucide-react";
 import { useUser } from "~/hooks/useUser";
 import { FormUpdateUser } from "./form-update";
 import { useEffect, useState } from "react";

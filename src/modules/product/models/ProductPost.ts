@@ -3,6 +3,6 @@ export type ProductPost = {
   price: number;
   material: string;
   style: string;
-  category: Category;
+  imageUrls: string[];
   categoryId: number;
 };

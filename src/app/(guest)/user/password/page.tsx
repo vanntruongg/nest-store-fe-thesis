@@ -7,7 +7,6 @@ import {
   ChangePasswordShema,
   TChangePasswordShema,
 } from "~/app/schema-validations/auth.shema";
-import { IChangePasswordRequest } from "~/common/model/user.model";
 import { BaseUtil } from "~/common/utility/base.util";
 import { Button } from "~/common/components/ui/button";
 import { toast } from "~/common/components/ui/use-toast";
@@ -21,6 +20,7 @@ import {
   FormMessage,
 } from "~/common/components/ui/form";
 import { ROUTES } from "~/common/constants/routes";
+import { ChangePassword } from "~/modules/user/model/ChangePassword";
 
 const ChangePasswordPage = () => {
   const router = useRouter();
@@ -33,7 +33,7 @@ const ChangePasswordPage = () => {
     },
   });
 
-  const onSubmit = async (data: IChangePasswordRequest) => {
+  const onSubmit = async (data: ChangePassword) => {
     try {
       const result = await userApi.changePassword(
         data.oldPassword,

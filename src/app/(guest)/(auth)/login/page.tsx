@@ -10,7 +10,6 @@ import {
 } from "~/common/components/ui/card";
 import Link from "next/link";
 import LoginForm from "./login-form";
-import { cookies } from "next/headers";
 import { ROUTES } from "~/common/constants/routes";
 
 const Login = () => {

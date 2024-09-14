@@ -12,7 +12,7 @@ import { RatingBreakdown as RatingBreakdownModel } from "../models/RatingBreakdo
 import { RatingShemaType } from "~/app/schema-validations/rating.shema";
 import { PostRatingForm } from "./post-rating-form";
 
-export interface IRatingListProps {
+export interface Props {
   ratingList: Rating[] | null;
   pageNo: number;
   totalElements: number;
@@ -32,7 +32,7 @@ export function RatingList({
   ratingStarPercentage,
   handleChangePage,
   handleCreateRating,
-}: IRatingListProps) {
+}: Props) {
   return (
     <MaxWidthWrapper className="my-20 p-6 flex flex-col space-y-8 bg-gray-100">
       <div className="flex space-x-2 items-center">

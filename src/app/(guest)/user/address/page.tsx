@@ -1,11 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import userAddressApi from "~/apis/user-address";
-import {
-  Address,
-  AddressAction,
-  AddressDetails,
-} from "~/common/model/address.model";
 import { Button } from "~/common/components/ui/button";
 import { AddressFormDialog } from "./address-form-dialog";
 
@@ -23,6 +18,8 @@ import { BaseUtil } from "~/common/utility/base.util";
 import { toast } from "~/common/components/ui/use-toast";
 import { Plus } from "lucide-react";
 import AddressPlaholder from "~/common/components/skeleton/address-skeleton";
+import { Address } from "~/modules/address/modules/Address";
+import { AddressAction } from "~/modules/address/modules/AddressAction";
 
 const AddressPage = () => {
   const [addresses, setAddresses] = useState<Address[]>([]);

@@ -1,9 +1,9 @@
 import { Target } from "lucide-react";
 import { Star } from "./star";
 
-export interface props {}
+export interface Props {}
 
-export function MostHelpfulRating(props: props) {
+export function MostHelpfulRating(props: Props) {
   return (
     <div className="col-span-2 p-4 bg-white rounded-md shadow-sm">
       <div className="flex items-center space-x-1">

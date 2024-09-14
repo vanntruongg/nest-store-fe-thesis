@@ -22,19 +22,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
-import { FileWithPreview } from "~/common/model/file.model";
 
 import Loading from "~/common/components/loading";
 import { BaseUtil } from "~/common/utility/base.util";
 import { toast } from "~/common/components/ui/use-toast";
 import { CloudinaryUtil } from "~/common/utility/cloudinary.util";
 import IconTextLoading from "~/common/components/icon-text-loading";
-import {
-  Category,
-  Product,
-  ProductCreate,
-  ProductUpdate,
-} from "~/common/model/product.model";
+
 import productApi from "~/apis/product-api";
 import {
   ProductShema,
@@ -42,6 +36,9 @@ import {
 } from "~/app/schema-validations/product.shema";
 import { Separator } from "~/common/components/ui/separator";
 import { CategorySelect } from "./category-select";
+import { FileWithPreview } from "~/modules/common/model/FileWithPreview";
+import { Category } from "~/modules/product/models/Category";
+import { ProductPost } from "~/modules/product/models/ProductPost";
 
 interface IFormUpdateUserProps {
   fetchData: () => void;
@@ -107,13 +104,13 @@ export function FormCreate({ fetchData }: IFormUpdateUserProps) {
         );
       }
 
-      const data: ProductCreate = {
+      const data: ProductPost = {
         name,
         price,
         material,
         style,
-        imageUrl,
-        stock,
+        // imageUrls,
+        imageUrls: [""],
         categoryId: category.id,
       };
 

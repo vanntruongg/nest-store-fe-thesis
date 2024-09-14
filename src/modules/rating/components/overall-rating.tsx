@@ -1,12 +1,12 @@
 import { Target } from "lucide-react";
 import { Star } from "./star";
 
-export interface props {
+export interface Props {
   averageStar: number;
   totalRatings: number;
 }
 
-export function OverallRating({ averageStar, totalRatings }: props) {
+export function OverallRating({ averageStar, totalRatings }: Props) {
   return (
     <div className="p-4 bg-white rounded-md shadow-sm">
       <div className="flex items-center space-x-1">

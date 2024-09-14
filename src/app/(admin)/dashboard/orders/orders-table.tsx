@@ -32,7 +32,6 @@ import {
 } from "~/common/components/ui/table";
 import { ArrowUpDown, ChevronDown } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import { IOrder } from "~/common/model/order.model";
 import { ProductUtil } from "~/common/utility/product.util";
 import OrderDetail from "./order-detail";
 import { OrderStatus } from "~/common/components/order-status";
@@ -43,9 +42,10 @@ import { UpdateStatus } from "./update-status";
 import { useSearchParams } from "next/navigation";
 import orderApi from "~/apis/order-api";
 import { orderStatus } from "~/common/utility/order.util";
+import { Order } from "~/modules/order/model/Order";
 
 export const GetDataAndColumns = () => {
-  const [data, setData] = useState<IOrder[]>([]);
+  const [data, setData] = useState<Order[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const searchParams = useSearchParams();
   const status = searchParams.get("orderStatus") || orderStatus[0].type;
@@ -70,16 +70,12 @@ export const GetDataAndColumns = () => {
     fetchData();
   }, [status, fetchData]);
 
-  const customFilterFn = (
-    row: Row<IOrder>,
-    id: string,
-    filterValue: string
-  ) => {
+  const customFilterFn = (row: Row<Order>, id: string, filterValue: string) => {
     if (filterValue === "") return true;
     return parseInt(row.getValue(id)) === parseInt(filterValue);
   };
 
-  const columns: ColumnDef<IOrder>[] = [
+  const columns: ColumnDef<Order>[] = [
     {
       accessorKey: "orderId",
       header: ({ column }) => {

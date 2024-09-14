@@ -1,6 +1,6 @@
 import { Product } from "./Product";
 
-export type ProductsGet = {
+export type ProductGet = {
   productContent: Product[];
   pageNo: number;
   pageSize: number;

@@ -31,7 +31,6 @@ import { BaseUtil } from "~/common/utility/base.util";
 import { useAuth } from "~/hooks/useAuth";
 import { tokenStorage } from "~/common/utility/auth/token-storage";
 import { ROUTES } from "~/common/constants/routes";
-// import { clientAuthToken } from "~/lib/http";
 
 const LoginForm = () => {
   const router = useRouter();

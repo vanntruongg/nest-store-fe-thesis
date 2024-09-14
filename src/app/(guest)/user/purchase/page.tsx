@@ -1,16 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { IOrder } from "~/common/model/order.model";
 import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/common/components/icon-text-loading";
 import { OrderStatus } from "~/common/components/order-status";
-import { useUser } from "~/hooks/useUser";
-import { useSearchParams } from "next/navigation";
 import { Order } from "./order";
 import orderApi from "~/apis/order-api";
+import { Order as OrderModel } from "~/modules/order/model/Order";
 
 const PurchasePage = () => {
-  const [orders, setOrders] = useState<IOrder[]>([]);
+  const [orders, setOrders] = useState<OrderModel[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {

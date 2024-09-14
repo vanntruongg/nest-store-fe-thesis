@@ -32,13 +32,10 @@ import { Checkbox } from "~/common/components/ui/checkbox";
 import { AddressData } from "~/modules/address/components/address-data";
 import userAddressApi from "~/apis/user-address";
 import { toast } from "~/common/components/ui/use-toast";
-import {
-  Address,
-  AddressAction,
-  CreateAddressRequest,
-  UpdateAddressRequest,
-} from "~/common/model/address.model";
+
 import { useCheckout } from "~/hooks/useCheckout";
+import { AddressAction } from "~/modules/address/modules/AddressAction";
+import { Address } from "~/modules/address/modules/Address";
 
 export interface IAddressFormDialogProps {
   isOpen?: boolean;

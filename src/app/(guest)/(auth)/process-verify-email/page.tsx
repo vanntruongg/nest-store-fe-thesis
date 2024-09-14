@@ -2,7 +2,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { routes } from "~/static";
 import SentEmail from "../../../../../public/assets/sent-email.png";
 
 import { Loader2, XCircle } from "lucide-react";
@@ -11,6 +10,7 @@ import authApi from "~/apis/auth-api";
 import { BaseUtil } from "~/common/utility/base.util";
 import { buttonVariants } from "~/common/components/ui/button";
 import { toast } from "~/common/components/ui/use-toast";
+import { ROUTES } from "~/common/constants/routes";
 interface PageProps {
   searchParams: {
     [key: string]: string | string[] | undefined;
@@ -65,7 +65,7 @@ const VerifyEmail = ({ searchParams }: PageProps) => {
           khoản của mình
         </p>
         <Link
-          href={routes.LOGIN}
+          href={ROUTES.AUTH.LOGIN}
           className={buttonVariants({ className: "mt-4" })}
         >
           Đăng nhập

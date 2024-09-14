@@ -1,15 +1,15 @@
 "use client";
 import { ReactNode, useEffect, useState } from "react";
-import { IAuthResponse } from "~/common/model/auth.model";
 import { tokenStorage } from "~/common/utility/auth/token-storage";
 import { useUser } from "~/hooks/useUser";
+import { AuthResponse } from "~/modules/auth/model/AuthModel";
 
 export default function AppTokenProvider({
   children,
   initialToken,
 }: {
   children: ReactNode;
-  initialToken: IAuthResponse;
+  initialToken: AuthResponse;
 }) {
   const { clearUser } = useUser();
   const [isCleared, setIsCleared] = useState(false);

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import NoData from "../../../../../public/assets/no-data.png";
-import { IOrder } from "~/common/model/order.model";
 import ItemOrder from "~/common/components/item-order";
 import { ProductUtil } from "~/common/utility/product.util";
 import { statusClasses } from "~/static";
@@ -8,14 +7,15 @@ import { OrderItem } from "./order-item";
 import { OrderUtil } from "~/common/utility/order.util";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { Order as OrderModel } from "~/modules/order/model/Order";
 
-export interface IOrderProps {
-  orders: IOrder[];
+export interface Props {
+  orders: OrderModel[];
 }
 
-export function Order({ orders }: IOrderProps) {
+export function Order({ orders }: Props) {
   const searchParams = useSearchParams();
-  const [filterdOrders, setFilteredOrder] = useState<IOrder[]>([]);
+  const [filterdOrders, setFilteredOrder] = useState<OrderModel[]>([]);
 
   useEffect(() => {
     const status = searchParams.get("orderStatus") || "ALL";

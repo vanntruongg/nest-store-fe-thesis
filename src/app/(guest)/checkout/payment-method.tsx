@@ -1,14 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import orderApi from "~/apis/order-api";
+import { useEffect } from "react";
 import { MESSAGES } from "~/common/constants/messages";
-import { EPaymentMethod, IPaymentMethod } from "~/common/model/payment.model";
 import TooltipCustom from "~/common/components/tooltip-custom";
 import { useCheckout } from "~/hooks/useCheckout";
 import { cn } from "~/lib/utils";
+import { EPaymentMethod } from "~/modules/payment/model/EPaymentMethod";
+import { PaymentMethod as PaymentMethodModel } from "~/modules/payment/model/PaymentMethod";
 
-const paymentMethods: IPaymentMethod[] = [
+const paymentMethods: PaymentMethodModel[] = [
   {
     id: 1,
     name: "Thanh toán khi nhận hàng",

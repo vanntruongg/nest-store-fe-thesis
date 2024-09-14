@@ -7,14 +7,14 @@ import AddtoCartButton from "../../../common/components/buttons/add-to-cart-butt
 import BuyNowButton from "../../../common/components/buttons/buy-now-button";
 import AddtoWishlistIcon from "../../../common/components/buttons/wishlist-icon";
 import { ProductUtil } from "~/common/utility/product.util";
-import { Product } from "~/common/model/product.model";
 import { ProductImageGallery } from "./product-image-gallery";
 import { QuantitySelector } from "./quantity-selector";
 import { SizeSelector } from "./size-selector";
 import { QuantityExceededWarning } from "./quantity-exceeded-warning";
 import inventoryApi from "~/apis/inventory-api";
-import { SizeWithQuantity } from "~/common/model/common.model";
 import { DetailHeader } from "./detail-header";
+import { SizeQuantity } from "../models/SizeQuantity";
+import { Product } from "../models/Product";
 
 export interface ProductDetailError {
   quantityError: boolean | null;
@@ -22,13 +22,13 @@ export interface ProductDetailError {
   showDialogWarning: boolean;
 }
 
-interface props {
+interface Props {
   product: Product;
   averageStar: number;
   totalRating: number;
 }
 
-const ProductDetail = ({ product, averageStar, totalRating }: props) => {
+const ProductDetail = ({ product, averageStar, totalRating }: Props) => {
   const [quantity, setQuantity] = useState<number>(1);
   const [selectedSize, setSelectedSize] = useState<string | undefined>(
     undefined
@@ -39,7 +39,7 @@ const ProductDetail = ({ product, averageStar, totalRating }: props) => {
     sizeError: false,
     showDialogWarning: false,
   });
-  const [sizeQuantity, setSizeQuantity] = useState<SizeWithQuantity[]>([]);
+  const [sizeQuantity, setSizeQuantity] = useState<SizeQuantity[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {

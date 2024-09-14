@@ -1,5 +1,4 @@
 "use client";
-import { ICategory } from "~/common/model/product.model";
 import { buttonVariants } from "../../../common/components/ui/button";
 import { cn } from "~/lib/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -7,22 +6,18 @@ import { Skeleton } from "~/common/components/ui/skeleton";
 import RecursionCategory from "./recursion-category";
 import { useEffect, useState } from "react";
 import categoryApi from "~/apis/category-api";
+import { Category } from "~/modules/product/models/Category";
 
 const ListCategory = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const result = await categoryApi.getAll();
-      const data: ICategory[] = result.payload.data;
-
-      const sortedCategories = data.sort(
-        (category1, category2) => category1.category.id - category2.category.id
-      );
-      setCategories(sortedCategories);
+      setCategories(result.payload.data);
     };
     fetchData();
   }, []);
@@ -68,13 +63,3 @@ const ListCategory = () => {
 };
 
 export default ListCategory;
-
-const Placeholder = () => {
-  return (
-    <div className="w-full p-2 space-y-4">
-      <Skeleton className=" w-full h-8 bg-gray-200" />
-      <Skeleton className=" w-full h-8 bg-gray-200" />
-      <Skeleton className=" w-full h-8 bg-gray-200" />
-    </div>
-  );
-};

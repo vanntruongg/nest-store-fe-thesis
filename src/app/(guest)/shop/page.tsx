@@ -12,7 +12,7 @@ import { useSearchParams } from "next/navigation";
 import productApi from "~/apis/product-api";
 import { BaseUtil } from "~/common/utility/base.util";
 import { ROUTES } from "~/common/constants/routes";
-import { ProductsGet } from "~/modules/product/models/ProductGet";
+import { ProductGet } from "~/modules/product/models/ProductGet";
 
 const BREADRUMBS = [
   {
@@ -25,7 +25,7 @@ const BREADRUMBS = [
 export default function ShopPage() {
   const searchParams = useSearchParams();
   const [layout, setLayout] = useState<ELayoutProduct>(ELayoutProduct.GRID);
-  const [productGet, setProductGet] = useState<ProductsGet | null>(null);
+  const [productGet, setProductGet] = useState<ProductGet | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,11 +66,7 @@ export default function ShopPage() {
         <div className={cn("grid grid-cols-5 gap-6")}>
           <ListCategory />
           <div className="bg-white col-span-4">
-            <ProductListing
-              layout={layout}
-              products={productGet}
-              setProducts={setProductGet}
-            />
+            <ProductListing layout={layout} products={productGet} />
           </div>
         </div>
       </MaxWidthWrapper>

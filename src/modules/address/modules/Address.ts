@@ -1,3 +1,5 @@
+import { Location } from "./Loation";
+
 export type Address = {
   id: number;
   name: string;

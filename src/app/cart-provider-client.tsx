@@ -4,7 +4,6 @@ import cartApi from "~/apis/cart-api";
 import { tokenStorage } from "~/common/utility/auth/token-storage";
 import { BaseUtil } from "~/common/utility/base.util";
 import { useCart } from "~/hooks/useCart";
-import { useUser } from "~/hooks/useUser";
 
 interface CartProviderClientProps {
   children: ReactNode;

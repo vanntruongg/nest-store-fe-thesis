@@ -1,8 +1,7 @@
 import { UseFormSetError } from "react-hook-form";
 import { toast } from "~/common/components/ui/use-toast";
 import { EntityError } from "../http-client";
-import { IOrderShippingDetail } from "../model/order.model";
-import { AddressDetails, AddressType } from "../model/address.model";
+import { Location, LocationType } from "~/modules/address/modules/Loation";
 
 export class BaseUtil {
   static handleErrorApi({
@@ -27,10 +26,6 @@ export class BaseUtil {
       });
     }
   }
-
-  static isShippingDetailEmpty = (shippingDetail: IOrderShippingDetail) => {
-    return !shippingDetail.phone || !shippingDetail.address;
-  };
 
   static validateVietnamesePhoneNumber(number: string): boolean {
     const pattern: RegExp =
@@ -69,7 +64,7 @@ export class BaseUtil {
     };
   }
 
-  static formatAddressName(type: AddressType, name: string): string {
+  static formatAddressName(type: LocationType, name: string): string {
     switch (type) {
       case "city":
         return `TP. ${name}`;
@@ -107,9 +102,9 @@ export class BaseUtil {
   }
 
   static renderAddressName(
-    ward: AddressDetails | undefined,
-    district: AddressDetails | undefined,
-    province: AddressDetails | undefined
+    ward: Location | undefined,
+    district: Location | undefined,
+    province: Location | undefined
   ) {
     if (ward && district && province) {
       return `

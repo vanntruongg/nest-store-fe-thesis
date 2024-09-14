@@ -2,13 +2,12 @@ import type { Metadata } from "next";
 import { ReactNode } from "react";
 import { cookies } from "next/headers";
 import "./globals.css";
-import ScrollToTop from "~/common/components/scroll-to-top";
 import { cn } from "../lib/utils";
+
+import ScrollToTop from "~/common/components/scroll-to-top";
 import { Toaster } from "~/common/components/ui/toaster";
 import AppTokenProvider from "./app-token-provider";
-
 import { baseOpenGraph } from "~/app/shared-metadata";
-import { useUser } from "~/hooks/useUser";
 
 export const metadata: Metadata = {
   title: "NEST Store - Cửa hàng thời trang",

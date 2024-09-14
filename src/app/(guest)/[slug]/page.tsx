@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Product } from "~/common/model/product.model";
 import { BaseUtil } from "~/common/utility/base.util";
 import Breadrumbs from "~/common/components/breadrumbs";
 import ProductDetail from "~/modules/product/components/product-detail";
@@ -18,14 +17,15 @@ import { RatingBreakdown } from "~/modules/rating/models/RatingBreakdown";
 import { RatingShemaType } from "~/app/schema-validations/rating.shema";
 import { RatingPost } from "~/modules/rating/models/RatingPost";
 import { toast } from "~/common/components/ui/use-toast";
+import { Product } from "~/modules/product/models/Product";
 
-interface props {
+interface Props {
   params: {
     slug: string;
   };
 }
 
-const ProductDetailPage = ({ params }: props) => {
+const ProductDetailPage = ({ params }: Props) => {
   const [product, setProduct] = useState<Product | null>(null);
   // const [categories, setCategories] = useState<Category[]>([]);
   const [ratingList, setRatingList] = useState<Rating[]>([]);

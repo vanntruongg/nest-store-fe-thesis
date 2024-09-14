@@ -1,11 +1,11 @@
 import { Star } from "./star";
 import { Rating } from "../models/Rating";
 
-export interface props {
+export interface Props {
   rating: Rating;
 }
 
-export function RatingItem({ rating }: props) {
+export function RatingItem({ rating }: Props) {
   return (
     <div className="bg-white p-4 flex flex-col space-y-2 rounded-md">
       <div className="flex space-x-2 items-center">

@@ -1,6 +1,3 @@
-import { useState } from "react";
-import orderAddressApi from "~/apis/order-address";
-import { IOrder, OrderDeliveryAddress } from "~/common/model/order.model";
 import { BaseUtil } from "~/common/utility/base.util";
 import { OrderUtil } from "~/common/utility/order.util";
 import { ProductUtil } from "~/common/utility/product.util";
@@ -16,12 +13,13 @@ import {
 } from "~/common/components/ui/dialog";
 import { cn } from "~/lib/utils";
 import { statusClasses } from "~/static";
+import { Order } from "~/modules/order/model/Order";
 
-export interface IOrderDetailsProps {
-  order: IOrder;
+export interface Props {
+  order: Order;
 }
 
-export function OrderItem({ order }: IOrderDetailsProps) {
+export function OrderItem({ order }: Props) {
   const {
     orderId,
     name,

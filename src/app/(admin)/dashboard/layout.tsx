@@ -2,8 +2,8 @@ import { Home } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ReactNode } from "react";
-import { NavAdmin } from "~/common/components/admin/nav-admin";
 import ButtonLogout from "~/common/components/buttons/logout-button";
+import { NavAdmin } from "~/modules/admin/components/nav-admin";
 
 export const metadata: Metadata = {
   title: "NEST | Trang quản trị",

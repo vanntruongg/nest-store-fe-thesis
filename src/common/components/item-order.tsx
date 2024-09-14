@@ -1,12 +1,12 @@
 import Image from "next/image";
-import { IOrderDetail } from "~/common/model/order.model";
 import { ProductUtil } from "~/common/utility/product.util";
+import { OrderItem } from "~/modules/order/model/OrderItem";
 
-interface ItemOrderProps {
-  item: IOrderDetail;
+interface Props {
+  item: OrderItem;
 }
 
-const ItemOrder = ({ item }: ItemOrderProps) => {
+const ItemOrder = ({ item }: Props) => {
   return (
     <div className="grid grid-cols-12 gap-2 py-4">
       <div className="col-span-2 relative size-24 ">
@@ -24,9 +24,9 @@ const ItemOrder = ({ item }: ItemOrderProps) => {
       <div className="col-span-8 flex flex-col justify-between">
         <p className="capitalize">{item.productName}</p>
         <div className="space-x-1">
-          <span className="text-primary">{item.size}</span>
+          {/* <span className="text-primary">{item.size}</span>
           <span>x</span>
-          <span>{item.quantity}</span>
+          <span>{item.quantity}</span> */}
         </div>
       </div>
       <div className="col-span-2 flex justify-center items-center">

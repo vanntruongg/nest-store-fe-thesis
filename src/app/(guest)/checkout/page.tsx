@@ -6,7 +6,6 @@ import { cn } from "~/lib/utils";
 import { useCheckout } from "~/hooks/useCheckout";
 import { ProductUtil } from "~/common/utility/product.util";
 import { BaseUtil } from "~/common/utility/base.util";
-import { OrderRequest } from "~/common/model/order.model";
 import { DeliveryAddress } from "./delivery-address";
 import { PaymentMethod } from "./payment-method";
 import IconTextLoading from "~/common/components/icon-text-loading";
@@ -16,9 +15,10 @@ import { Textarea } from "~/common/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import { ItemCheckOutPlaceholder } from "~/common/components/skeleton/item-checkout";
 import orderApi from "~/apis/order-api";
-import { EPaymentMethod } from "~/common/model/payment.model";
 import { ROUTES } from "~/common/constants/routes";
 import { OrderUtil } from "~/common/utility/order.util";
+import { OrderPost } from "~/modules/order/model/OrderPost";
+import { EPaymentMethod } from "~/modules/payment/model/EPaymentMethod";
 
 const CheckOutPage = () => {
   const { items, notes, deliveryAddress, setNotes, paymentMethod } =
@@ -53,7 +53,7 @@ const CheckOutPage = () => {
   };
 
   const createOrder = async () => {
-    let orderRequest: OrderRequest;
+    let orderRequest: OrderPost;
     if (deliveryAddress && paymentMethod) {
       orderRequest = {
         name: deliveryAddress.name,

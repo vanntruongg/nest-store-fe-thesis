@@ -1,4 +1,3 @@
-import { IOrder } from "~/common/model/order.model";
 import { ProductUtil } from "~/common/utility/product.util";
 import ItemOrder from "~/common/components/item-order";
 import { Button } from "~/common/components/ui/button";
@@ -11,12 +10,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/common/components/ui/dialog";
+import { Order } from "~/modules/order/model/Order";
 
-interface IOrderDetailProps {
-  order: IOrder;
+interface Props {
+  order: Order;
 }
 
-const OrderDetail = ({ order }: IOrderDetailProps) => {
+const OrderDetail = ({ order }: Props) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -62,8 +62,8 @@ const OrderDetail = ({ order }: IOrderDetailProps) => {
           <div className="col-span-4">
             <h3 className="capitalize text-lg font-bold">Sản phẩm</h3>
             <div className="px-4 max-h-[325px] border divide-y overflow-scroll">
-              {order.orderDetail.map((orderDetail) => (
-                <ItemOrder key={orderDetail.productId} item={orderDetail} />
+              {order.orderItems.map((orderItem) => (
+                <ItemOrder key={orderItem.productId} item={orderItem} />
               ))}
             </div>
           </div>

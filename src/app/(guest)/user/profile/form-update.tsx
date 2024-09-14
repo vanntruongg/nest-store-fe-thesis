@@ -8,9 +8,6 @@ import {
   UpdateUserWithoutRoleShema,
   UpdateUserWithoutShemaType,
 } from "~/app/schema-validations/auth.shema";
-import { FileWithPreview } from "~/common/model/file.model";
-import { IUpdateUser } from "~/common/model/user.model";
-import { BaseUtil } from "~/common/utility/base.util";
 import { CloudinaryUtil } from "~/common/utility/cloudinary.util";
 import IconTextLoading from "~/common/components/icon-text-loading";
 import { Button } from "~/common/components/ui/button";
@@ -33,6 +30,9 @@ import {
 import { Input } from "~/common/components/ui/input";
 import { toast } from "~/common/components/ui/use-toast";
 import { useUser } from "~/hooks/useUser";
+import { FileWithPreview } from "~/modules/common/model/FileWithPreview";
+import { BaseUtil } from "~/common/utility/base.util";
+import { UserPut } from "~/modules/user/model/UserPut";
 
 export function FormUpdateUser() {
   const { user, setUser } = useUser();
@@ -76,7 +76,7 @@ export function FormUpdateUser() {
         );
       }
 
-      const dataUpdate: IUpdateUser = {
+      const dataUpdate: UserPut = {
         email: user.email,
         ...data,
       };

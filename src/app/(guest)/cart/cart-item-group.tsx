@@ -1,4 +1,4 @@
-import { CartItem as CartItemModel } from "~/common/model/cart.model";
+import { CartItem as CartItemModel } from "~/modules/cart/model/CartItem";
 import CartItem from "./cart-item";
 import { Checkbox } from "~/common/components/ui/checkbox";
 
@@ -16,6 +16,7 @@ const CartItemGroup = ({ item, fetchData }: CartItemGroupProps) => {
       <div key={item.product.id} className="flex flex-col space-y-4 rounded-md">
         {item.sizeQuantities.map(({ size, quantity }) => (
           <CartItem
+            key={`${item.product.id}-${size}`}
             product={item.product}
             productSize={size}
             productQuantity={quantity}

@@ -1,6 +1,7 @@
 import httpClient from "~/common/http-client";
-import { ProductCreate, ProductUpdate } from "~/common/model/product.model";
 import { EndpointUtil } from "~/common/utility/endpoint.util";
+import { ProductPost } from "~/modules/product/models/ProductPost";
+import { ProductPut } from "~/modules/product/models/ProductPut";
 
 const productApi = {
   getAll: () => httpClient.get<any>(EndpointUtil.NEST.PRODUCT.GET_ALL),
@@ -32,12 +33,12 @@ const productApi = {
   //   httpClient.get<any>(
   //     EndpointUtil.NEST.PRODUCT.GET_ALL_SUBCATEGORY + `/${categoryId}`
   //   ),
-  createProduct: (createProductData: ProductCreate) =>
+  createProduct: (createProductData: ProductPost) =>
     httpClient.post<any>(
       EndpointUtil.NEST.PRODUCT.CREATE_PRODUCT,
       createProductData
     ),
-  updateProduct: (updateProductData: ProductUpdate) =>
+  updateProduct: (updateProductData: ProductPut) =>
     httpClient.post<any>(
       EndpointUtil.NEST.PRODUCT.UPDATE_PRODUCT,
       updateProductData

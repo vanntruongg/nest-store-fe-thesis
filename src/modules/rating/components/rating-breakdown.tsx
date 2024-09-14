@@ -1,14 +1,13 @@
 import { cn } from "~/lib/utils";
-import { Rating } from "../models/Rating";
 import { RatingBreakdown as RatingBreakdownModel } from "../models/RatingBreakdown";
 import { Target } from "lucide-react";
 import { IoIosStar } from "react-icons/io";
 
-export interface props {
+export interface Props {
   ratingStarPercentage: RatingBreakdownModel[];
 }
 
-export function RatingBreakdown({ ratingStarPercentage }: props) {
+export function RatingBreakdown({ ratingStarPercentage }: Props) {
   return (
     <div className="p-4 bg-white rounded-md shadow-sm">
       <div className="flex items-center space-x-1">

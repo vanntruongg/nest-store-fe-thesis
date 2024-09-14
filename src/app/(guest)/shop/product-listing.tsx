@@ -1,35 +1,30 @@
 "use client";
-import { Dispatch, SetStateAction, useCallback } from "react";
+import { useCallback } from "react";
 
 import { cn } from "~/lib/utils";
 
 import MaxWidthWrapper from "../../../common/components/max-width-wrapper";
 import CardProduct from "../../../modules/product/components/card-product";
-import { ProductGet } from "~/common/model/product.model";
 import ProductsPlaceHolder from "../../../common/components/skeleton/product-list-skeleton";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ELayoutProduct } from "~/common/utility/enum.util";
 import { GridLayout } from "../../../common/components/layout/grid-layout";
 import { ListLayout } from "../../../common/components/layout/list-layout";
-import { PaginationSection } from "./pagination";
+import { ProductGet } from "~/modules/product/models/ProductGet";
+import ReactPaginate from "react-paginate";
 
-interface ProductListingProps {
+interface Props {
   layout: ELayoutProduct;
   products: ProductGet | null;
-  setProducts: Dispatch<SetStateAction<ProductGet | null>>;
 }
 
-const ProductListing = ({
-  products,
-  layout,
-  setProducts,
-}: ProductListingProps) => {
+const ProductListing = ({ products, layout }: Props) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
 
-  const handleChangePage = (page: number) => {
-    router.push(pathname + "?" + createQueryString("pageNo", page.toString()));
+  const handleChangePage = ({ selected }: any) => {
+    router.push(pathname + "?" + createQueryString("pageNo", selected + 1));
   };
 
   const createQueryString = useCallback(
@@ -44,8 +39,7 @@ const ProductListing = ({
   return (
     <MaxWidthWrapper>
       <div className="flex flex-col mb-6 py-4">
-        {/* categories & products */}
-        <div className={cn("")}>
+        <div className={cn("space-y-8")}>
           {products && products.productContent.length > 0 ? (
             layout === ELayoutProduct.GRID ? (
               <GridLayout>
@@ -71,10 +65,20 @@ const ProductListing = ({
           ) : (
             <ProductsPlaceHolder layout={layout} />
           )}
-          {products && products.productContent.length > 0 && (
-            <PaginationSection
-              data={products}
-              onChangePage={handleChangePage}
+          {products && products?.totalPages && (
+            <ReactPaginate
+              forcePage={products.pageNo}
+              previousLabel={"Trước"}
+              nextLabel={"Tiếp"}
+              pageRangeDisplayed={1}
+              marginPagesDisplayed={1}
+              pageCount={products.totalPages}
+              onPageChange={handleChangePage}
+              containerClassName={"pagination-container pagination-center"}
+              previousClassName={"previous-btn"}
+              nextClassName={"next-btn"}
+              disabledClassName={"pagination-disabled"}
+              activeClassName={"pagination-active"}
             />
           )}
         </div>
