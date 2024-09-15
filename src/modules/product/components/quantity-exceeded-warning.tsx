@@ -6,7 +6,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "~/common/components/ui/alert-dialog";
+} from "~/components/ui/alert-dialog";
 
 export interface IQuantityExceededWarningProps {
   open: boolean;

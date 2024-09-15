@@ -8,7 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "~/common/components/ui/alert-dialog";
+} from "~/components/ui/alert-dialog";
 import {
   Form,
   FormControl,
@@ -16,17 +16,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/common/components/ui/form";
+} from "~/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Textarea } from "~/common/components/ui/textarea";
+import { Textarea } from "~/components/ui/textarea";
 import {
   RatingShema,
   RatingShemaType,
 } from "~/app/schema-validations/rating.shema";
 import StarRatings from "react-star-ratings";
 import { RatingPost } from "../models/RatingPost";
-import { Button } from "~/common/components/ui/button";
+import { Button } from "~/components/ui/button";
 import { SquarePen } from "lucide-react";
 
 interface Props {

@@ -7,7 +7,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "~/common/components/ui/select";
+} from "~/components/ui/select";
 import { LayoutGrid, LayoutList } from "lucide-react";
 import TooltipCustom from "~/common/components/tooltip-custom";
 import { ELayoutProduct } from "~/common/utility/enum.util";

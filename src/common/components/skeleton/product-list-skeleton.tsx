@@ -1,4 +1,4 @@
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "../../../components/ui/skeleton";
 import { ELayoutProduct } from "~/common/utility/enum.util";
 import { GridLayout } from "../layout/grid-layout";
 import { ListLayout } from "../layout/list-layout";

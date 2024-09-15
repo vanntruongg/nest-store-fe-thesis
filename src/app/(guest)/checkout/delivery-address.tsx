@@ -6,7 +6,7 @@ import { Address } from "~/common/model/address.model";
 import { AddressListSelector } from "~/modules/address/components/address-list-selector";
 import { BaseUtil } from "~/common/utility/base.util";
 import { useCheckout } from "~/hooks/useCheckout";
-import { Skeleton } from "~/common/components/ui/skeleton";
+import { Skeleton } from "~/components/ui/skeleton";
 
 export function DeliveryAddress() {
   const { deliveryAddress, setDeliveryAddress } = useCheckout();

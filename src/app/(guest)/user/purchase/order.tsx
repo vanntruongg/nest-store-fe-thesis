@@ -1,19 +1,31 @@
-import Image from "next/image";
-import NoData from "../../../../../public/assets/no-data.png";
-import ItemOrder from "~/common/components/item-order";
-import { ProductUtil } from "~/common/utility/product.util";
-import { statusClasses } from "~/static";
-import { OrderItem } from "./order-item";
-import { OrderUtil } from "~/common/utility/order.util";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
+
+import NoData from "../../../../../public/assets/no-data.png";
+import { statusClasses } from "~/static";
+import { ProductUtil } from "~/common/utility/product.util";
+import { OrderUtil } from "~/common/utility/order.util";
+import { OrderDetail } from "../../../../modules/order/components/order-details";
 import { Order as OrderModel } from "~/modules/order/model/Order";
+import OrderItem from "~/modules/order/components/order-item";
+import { Pagination } from "~/modules/common/components/pagination";
 
 export interface Props {
   orders: OrderModel[];
+  pageNo: number;
+  totalElements: number;
+  totalPages: number;
+  handleChangePage: (selected: any) => void;
 }
 
-export function Order({ orders }: Props) {
+export function Order({
+  orders,
+  pageNo,
+  totalElements,
+  totalPages,
+  handleChangePage,
+}: Props) {
   const searchParams = useSearchParams();
   const [filterdOrders, setFilteredOrder] = useState<OrderModel[]>([]);
 
@@ -51,11 +63,11 @@ export function Order({ orders }: Props) {
               </div>
               <div className="px-6 divide-y">
                 {order.orderItems.map((itemOrder) => (
-                  <ItemOrder key={itemOrder.orderDetailId} item={itemOrder} />
+                  <OrderItem key={itemOrder.orderDetailId} item={itemOrder} />
                 ))}
               </div>
               <div className="bg-zinc-50 p-6 flex justify-between items-center gap-4 border-t border-dotted">
-                <OrderItem order={order} />
+                <OrderDetail order={order} />
 
                 <div className="flex gap-2">
                   Thành tiền:
@@ -66,6 +78,15 @@ export function Order({ orders }: Props) {
               </div>
             </div>
           ))}
+
+          <div className="bg-white">
+            <Pagination
+              pageNo={pageNo}
+              totalPages={totalPages}
+              className="pagination-center"
+              handleChangePage={handleChangePage}
+            />
+          </div>
         </div>
       )}
     </div>

@@ -6,19 +6,14 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "~/common/components/ui/dropdown-menu";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "~/common/components/ui/tabs";
+} from "~/components/ui/dropdown-menu";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ChevronDown } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { cn } from "~/lib/utils";
 import { AddressShemaType } from "~/app/schema-validations/address.shema";
-import { Input } from "../../../common/components/ui/input";
-import { ScrollArea } from "../../../common/components/ui/scroll-area";
+import { Input } from "../../../components/ui/input";
+import { ScrollArea } from "../../../components/ui/scroll-area";
 import { AddressIdType, AddressLevel } from "../modules/Address";
 import { AddressAction } from "../modules/AddressAction";
 import { Location } from "../modules/Loation";

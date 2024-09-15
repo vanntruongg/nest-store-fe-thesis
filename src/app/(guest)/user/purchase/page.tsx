@@ -6,17 +6,36 @@ import { OrderStatus } from "~/common/components/order-status";
 import { Order } from "./order";
 import orderApi from "~/apis/order-api";
 import { Order as OrderModel } from "~/modules/order/model/Order";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { createQueryString } from "~/utils/createQueryString";
 
 const PurchasePage = () => {
-  const [orders, setOrders] = useState<OrderModel[]>([]);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
   const [loading, setLoading] = useState<boolean>(false);
+  const [orders, setOrders] = useState<OrderModel[]>([]);
+  const [pageNo, setPageNo] = useState<number>(0);
+  const pageSize = 5;
+
+  const [totalElements, setTotalElements] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   useEffect(() => {
+    const pageNo = searchParams.get("pageNo") || "1";
+    const orderStatus = searchParams.get("orderStatus") || "ALL";
     const fetchData = async () => {
       setLoading(true);
       try {
-        const result = await orderApi.getAllByUser();
-        setOrders(result.payload.data);
+        const result = await orderApi.getAllMyOrder(
+          parseInt(pageNo) - 1,
+          pageSize,
+          orderStatus
+        );
+        setOrders(result.payload.data.orderList);
+        setTotalElements(result.payload.data.totalElements);
+        setTotalPages(result.payload.data.totalPages);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
       } finally {
@@ -24,7 +43,15 @@ const PurchasePage = () => {
       }
     };
     fetchData();
-  }, []);
+    setPageNo(parseInt(pageNo) - 1);
+  }, [searchParams]);
+
+  const handleChangePage = ({ selected }: any) => {
+    router.push(
+      pathname + "?" + createQueryString("pageNo", selected + 1, searchParams)
+    );
+    setPageNo(selected);
+  };
 
   return (
     <div className="h-full flex flex-col gap-4 rounded-sm">
@@ -36,7 +63,13 @@ const PurchasePage = () => {
           <IconTextLoading />
         </div>
       ) : (
-        <Order orders={orders} />
+        <Order
+          orders={orders}
+          pageNo={pageNo}
+          totalElements={totalElements}
+          totalPages={totalPages}
+          handleChangePage={handleChangePage}
+        />
       )}
     </div>
   );

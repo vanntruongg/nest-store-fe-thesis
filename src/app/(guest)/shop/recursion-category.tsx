@@ -5,11 +5,11 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "../../../common/components/ui/accordion";
-import { buttonVariants } from "../../../common/components/ui/button";
+} from "../../../components/ui/accordion";
+import { buttonVariants } from "../../../components/ui/button";
 import { cn } from "~/lib/utils";
 import { useSearchParams } from "next/navigation";
-import { Skeleton } from "~/common/components/ui/skeleton";
+import { Skeleton } from "~/components/ui/skeleton";
 
 interface RecursionCategoryProps {
   categories: ICategory[];

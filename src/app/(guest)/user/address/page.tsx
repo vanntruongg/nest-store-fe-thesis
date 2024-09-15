@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import userAddressApi from "~/apis/user-address";
-import { Button } from "~/common/components/ui/button";
+import { Button } from "~/components/ui/button";
 import { AddressFormDialog } from "./address-form-dialog";
 
 import {
@@ -13,9 +13,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "~/common/components/ui/alert-dialog";
+} from "~/components/ui/alert-dialog";
 import { BaseUtil } from "~/common/utility/base.util";
-import { toast } from "~/common/components/ui/use-toast";
+import { toast } from "~/components/ui/use-toast";
 import { Plus } from "lucide-react";
 import AddressPlaholder from "~/common/components/skeleton/address-skeleton";
 import { Address } from "~/modules/address/modules/Address";

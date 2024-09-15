@@ -1,6 +1,6 @@
 import { ProductUtil } from "~/common/utility/product.util";
 import ItemOrder from "~/common/components/item-order";
-import { Button } from "~/common/components/ui/button";
+import { Button } from "~/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/common/components/ui/dialog";
+} from "~/components/ui/dialog";
 import { Order } from "~/modules/order/model/Order";
 
 interface Props {

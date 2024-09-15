@@ -1,8 +1,8 @@
 "use client";
-import { buttonVariants } from "../../../common/components/ui/button";
+import { buttonVariants } from "../../../components/ui/button";
 import { cn } from "~/lib/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Skeleton } from "~/common/components/ui/skeleton";
+import { Skeleton } from "~/components/ui/skeleton";
 import RecursionCategory from "./recursion-category";
 import { useEffect, useState } from "react";
 import categoryApi from "~/apis/category-api";

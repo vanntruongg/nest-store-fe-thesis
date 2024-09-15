@@ -12,7 +12,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Button } from "~/common/components/ui/button";
+import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -21,8 +21,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "~/common/components/ui/dropdown-menu";
-import { Input } from "~/common/components/ui/input";
+} from "~/components/ui/dropdown-menu";
+import { Input } from "~/components/ui/input";
 import {
   Table,
   TableBody,
@@ -30,7 +30,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "~/common/components/ui/table";
+} from "~/components/ui/table";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 import Image from "next/image";

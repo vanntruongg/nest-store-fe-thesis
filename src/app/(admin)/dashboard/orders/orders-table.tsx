@@ -13,15 +13,15 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Button } from "~/common/components/ui/button";
+import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "~/common/components/ui/dropdown-menu";
+} from "~/components/ui/dropdown-menu";
 
-import { Input } from "~/common/components/ui/input";
+import { Input } from "~/components/ui/input";
 import {
   Table,
   TableBody,
@@ -29,7 +29,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "~/common/components/ui/table";
+} from "~/components/ui/table";
 import { ArrowUpDown, ChevronDown } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { ProductUtil } from "~/common/utility/product.util";

@@ -12,10 +12,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "~/common/components/ui/alert-dialog";
-import { Button } from "~/common/components/ui/button";
-import { Checkbox } from "../../../common/components/ui/checkbox";
-import { toast } from "../../../common/components/ui/use-toast";
+} from "~/components/ui/alert-dialog";
+import { Button } from "~/components/ui/button";
+import { Checkbox } from "../../../components/ui/checkbox";
+import { toast } from "../../../components/ui/use-toast";
 import { useCheckout } from "~/hooks/useCheckout";
 import { Address } from "../modules/Address";
 import { AddressAction } from "../modules/AddressAction";

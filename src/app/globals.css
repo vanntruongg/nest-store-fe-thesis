@@ -64,8 +64,8 @@
 }
 
 html {
-  --scroll-behavior: smooth !important;
   scroll-behavior: smooth !important;
+  scroll-padding-top: 200px !important;
 }
 
 *::-webkit-scrollbar {

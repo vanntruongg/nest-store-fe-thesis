@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "~/common/components/ui/button";
+import { Button } from "~/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,9 +7,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/common/components/ui/dialog";
-import { Input } from "~/common/components/ui/input";
-import { Label } from "~/common/components/ui/label";
+} from "~/components/ui/dialog";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
 import {
   Form,
   FormControl,
@@ -17,7 +17,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/common/components/ui/form";
+} from "~/components/ui/form";
 import {
   UpdateUserShema,
   UpdateUserShemaType,
@@ -25,7 +25,7 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChangeEvent, useEffect, useState } from "react";
-import { Checkbox } from "~/common/components/ui/checkbox";
+import { Checkbox } from "~/components/ui/checkbox";
 import { IUser } from "~/common/model/user.model";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { ERole, UserRole } from "~/common/utility/enum.util";
@@ -35,7 +35,7 @@ import { FileWithPreview } from "~/common/model/file.model";
 import userApi from "~/apis/user-api";
 import Loading from "~/common/components/loading";
 import { BaseUtil } from "~/common/utility/base.util";
-import { toast } from "~/common/components/ui/use-toast";
+import { toast } from "~/components/ui/use-toast";
 import { CloudinaryUtil } from "~/common/utility/cloudinary.util";
 import IconTextLoading from "~/common/components/icon-text-loading";
 

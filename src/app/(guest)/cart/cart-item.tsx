@@ -1,17 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
-import { Checkbox } from "../../../common/components/ui/checkbox";
+import { Checkbox } from "../../../components/ui/checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown, ChevronUp, Loader2 } from "lucide-react";
-import { Button } from "../../../common/components/ui/button";
+import { Button } from "../../../components/ui/button";
 import { useCheckout } from "~/hooks/useCheckout";
 import { ProductUtil } from "~/common/utility/product.util";
 
 import { useUser } from "~/hooks/useUser";
 import cartApi from "~/apis/cart-api";
 import { BaseUtil } from "~/common/utility/base.util";
-import { toast } from "~/common/components/ui/use-toast";
+import { toast } from "~/components/ui/use-toast";
 import useDebounce from "~/hooks/useDebounce";
 import { cn } from "~/lib/utils";
 import inventoryApi from "~/apis/inventory-api";

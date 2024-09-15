@@ -3,7 +3,7 @@ import { ShieldAlert } from "lucide-react";
 import { useState } from "react";
 import userApi from "~/apis/user-api";
 import { BaseUtil } from "~/common/utility/base.util";
-import { Button } from "~/common/components/ui/button";
+import { Button } from "~/components/ui/button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,8 +13,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "~/common/components/ui/alert-dialog";
-import { toast } from "~/common/components/ui/use-toast";
+} from "~/components/ui/alert-dialog";
+import { toast } from "~/components/ui/use-toast";
 
 interface IConfirmDeleteProps {
   email: string;

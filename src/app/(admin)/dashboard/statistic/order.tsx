@@ -12,7 +12,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "~/common/components/ui/select";
+} from "~/components/ui/select";
 import orderApi from "~/apis/order-api";
 import statisticApi from "~/apis/statistic.api";
 

@@ -4,7 +4,11 @@ import { UserRound, ShoppingCart, Sun, AreaChart } from "lucide-react";
 import Link from "next/link";
 import { useOutsideClick } from "~/hooks/useOutsideClick";
 import { usePathname } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../components/ui/avatar";
 import { cn } from "~/lib/utils";
 import DevelopingTooltip from "./developing-tooltip";
 import { useUser } from "~/hooks/useUser";
@@ -83,16 +87,16 @@ const NavUser = () => {
               )}
             </Link>
             <div className="p-2">
-              {user.roles.includes(UserRole.ADMIN) && (
-                <Link
-                  key={ROUTES.ADMIN.STATISTIC}
-                  href={ROUTES.ADMIN.STATISTIC}
-                  className="p-2 flex gap-4 items-center text-sm text-gray-500 hover:bg-gray-100 rounded-md"
-                >
-                  <AreaChart />
-                  <p>Trang quản trị</p>
-                </Link>
-              )}
+              {/* {user.roles.includes(UserRole.ADMIN) && ( */}
+              <Link
+                key={ROUTES.ADMIN.STATISTIC}
+                href={ROUTES.ADMIN.STATISTIC}
+                className="p-2 flex gap-4 items-center text-sm text-gray-500 hover:bg-gray-100 rounded-md"
+              >
+                <AreaChart />
+                <p>Trang quản trị</p>
+              </Link>
+              {/* )} */}
               {menu.map((item) =>
                 item.status === "available" ? (
                   <Link

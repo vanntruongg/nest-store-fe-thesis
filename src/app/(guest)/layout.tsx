@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function GuestLayout({ children }: { children: ReactNode }) {
   return (
-    <main className="relative flex flex-col min-h-screen bg-gray-100">
+    <main className="flex flex-col min-h-screen bg-gray-100">
       <div className="flex justify-center">
         <Header />
       </div>

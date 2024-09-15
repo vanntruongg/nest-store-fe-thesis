@@ -3,9 +3,13 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../ui/tooltip";
+} from "../../../components/ui/tooltip";
 import { Eye } from "lucide-react";
-import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "../../../components/ui/dialog";
 import ProductDetail from "../../../modules/product/components/product-detail";
 import { Product } from "~/common/model/product.model";
 import { cn } from "~/lib/utils";

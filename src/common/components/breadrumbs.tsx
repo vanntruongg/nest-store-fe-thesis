@@ -9,7 +9,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "~/common/components/ui/breadcrumb";
+} from "~/components/ui/breadcrumb";
 import { cn } from "~/lib/utils";
 import MaxWidthWrapper from "./max-width-wrapper";
 import { Home } from "lucide-react";

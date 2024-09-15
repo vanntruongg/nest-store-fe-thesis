@@ -12,6 +12,11 @@ export const createRating = async (data: RatingPost) => {
   return res.payload;
 };
 
+export const deleteRating = async (ratingId: string) => {
+  const res = await ratingApi.deleteRating(ratingId);
+  return res.payload;
+};
+
 export const getRatingByProductId = async (
   productId: number,
   pageNo: number

@@ -9,12 +9,12 @@ import {
   SheetHeader,
   SheetTitle,
   SheetClose,
-} from "./ui/sheet";
-import { buttonVariants } from "./ui/button";
+} from "../../components/ui/sheet";
+import { buttonVariants } from "../../components/ui/button";
 import Image from "next/image";
 import EmptyCart from "../../../public/assets/empty-cart.svg";
 import { useWishlist } from "~/hooks/useWishlist";
-import { ScrollArea } from "./ui/scroll-area";
+import { ScrollArea } from "../../components/ui/scroll-area";
 import CartItem from "./wishlist-item";
 import { ROUTES } from "~/common/constants/routes";
 

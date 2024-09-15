@@ -1,7 +1,7 @@
 import { BaseUtil } from "~/common/utility/base.util";
 import { OrderUtil } from "~/common/utility/order.util";
 import { ProductUtil } from "~/common/utility/product.util";
-import { Button } from "~/common/components/ui/button";
+import { Button } from "~/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/common/components/ui/dialog";
+} from "~/components/ui/dialog";
 import { cn } from "~/lib/utils";
 import { statusClasses } from "~/static";
 import { Order } from "~/modules/order/model/Order";
@@ -19,7 +19,7 @@ export interface Props {
   order: Order;
 }
 
-export function OrderItem({ order }: Props) {
+export function OrderDetail({ order }: Props) {
   const {
     orderId,
     name,
@@ -56,7 +56,7 @@ export function OrderItem({ order }: Props) {
           <div className="p-4 flex-1 flex flex-col gap-2">
             <span className="text-lg font-medium">Địa chỉ giao hàng</span>
             <span className="font-semibold">{name}</span>
-            <div className="flex flex-col gap-1 text-muted-foreground text-xs">
+            <div className="flex flex-col gap-1 text-muted-foreground text-sm">
               <span>{BaseUtil.formatPhoneNumber(phone)}</span>
               <span>{address}</span>
               <span>{notes}</span>
@@ -64,23 +64,23 @@ export function OrderItem({ order }: Props) {
           </div>
           <div className="p-4 flex-1 text-sm divide-y">
             <div className="p-4 flex justify-between">
-              <div className="px-4 text-muted-foreground text-nowrap">
+              <div className=" text-muted-foreground text-nowrap">
                 Tổng tiền hàng
               </div>
-              <div className="px-4">{ProductUtil.formatPrice(totalPrice)}</div>
+              <div className="">{ProductUtil.formatPrice(totalPrice)}</div>
             </div>
 
             <div className="p-4 flex justify-between">
-              <div className="px-4 text-muted-foreground text-nowrap">
+              <div className=" text-muted-foreground text-nowrap">
                 Phí vận chuyển
               </div>
-              <div className="px-4">{ProductUtil.formatPrice(0)}</div>
+              <div className="">{ProductUtil.formatPrice(0)}</div>
             </div>
             <div className="p-4 flex justify-between">
-              <div className="px-4 text-muted-foreground text-nowrap">
+              <div className=" text-muted-foreground text-nowrap">
                 Thành tiền
               </div>
-              <div className="px-4 text-primary">
+              <div className=" text-primary">
                 {ProductUtil.formatPrice(totalPrice)}
               </div>
             </div>

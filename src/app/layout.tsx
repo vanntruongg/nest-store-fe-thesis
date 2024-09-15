@@ -5,7 +5,7 @@ import "./globals.css";
 import { cn } from "../lib/utils";
 
 import ScrollToTop from "~/common/components/scroll-to-top";
-import { Toaster } from "~/common/components/ui/toaster";
+import { Toaster } from "~/components/ui/toaster";
 import AppTokenProvider from "./app-token-provider";
 import { baseOpenGraph } from "~/app/shared-metadata";
 

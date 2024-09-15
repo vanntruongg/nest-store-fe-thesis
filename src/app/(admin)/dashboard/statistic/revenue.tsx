@@ -13,7 +13,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "~/common/components/ui/select";
+} from "~/components/ui/select";
 
 const Revenue = () => {
   const [dataAxis, setDataAxis] = useState<string[]>([]);

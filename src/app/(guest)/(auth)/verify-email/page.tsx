@@ -4,9 +4,9 @@ import { FormEvent, useState } from "react";
 import authApi from "~/apis/auth-api";
 import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/common/components/icon-text-loading";
-import { Button } from "~/common/components/ui/button";
-import { Input } from "~/common/components/ui/input";
-import { toast } from "~/common/components/ui/use-toast";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
+import { toast } from "~/components/ui/use-toast";
 
 const VerifyEmailPage = () => {
   const [email, setEmail] = useState<string>("");

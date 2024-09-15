@@ -5,7 +5,11 @@ import { useEffect, useState } from "react";
 import { UserRound, LogOut, ShoppingCart, Sun } from "lucide-react";
 import { useOutsideClick } from "~/hooks/useOutsideClick";
 import { routes } from "~/static";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../components/ui/avatar";
 import { IUser } from "~/common/model/user.model";
 import { ROUTES } from "~/common/constants/routes";
 

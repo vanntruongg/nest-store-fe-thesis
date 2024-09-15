@@ -5,12 +5,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "~/common/components/ui/dropdown-menu";
-import { Button } from "~/common/components/ui/button";
+} from "~/components/ui/dropdown-menu";
+import { Button } from "~/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { orderStatus as orderStt } from "~/common/utility/order.util";
 import { BaseUtil } from "~/common/utility/base.util";
-import { toast } from "~/common/components/ui/use-toast";
+import { toast } from "~/components/ui/use-toast";
 import orderApi from "~/apis/order-api";
 
 export interface IUpdateStatusProps {

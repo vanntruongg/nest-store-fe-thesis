@@ -12,7 +12,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Button } from "~/common/components/ui/button";
+import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -21,8 +21,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "~/common/components/ui/dropdown-menu";
-import { Input } from "~/common/components/ui/input";
+} from "~/components/ui/dropdown-menu";
+import { Input } from "~/components/ui/input";
 import {
   Table,
   TableBody,
@@ -30,12 +30,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "~/common/components/ui/table";
+} from "~/components/ui/table";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
-import { IUser, IRole } from "~/common/model/user.model";
 import userApi from "~/apis/user-api";
 import { useEffect, useState } from "react";
-import { ERole, EUserStatus } from "~/common/utility/enum.util";
+import { EUserStatus } from "~/common/utility/enum.util";
 import { cn } from "~/lib/utils";
 import { ViewUserDetail } from "./user-detail";
 import { FormUpdateUser } from "./form-update";
@@ -43,9 +42,11 @@ import { ConfirmDelete } from "./dialog-confirm-delete";
 import Image from "next/image";
 import IconTextLoading from "~/common/components/icon-text-loading";
 import { BaseUtil } from "~/common/utility/base.util";
+import { User } from "~/modules/user/model/User";
+import { Role } from "~/modules/user/model/Role";
 
 export const GetDataAndColumns = () => {
-  const [data, setData] = useState<IUser[]>([]);
+  const [data, setData] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const fetchData = async () => {
     setLoading(true);
@@ -61,7 +62,7 @@ export const GetDataAndColumns = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  const columns: ColumnDef<IUser>[] = [
+  const columns: ColumnDef<User>[] = [
     {
       accessorKey: "fullName",
       header: ({ column }) => {
@@ -157,7 +158,7 @@ export const GetDataAndColumns = () => {
       accessorKey: "roles",
       header: () => <div className="text-right">Phân quyền</div>,
       cell: ({ row }) => {
-        const roles: IRole[] = row.getValue("roles");
+        const roles: Role[] = row.getValue("roles");
 
         return (
           <div className="text-right font-medium">

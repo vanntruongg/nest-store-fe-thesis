@@ -56,7 +56,7 @@ export class EndpointUtil {
       CREATE_ORDER: "/order/create",
       GET_URL_PAYMENT_VNPAY: "/order/get-link-payment",
       GET_ALL_PAYMENT_METHOD: "/order/payment-method",
-      GET_BY_USER: "/order/get/user",
+      GET_MY_ORDER: "/order/get/my-order",
       GET_BY_STATUS: "/order/get/status",
       GET_BY_USER_AND_STATUS: "/order/get/user/status",
       UPDATE_STATUS: "/order/update/status",

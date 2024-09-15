@@ -21,6 +21,7 @@ export interface Props {
   ratingStarPercentage: RatingBreakdownModel[];
   handleChangePage: (selectedItem: { selected: number }) => void;
   handleCreateRating: (data: RatingShemaType) => void;
+  handleDeleteRating: (ratingId: string) => void;
 }
 
 export function RatingList({
@@ -32,6 +33,7 @@ export function RatingList({
   ratingStarPercentage,
   handleChangePage,
   handleCreateRating,
+  handleDeleteRating,
 }: Props) {
   return (
     <MaxWidthWrapper className="my-20 p-6 flex flex-col space-y-8 bg-gray-100">
@@ -55,7 +57,11 @@ export function RatingList({
           </div>
           <div className="space-y-4">
             {ratingList?.map((rating) => (
-              <RatingItem key={rating.id} rating={rating} />
+              <RatingItem
+                key={rating.id}
+                rating={rating}
+                handleDeleteRating={handleDeleteRating}
+              />
             ))}
           </div>
 

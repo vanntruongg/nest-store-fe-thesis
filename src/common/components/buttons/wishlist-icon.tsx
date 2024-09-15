@@ -7,7 +7,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../ui/tooltip";
+} from "../../../components/ui/tooltip";
 import { Product } from "~/common/model/product.model";
 import { cn } from "~/lib/utils";
 import { FaHeart, FaRegHeart } from "react-icons/fa";

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 import { Product } from "~/common/model/product.model";
 import { BaseUtil } from "~/common/utility/base.util";
 import { useRouter } from "next/navigation";

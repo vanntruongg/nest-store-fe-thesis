@@ -12,6 +12,7 @@ export function OrderStatus() {
   const handleSelectStatus = (status: string) => {
     const params = new URLSearchParams();
     params.set("orderStatus", status);
+    params.set("pageNo", "1");
     router.replace(pathname + "?" + params.toString());
   };
 

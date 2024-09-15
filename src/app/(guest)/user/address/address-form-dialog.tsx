@@ -10,7 +10,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "~/common/components/ui/alert-dialog";
+} from "~/components/ui/alert-dialog";
 import {
   Form,
   FormControl,
@@ -18,8 +18,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/common/components/ui/form";
-import { Input } from "~/common/components/ui/input";
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -27,11 +27,11 @@ import {
   AddressShemaType,
 } from "~/app/schema-validations/address.shema";
 import Loading from "~/common/components/loading";
-import { Textarea } from "~/common/components/ui/textarea";
-import { Checkbox } from "~/common/components/ui/checkbox";
+import { Textarea } from "~/components/ui/textarea";
+import { Checkbox } from "~/components/ui/checkbox";
 import { AddressData } from "~/modules/address/components/address-data";
 import userAddressApi from "~/apis/user-address";
-import { toast } from "~/common/components/ui/use-toast";
+import { toast } from "~/components/ui/use-toast";
 
 import { useCheckout } from "~/hooks/useCheckout";
 import { AddressAction } from "~/modules/address/modules/AddressAction";

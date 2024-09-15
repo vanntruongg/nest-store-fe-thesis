@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 import { Loader2, ShoppingCart } from "lucide-react";
 import { BaseUtil } from "~/common/utility/base.util";
 import { useUser } from "~/hooks/useUser";
@@ -9,7 +9,7 @@ import cartApi from "~/apis/cart-api";
 import { CartRequest } from "~/common/model/cart.model";
 import { useRouter } from "next/navigation";
 import { useCart } from "~/hooks/useCart";
-import { ToastAction } from "../ui/toast";
+import { ToastAction } from "../../../components/ui/toast";
 import Link from "next/link";
 import { cn } from "~/lib/utils";
 import { ROUTES } from "~/common/constants/routes";

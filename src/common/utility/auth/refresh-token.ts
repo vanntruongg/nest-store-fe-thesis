@@ -2,7 +2,7 @@ import authApi from "~/apis/auth-api";
 import { tokenStorage } from "./token-storage";
 import { BaseUtil } from "../base.util";
 import { handleLogout } from "./logout";
-import { toast } from "~/common/components/ui/use-toast";
+import { toast } from "~/components/ui/use-toast";
 
 export const refreshToken = async (options: any) => {
   try {

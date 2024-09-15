@@ -11,7 +11,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetClose,
-} from "./ui/sheet";
+} from "../../components/ui/sheet";
 
 import Logo from "../../../public/assets/nest-logo-tranparent.png";
 import { navLinks } from "~/static";

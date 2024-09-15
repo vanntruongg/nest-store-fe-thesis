@@ -15,7 +15,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "~/common/components/ui/alert-dialog";
+} from "~/components/ui/alert-dialog";
 import { tokenStorage } from "~/common/utility/auth/token-storage";
 import { ROUTES } from "~/common/constants/routes";
 

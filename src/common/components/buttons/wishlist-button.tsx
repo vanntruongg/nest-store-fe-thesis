@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 import { useWishlist } from "~/hooks/useWishlist";
 import { Product } from "~/common/model/product.model";
 

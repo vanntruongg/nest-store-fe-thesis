@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "~/common/components/ui/button";
+import { Button } from "~/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,8 +7,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/common/components/ui/dialog";
-import { Input } from "~/common/components/ui/input";
+} from "~/components/ui/dialog";
+import { Input } from "~/components/ui/input";
 import {
   Form,
   FormControl,
@@ -16,7 +16,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/common/components/ui/form";
+} from "~/components/ui/form";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,7 +25,7 @@ import Image from "next/image";
 
 import Loading from "~/common/components/loading";
 import { BaseUtil } from "~/common/utility/base.util";
-import { toast } from "~/common/components/ui/use-toast";
+import { toast } from "~/components/ui/use-toast";
 import { CloudinaryUtil } from "~/common/utility/cloudinary.util";
 import IconTextLoading from "~/common/components/icon-text-loading";
 import productApi from "~/apis/product-api";
@@ -33,7 +33,7 @@ import {
   ProductShema,
   ProductShemaType,
 } from "~/app/schema-validations/product.shema";
-import { Separator } from "~/common/components/ui/separator";
+import { Separator } from "~/components/ui/separator";
 import { CategorySelect } from "./category-select";
 import { Product } from "~/modules/product/models/Product";
 import { FileWithPreview } from "~/modules/common/model/FileWithPreview";

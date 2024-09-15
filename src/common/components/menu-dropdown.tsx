@@ -2,7 +2,11 @@
 import { useState } from "react";
 import { ItemNav } from "~/static";
 import { useOutsideClick } from "~/hooks/useOutsideClick";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../../components/ui/popover";
 import { ChevronDown } from "lucide-react";
 import { cn } from "~/lib/utils";
 import Link from "next/link";

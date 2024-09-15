@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Input } from "~/common/components/ui/input";
-import { Button } from "~/common/components/ui/button";
+import { Input } from "~/components/ui/input";
+import { Button } from "~/components/ui/button";
 import {
   ResetPasswordShema,
   TResetPasswordShema,
@@ -14,17 +14,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/common/components/ui/form";
+} from "~/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import authApi from "~/apis/auth-api";
 import { BaseUtil } from "~/common/utility/base.util";
-import { toast } from "~/common/components/ui/use-toast";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "~/common/components/ui/card";
+import { toast } from "~/components/ui/use-toast";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 import Loading from "~/common/components/loading";
 import { useRouter } from "next/navigation";

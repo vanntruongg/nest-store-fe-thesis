@@ -12,7 +12,7 @@ import Cart from "./cart";
 
 const Header = () => {
   return (
-    <header className="fixed w-full bg-white top-0 lg:min-w-[1280px] p-2 backdrop-blur-lg shadow z-30 max-h-80">
+    <header className="fixed w-full bg-white top-0 lg:min-w-[1280px] p-2 backdrop-blur-lg shadow z-[50] max-h-80">
       <MaxWidthWrapper>
         <div className="flex justify-between items-center lg:grid grid-cols-10">
           <div className="flex items-center gap-4 col-span-1 justify-start overflow-hidden">

@@ -4,14 +4,10 @@ import { usePathname } from "next/navigation";
 import { MapPinned, ShieldCheck, ShoppingBag, User } from "lucide-react";
 
 import { useUser } from "~/hooks/useUser";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "~/common/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { ReactElement, useEffect, useState } from "react";
 import ButtonLogout from "~/common/components/buttons/logout-button";
-import { Skeleton } from "~/common/components/ui/skeleton";
+import { Skeleton } from "~/components/ui/skeleton";
 import { ROUTES } from "~/common/constants/routes";
 
 interface ILinkNavUserProfile {

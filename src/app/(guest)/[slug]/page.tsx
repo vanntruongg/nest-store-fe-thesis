@@ -8,6 +8,7 @@ import { RatingList } from "~/modules/rating/components/rating-list";
 import { Rating } from "~/modules/rating/models/Rating";
 import {
   createRating,
+  deleteRating,
   getAverageStarByProductId,
   getRatingByProductId,
   getRatingStarPercentage,
@@ -16,7 +17,7 @@ import { getProductById } from "~/modules/product/services/ProductService";
 import { RatingBreakdown } from "~/modules/rating/models/RatingBreakdown";
 import { RatingShemaType } from "~/app/schema-validations/rating.shema";
 import { RatingPost } from "~/modules/rating/models/RatingPost";
-import { toast } from "~/common/components/ui/use-toast";
+import { toast } from "~/components/ui/use-toast";
 import { Product } from "~/modules/product/models/Product";
 
 interface Props {
@@ -88,6 +89,15 @@ const ProductDetailPage = ({ params }: Props) => {
     }
   };
 
+  const handleDeleteRating = async (ratingId: string) => {
+    console.log(ratingId);
+    // const res = await deleteRating(ratingId);
+    // if (res.success) {
+    //   toast({ description: res.message });
+    //   setIsPost(!isPost);
+    // }
+  };
+
   return (
     <div className="bg-gray-100 flex flex-col space-y-4 mb-4">
       <Breadrumbs options={product?.name} optionPage={true} context="page" />
@@ -112,6 +122,7 @@ const ProductDetailPage = ({ params }: Props) => {
         ratingStarPercentage={ratingStarPercentage}
         handleChangePage={handlePageChange}
         handleCreateRating={handleCreateRating}
+        handleDeleteRating={handleDeleteRating}
       />
     </div>
   );

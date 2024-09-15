@@ -1,29 +1,28 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { IUser } from "~/common/model/user.model";
+import { User } from "~/modules/user/model/User";
 
 type UserState = {
-  user: IUser;
-  setUser: (user: IUser) => void;
+  user: User;
+  setUser: (user: User) => void;
   clearUser: () => void;
 };
 
-const initialUser: IUser = {
+const initialUser: User = {
   firstName: "",
   lastName: "",
   email: "",
   phone: "",
+  dateOfBirth: "",
   imageUrl: "",
-  isVerify: false,
   roles: [],
-  status: "",
 };
 
 export const useUser = create<UserState>()(
   persist(
     (set) => ({
       user: initialUser,
-      setUser: (user: IUser) =>
+      setUser: (user: User) =>
         set({
           user: user,
         }),

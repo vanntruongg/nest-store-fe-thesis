@@ -5,7 +5,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/common/components/ui/card";
+} from "~/components/ui/card";
 import Link from "next/link";
 import RegisterForm from "./register-form";
 import { ROUTES } from "~/common/constants/routes";

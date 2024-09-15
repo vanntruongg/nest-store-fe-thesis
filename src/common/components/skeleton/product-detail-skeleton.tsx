@@ -1,5 +1,5 @@
 import MaxWidthWrapper from "../max-width-wrapper";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "../../../components/ui/skeleton";
 
 export const ProductDetailPlaceholder = () => {
   return (

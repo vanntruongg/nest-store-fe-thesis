@@ -1,4 +1,4 @@
-import { toast } from "../ui/use-toast";
+import { toast } from "../../../components/ui/use-toast";
 
 export class Toast {
   static success(message: string, action?: any) {

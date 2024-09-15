@@ -4,7 +4,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "~/common/components/ui/tooltip";
+} from "~/components/ui/tooltip";
 import { cn } from "~/lib/utils";
 
 export interface DevelopingTooltipProps {

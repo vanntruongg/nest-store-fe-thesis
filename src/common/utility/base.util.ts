@@ -1,5 +1,5 @@
 import { UseFormSetError } from "react-hook-form";
-import { toast } from "~/common/components/ui/use-toast";
+import { toast } from "~/components/ui/use-toast";
 import { EntityError } from "../http-client";
 import { Location, LocationType } from "~/modules/address/modules/Loation";
 
