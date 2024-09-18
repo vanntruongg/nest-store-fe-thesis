@@ -9,10 +9,10 @@ import { ShopToolBar } from "./shop-toolbar";
 import { useEffect, useState } from "react";
 import { ELayoutProduct } from "~/common/utility/enum.util";
 import { useSearchParams } from "next/navigation";
-import productApi from "~/apis/product-api";
 import { BaseUtil } from "~/common/utility/base.util";
 import { ROUTES } from "~/common/constants/routes";
 import { ProductGet } from "~/modules/product/models/ProductGet";
+import { getListProduct } from "~/modules/product/services/ProductService";
 
 const BREADRUMBS = [
   {
@@ -35,14 +35,9 @@ export default function ShopPage() {
         const pageNo = Number(searchParams.get("pageNo"));
         const sortOrder = searchParams.get("sortOrder") || "";
 
-        const res = await productApi.getList(
-          category,
-          sortOrder,
-          pageNo,
-          pageSize
-        );
+        const res = await getListProduct(category, sortOrder, pageNo, pageSize);
 
-        setProductGet(res.payload.data);
+        setProductGet(res.data);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
       }

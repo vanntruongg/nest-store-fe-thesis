@@ -13,10 +13,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { MoveLeft } from "lucide-react";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import authApi from "~/apis/auth-api";
 import { BaseUtil } from "~/common/utility/base.util";
 import { toast } from "~/components/ui/use-toast";
 import { ROUTES } from "~/common/constants/routes";
+import { forgotPassword } from "~/modules/auth/services/AuthService";
 
 const ForgotPassword = () => {
   const {
@@ -29,8 +29,8 @@ const ForgotPassword = () => {
 
   const onSubmit = async ({ email }: TForgotPasswordShema) => {
     try {
-      const result = await authApi.forgotPassword(email);
-      toast({ description: result.payload.message });
+      const result = await forgotPassword(email);
+      toast({ description: result.message });
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     }

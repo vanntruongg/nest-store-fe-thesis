@@ -1,4 +1,3 @@
-"use client";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -11,9 +10,9 @@ import {
   SheetHeader,
   SheetTitle,
   SheetClose,
-} from "../../components/ui/sheet";
+} from "~/components/ui/sheet";
 
-import Logo from "../../../public/assets/nest-logo-tranparent.png";
+import Logo from "../../../../public/assets/nest-logo-tranparent.png";
 import { navLinks } from "~/static";
 
 const MobileNav = () => {

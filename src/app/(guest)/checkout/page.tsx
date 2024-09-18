@@ -14,11 +14,11 @@ import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import { ItemCheckOutPlaceholder } from "~/common/components/skeleton/item-checkout";
-import orderApi from "~/apis/order-api";
 import { ROUTES } from "~/common/constants/routes";
 import { OrderUtil } from "~/common/utility/order.util";
 import { OrderPost } from "~/modules/order/model/OrderPost";
 import { EPaymentMethod } from "~/modules/payment/model/EPaymentMethod";
+import { createOrder } from "~/modules/order/services/OrderService";
 
 const CheckOutPage = () => {
   const { items, notes, deliveryAddress, setNotes, paymentMethod } =
@@ -44,7 +44,7 @@ const CheckOutPage = () => {
     }
     setLoading(true);
     try {
-      await createOrder();
+      await handleCreateOrder();
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     } finally {
@@ -52,7 +52,7 @@ const CheckOutPage = () => {
     }
   };
 
-  const createOrder = async () => {
+  const handleCreateOrder = async () => {
     let orderRequest: OrderPost;
     if (deliveryAddress && paymentMethod) {
       orderRequest = {
@@ -74,12 +74,12 @@ const CheckOutPage = () => {
       };
       try {
         // console.log("data: ", orderRequest);
-        const result = await orderApi.createOrder(orderRequest);
+        const result = await createOrder(orderRequest);
 
-        if (result.payload.data.paymentMethod === EPaymentMethod.COD) {
+        if (result.data.paymentMethod === EPaymentMethod.COD) {
           router.push(ROUTES.THANK_YOU);
         } else {
-          window.location.href = result.payload.data.urlPayment;
+          window.location.href = result.data.urlPayment;
         }
       } catch (error) {
         BaseUtil.handleErrorApi({ error });

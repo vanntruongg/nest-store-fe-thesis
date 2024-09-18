@@ -2,13 +2,13 @@
 import { useSearchParams } from "next/navigation";
 import Breadrumbs from "~/common/components/breadrumbs";
 import MaxWidthWrapper from "~/common/components/max-width-wrapper";
-import { Product } from "~/common/model/product.model";
-import productApi from "~/apis/product-api";
 import { useEffect, useState } from "react";
 import CardProduct from "~/modules/product/components/card-product";
 import Image from "next/image";
 import { BaseUtil } from "~/common/utility/base.util";
 import { ELayoutProduct } from "~/common/utility/enum.util";
+import { getProductByName } from "~/modules/product/services/ProductService";
+import { Product } from "~/modules/product/models/Product";
 
 const Search = () => {
   const searchParam = useSearchParams();
@@ -19,8 +19,8 @@ const Search = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const result = await productApi.getProductByName(productName);
-        setProducts(result.payload.data);
+        const result = await getProductByName(productName);
+        setProducts(result.data);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
       }
@@ -29,7 +29,10 @@ const Search = () => {
   }, [productName]);
   return (
     <div className="flex flex-col gap-6">
-      <Breadrumbs options={`Kết quả tìm kiếm cho "${productName}"`} />
+      <Breadrumbs
+        options={`Kết quả tìm kiếm cho "${productName}"`}
+        context="page"
+      />
       <MaxWidthWrapper>
         <div className="bg-white p-2 text-lg text-muted-foreground">
           Có <span className="text-primary">{products.length}</span> sản phẩm

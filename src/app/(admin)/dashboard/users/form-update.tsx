@@ -26,21 +26,22 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Checkbox } from "~/components/ui/checkbox";
-import { IUser } from "~/common/model/user.model";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { ERole, UserRole } from "~/common/utility/enum.util";
 import Image from "next/image";
-import { FileWithPreview } from "~/common/model/file.model";
 
-import userApi from "~/apis/user-api";
 import Loading from "~/common/components/loading";
 import { BaseUtil } from "~/common/utility/base.util";
 import { toast } from "~/components/ui/use-toast";
 import { CloudinaryUtil } from "~/common/utility/cloudinary.util";
 import IconTextLoading from "~/common/components/icon-text-loading";
+import { updateUser } from "~/modules/user/services/UserService";
+import { UserPut } from "~/modules/user/model/UserPut";
+import { FileWithPreview } from "~/modules/common/model/FileWithPreview";
+import { User } from "~/modules/user/model/User";
 
 interface IFormUpdateUserProps {
-  user: IUser;
+  user: User;
   fetchData: () => void;
 }
 
@@ -51,6 +52,8 @@ export function FormUpdateUser({ user, fetchData }: IFormUpdateUserProps) {
   const [imageSelected, setImageSelected] = useState<FileWithPreview | null>(
     null
   );
+
+  const listRoleName = user.roles.map((role) => role.name);
   const form = useForm<UpdateUserShemaType>({
     resolver: zodResolver(UpdateUserShema),
     defaultValues: {
@@ -58,7 +61,7 @@ export function FormUpdateUser({ user, fetchData }: IFormUpdateUserProps) {
       lastName: user.lastName,
       phone: user.phone || "",
       imageUrl: user.imageUrl || "",
-      roles: user.roles,
+      roles: listRoleName,
     },
   });
 
@@ -84,7 +87,6 @@ export function FormUpdateUser({ user, fetchData }: IFormUpdateUserProps) {
     firstName,
     lastName,
     phone,
-    address,
     roles,
   }: UpdateUserShemaType) => {
     setLoading(true);
@@ -101,17 +103,18 @@ export function FormUpdateUser({ user, fetchData }: IFormUpdateUserProps) {
         avatarPreview
       );
 
-      const result = await userApi.updateUser({
+      const usePut: UserPut = {
         email: user.email,
         firstName,
         lastName,
         phone,
-        address,
         imageUrl,
         roles,
-      });
+      };
+
+      const result = await updateUser(usePut);
       fetchData();
-      toast({ description: result.payload.message });
+      toast({ description: result.message });
       setOpen(false);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
@@ -224,19 +227,6 @@ export function FormUpdateUser({ user, fetchData }: IFormUpdateUserProps) {
                           placeholder="Vd: 0357 888 999"
                           {...field}
                         />
-                      </FormControl>
-                      <FormMessage className="text-xs" />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="address"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Địa chỉ</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Địa chỉ" {...field} />
                       </FormControl>
                       <FormMessage className="text-xs" />
                     </FormItem>

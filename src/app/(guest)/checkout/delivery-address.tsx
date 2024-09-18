@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { useUser } from "~/hooks/useUser";
 import { MapPin } from "lucide-react";
-import userAddressApi from "~/apis/user-address";
-import { Address } from "~/common/model/address.model";
 import { AddressListSelector } from "~/modules/address/components/address-list-selector";
 import { BaseUtil } from "~/common/utility/base.util";
 import { useCheckout } from "~/hooks/useCheckout";
 import { Skeleton } from "~/components/ui/skeleton";
+import { getDefaultAddress } from "~/modules/user/services/UserAddressService";
 
 export function DeliveryAddress() {
   const { deliveryAddress, setDeliveryAddress } = useCheckout();
@@ -15,10 +13,8 @@ export function DeliveryAddress() {
   useEffect(() => {
     const fetchData = async () => {
       if (deliveryAddress === null) {
-        const res = await userAddressApi.getDefaultAddress();
-        // console.log(res);
-
-        setDeliveryAddress(res.payload.data);
+        const res = await getDefaultAddress();
+        setDeliveryAddress(res.data);
       }
     };
     fetchData();

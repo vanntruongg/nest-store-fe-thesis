@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import { ReactNode } from "react";
-import productApi from "~/apis/product-api";
-import { Product } from "~/common/model/product.model";
 import { ProductUtil } from "~/common/utility/product.util";
+import { Product } from "~/modules/product/models/Product";
+import { getProductById } from "~/modules/product/services/ProductService";
 
 interface Props {
   params: {
@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: Props) {
     notFound();
   }
 
-  const result = await productApi.getProductById(productId);
-  const product: Product = result.payload.data;
+  const result = await getProductById(productId);
+  const product: Product = result.data;
 
   return {
     // title: "Chi tiết sản phẩm",

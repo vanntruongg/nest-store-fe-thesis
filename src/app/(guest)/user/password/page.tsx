@@ -2,7 +2,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import userApi from "~/apis/user-api";
 import {
   ChangePasswordShema,
   TChangePasswordShema,
@@ -21,6 +20,7 @@ import {
 } from "~/components/ui/form";
 import { ROUTES } from "~/common/constants/routes";
 import { ChangePassword } from "~/modules/user/model/ChangePassword";
+import { changePassword } from "~/modules/user/services/UserService";
 
 const ChangePasswordPage = () => {
   const router = useRouter();
@@ -35,11 +35,8 @@ const ChangePasswordPage = () => {
 
   const onSubmit = async (data: ChangePassword) => {
     try {
-      const result = await userApi.changePassword(
-        data.oldPassword,
-        data.newPassword
-      );
-      toast({ description: result.payload.message });
+      const result = await changePassword(data.oldPassword, data.newPassword);
+      toast({ description: result.message });
       router.push(ROUTES.USER.PROFILE);
     } catch (error) {
       BaseUtil.handleErrorApi({ error, setError: form.setError });

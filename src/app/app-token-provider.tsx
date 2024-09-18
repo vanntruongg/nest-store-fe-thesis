@@ -13,7 +13,6 @@ export default function AppTokenProvider({
 }) {
   const { clearUser } = useUser();
   const [isCleared, setIsCleared] = useState(false);
-
   useState(() => {
     if (typeof window !== "undefined") {
       tokenStorage.value.rawToken.accessToken = initialToken.accessToken;

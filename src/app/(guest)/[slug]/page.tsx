@@ -19,6 +19,7 @@ import { RatingShemaType } from "~/app/schema-validations/rating.shema";
 import { RatingPost } from "~/modules/rating/models/RatingPost";
 import { toast } from "~/components/ui/use-toast";
 import { Product } from "~/modules/product/models/Product";
+import { ProductUtil } from "~/common/utility/product.util";
 
 interface Props {
   params: {
@@ -42,14 +43,18 @@ const ProductDetailPage = ({ params }: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const product = await getProductById(params.slug);
+        const productId = ProductUtil.extractProductIdFromSlug(params.slug);
+        const res = await getProductById(productId);
+        const product = res.data;
         setProduct(product);
 
-        const averageStar = await getAverageStarByProductId(product.id);
-        setAverageStar(averageStar);
+        const averageStarResponse = await getAverageStarByProductId(product.id);
+        setAverageStar(averageStarResponse.data);
 
-        const response = await getRatingStarPercentage(product.id);
-        setRatingStarPercentage(response);
+        const ratingStarPercentageResponse = await getRatingStarPercentage(
+          product.id
+        );
+        setRatingStarPercentage(ratingStarPercentageResponse.data);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
       }
@@ -61,9 +66,9 @@ const ProductDetailPage = ({ params }: Props) => {
     const fetchData = async () => {
       if (product) {
         const ratings = await getRatingByProductId(product.id, pageNo);
-        setRatingList(ratings.ratingList);
-        setTotalElement(ratings.totalElements);
-        setTotalPages(ratings.totalPages);
+        setRatingList(ratings.data.ratingList);
+        setTotalElement(ratings.data.totalElements);
+        setTotalPages(ratings.data.totalPages);
       }
     };
     fetchData();

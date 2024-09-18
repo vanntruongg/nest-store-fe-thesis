@@ -34,13 +34,13 @@ import {
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import productApi from "~/apis/product-api";
 import { ProductUtil } from "~/common/utility/product.util";
 import { FormUpdate } from "./form-update";
 import { FormCreate } from "./form-create";
 import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/common/components/icon-text-loading";
 import { Product } from "~/modules/product/models/Product";
+import { getAllProduct } from "~/modules/product/services/ProductService";
 
 export const GetDataAndColumns = () => {
   const [data, setData] = useState<Product[]>([]);
@@ -49,10 +49,9 @@ export const GetDataAndColumns = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const result = await productApi.getAll();
-      console.log("result: ", result);
+      const result = await getAllProduct();
 
-      setData(result.payload.data);
+      setData(result.data);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     } finally {

@@ -1,12 +1,12 @@
 "use client";
 import { FormEvent, useState } from "react";
 
-import authApi from "~/apis/auth-api";
 import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/common/components/icon-text-loading";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { toast } from "~/components/ui/use-toast";
+import { requestVerifyEmail } from "~/modules/auth/services/AuthService";
 
 const VerifyEmailPage = () => {
   const [email, setEmail] = useState<string>("");
@@ -17,9 +17,9 @@ const VerifyEmailPage = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const result = await authApi.requestVerifyEmail(email);
-      toast({ description: result.payload.message });
-      setIsSuccess(result.payload.success);
+      const result = await requestVerifyEmail(email);
+      toast({ description: result.message });
+      setIsSuccess(result.success);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     } finally {

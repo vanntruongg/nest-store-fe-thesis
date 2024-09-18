@@ -8,15 +8,15 @@ import {
 } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { MESSAGES } from "~/common/constants/messages";
-import cartApi from "~/apis/cart-api";
 import { useUser } from "~/hooks/useUser";
 import { CartUtil } from "~/common/utility/cart.util";
-import { SizeWithQuantity } from "~/common/model/common.model";
 import { cn } from "~/lib/utils";
+import { SizeQuantity } from "../models/SizeQuantity";
+import { getCartByUserAndProductId } from "~/modules/cart/services/CartService";
 
 export interface IQuantitySelectorProps {
   productId: number;
-  sizeQuantity: SizeWithQuantity[];
+  sizeQuantity: SizeQuantity[];
   selectedSize?: string;
   quantity: number;
   setQuantity: Dispatch<SetStateAction<number>>;
@@ -41,15 +41,15 @@ export function QuantitySelector({
 }: IQuantitySelectorProps) {
   const { user } = useUser();
   const prevQuantityRef = useRef<number>(quantity);
-  const [sizeQuantityInCart, setSizeQuantityInCart] = useState<
-    SizeWithQuantity[]
-  >([]);
+  const [sizeQuantityInCart, setSizeQuantityInCart] = useState<SizeQuantity[]>(
+    []
+  );
 
   useEffect(() => {
     const fetchData = async () => {
       if (user.email !== "") {
-        const res = await cartApi.getByUserAndProductId(productId);
-        setSizeQuantityInCart(res.payload.data);
+        const res = await getCartByUserAndProductId(productId);
+        setSizeQuantityInCart(res.data);
       }
     };
     fetchData();

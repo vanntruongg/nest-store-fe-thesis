@@ -1,9 +1,9 @@
 "use client";
 import { ReactNode, useEffect } from "react";
-import cartApi from "~/apis/cart-api";
 import { tokenStorage } from "~/common/utility/auth/token-storage";
 import { BaseUtil } from "~/common/utility/base.util";
 import { useCart } from "~/hooks/useCart";
+import { cartCountItems } from "~/modules/cart/services/CartService";
 
 interface CartProviderClientProps {
   children: ReactNode;
@@ -17,8 +17,8 @@ export default function CartProviderClient({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await cartApi.countItems();
-        setCartLength(result.payload.data);
+        const result = await cartCountItems();
+        setCartLength(result.data);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
       }

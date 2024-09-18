@@ -6,11 +6,11 @@ import SentEmail from "../../../../../public/assets/sent-email.png";
 
 import { Loader2, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-import authApi from "~/apis/auth-api";
 import { BaseUtil } from "~/common/utility/base.util";
 import { buttonVariants } from "~/components/ui/button";
 import { toast } from "~/components/ui/use-toast";
 import { ROUTES } from "~/common/constants/routes";
+import { verifyEmail } from "~/modules/auth/services/AuthService";
 interface PageProps {
   searchParams: {
     [key: string]: string | string[] | undefined;
@@ -31,8 +31,8 @@ const VerifyEmail = ({ searchParams }: PageProps) => {
   const handleVerifyAccount = async (token: string) => {
     setIsLoading(true);
     try {
-      const result = await authApi.verifyEmail(token);
-      toast({ description: result.payload.message });
+      const result = await verifyEmail(token);
+      toast({ description: result.message });
       setIsSuccess(true);
     } catch (error) {
       setIsError(true);

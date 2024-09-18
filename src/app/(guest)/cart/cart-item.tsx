@@ -8,17 +8,19 @@ import { Button } from "../../../components/ui/button";
 import { useCheckout } from "~/hooks/useCheckout";
 import { ProductUtil } from "~/common/utility/product.util";
 
-import { useUser } from "~/hooks/useUser";
-import cartApi from "~/apis/cart-api";
 import { BaseUtil } from "~/common/utility/base.util";
 import { toast } from "~/components/ui/use-toast";
 import useDebounce from "~/hooks/useDebounce";
 import { cn } from "~/lib/utils";
-import inventoryApi from "~/apis/inventory-api";
-import { DelteCartRequest, UpdateCartRequest } from "~/common/model/cart.model";
-import { Product } from "~/common/model/product.model";
-import { SizeWithQuantity } from "~/common/model/common.model";
 import { useCart } from "~/hooks/useCart";
+import { Product } from "~/modules/product/models/Product";
+import { SizeQuantity } from "~/modules/product/models/SizeQuantity";
+import { CartDelete, CartPut } from "~/modules/cart/model/CartRequest";
+import { getStockByProductIdAndSize } from "~/modules/product/services/InventoryService";
+import {
+  deleteFromCart,
+  udpateCart,
+} from "~/modules/cart/services/CartService";
 
 interface CartItemProps {
   product: Product;
@@ -39,17 +41,12 @@ const CartItem = ({
   const [quantity, setQuantity] = useState<number>(productQuantity);
   const [loading, setLoading] = useState<boolean>(false);
   const [isMounted, setIsMounted] = useState<boolean>(false);
-  const [sizeQuantity, setSizeQuantity] = useState<SizeWithQuantity | null>(
-    null
-  );
+  const [sizeQuantity, setSizeQuantity] = useState<SizeQuantity | null>(null);
 
   useEffect(() => {
     const fetchStock = async () => {
-      const result = await inventoryApi.getByProductIdAndSize(
-        product.id,
-        productSize
-      );
-      setSizeQuantity(result.payload.data);
+      const result = await getStockByProductIdAndSize(product.id, productSize);
+      setSizeQuantity(result.data);
     };
     fetchStock();
   }, [product.id]);
@@ -61,13 +58,13 @@ const CartItem = ({
     async (quantity: number) => {
       setLoading(true);
       try {
-        const data: UpdateCartRequest = {
+        const data: CartPut = {
           size: productSize,
           productId: product.id,
           quantity,
         };
 
-        await cartApi.udpate(data);
+        await udpateCart(data);
         fetchData();
       } catch (error) {
         setQuantity(productQuantity);
@@ -135,20 +132,20 @@ const CartItem = ({
   // call api delete database
   const deleteItem = async () => {
     try {
-      const data: DelteCartRequest = {
+      const data: CartDelete = {
         size: productSize,
         productId: product.id,
       };
-      const result = await cartApi.delete(data);
+      const result = await deleteFromCart(data);
 
       //
       removeItem(product.id, productSize);
       // set to cart localsotorage
-      setCartLength(result.payload.data);
+      setCartLength(result.data);
 
       // removeFromCart(product.id);
       toast({
-        description: result.payload.message,
+        description: result.message,
       });
       fetchData();
     } catch (error) {

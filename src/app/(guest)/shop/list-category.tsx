@@ -5,8 +5,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Skeleton } from "~/components/ui/skeleton";
 import RecursionCategory from "./recursion-category";
 import { useEffect, useState } from "react";
-import categoryApi from "~/apis/category-api";
 import { Category } from "~/modules/product/models/Category";
+import { getAllCategory } from "~/modules/product/services/CategoryApi";
 
 const ListCategory = () => {
   const searchParams = useSearchParams();
@@ -16,8 +16,8 @@ const ListCategory = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await categoryApi.getAll();
-      setCategories(result.payload.data);
+      const result = await getAllCategory();
+      setCategories(result.data);
     };
     fetchData();
   }, []);

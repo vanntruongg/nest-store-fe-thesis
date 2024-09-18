@@ -1,5 +1,5 @@
 import { AddressPost } from "./AddressPost";
 
-export type UpdateAddressRequest = Omit<AddressPost, "isDefault"> & {
+export type AddressPut = Omit<AddressPost, "isDefault"> & {
   id: number;
 };

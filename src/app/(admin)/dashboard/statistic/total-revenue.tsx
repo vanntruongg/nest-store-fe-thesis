@@ -8,7 +8,6 @@ const TotalRevenue = () => {
 
   useEffect(() => {
     // const fetchData = async () => {
-    //   const result = await orderApi.getTotalRevenue();
     //   setDataAxis(Object.keys(result.payload.data));
     //   setData(Object.values(result.payload.data));
     // };

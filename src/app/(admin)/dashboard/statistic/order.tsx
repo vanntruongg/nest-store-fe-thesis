@@ -13,8 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import orderApi from "~/apis/order-api";
-import statisticApi from "~/apis/statistic.api";
+import { orderStatistic } from "~/modules/admin/services/StatisticService";
 
 const OrderStatisticByMonth = () => {
   const [dataAxis, setDataAxis] = useState<string[]>([]);
@@ -30,9 +29,9 @@ const OrderStatisticByMonth = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await statisticApi.orderStatistic(parseInt(year), month);
-      setDataAxis(Object.keys(result.payload.data));
-      setData(Object.values(result.payload.data));
+      const result = await orderStatistic(parseInt(year), month);
+      setDataAxis(Object.keys(result.data));
+      setData(Object.values(result.data));
     };
     fetchData();
   }, [year, month]);

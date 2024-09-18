@@ -11,7 +11,7 @@ import { MoreHorizontal } from "lucide-react";
 import { orderStatus as orderStt } from "~/common/utility/order.util";
 import { BaseUtil } from "~/common/utility/base.util";
 import { toast } from "~/components/ui/use-toast";
-import orderApi from "~/apis/order-api";
+import { updateStatus } from "~/modules/order/services/OrderService";
 
 export interface IUpdateStatusProps {
   status: string;
@@ -28,8 +28,8 @@ export function UpdateStatus({
 }: IUpdateStatusProps) {
   const handleUpdateStatus = async (id: number, status: string) => {
     try {
-      const result = await orderApi.updateStatus(id, status);
-      toast({ description: result.payload.message });
+      const result = await updateStatus(id, status);
+      toast({ description: result.message });
       fetchData();
     } catch (error) {
       BaseUtil.handleErrorApi({ error });

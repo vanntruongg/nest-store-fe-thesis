@@ -16,12 +16,11 @@ import {
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { useState } from "react";
-import authApi from "~/apis/auth-api";
 import { useRouter } from "next/navigation";
 import Loading from "~/common/components/loading";
-import { Toast } from "~/components/ui/toast";
-import { BaseUtil } from "~/common/utility/base.util";
 import { toast } from "~/components/ui/use-toast";
+import { register } from "~/modules/auth/services/AuthService";
+import { BaseUtil } from "~/common/utility/base.util";
 
 const RegisterForm = () => {
   const router = useRouter();
@@ -46,7 +45,7 @@ const RegisterForm = () => {
   }: RegisterShemaType) => {
     setLoading(true);
     try {
-      const result = await authApi.register({
+      const result = await register({
         firstName,
         lastName,
         email,

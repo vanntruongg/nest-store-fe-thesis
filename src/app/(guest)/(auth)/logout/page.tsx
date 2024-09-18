@@ -1,12 +1,11 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import authApi from "~/apis/auth-api";
 import { ROUTES } from "~/common/constants/routes";
 import { tokenStorage } from "~/common/utility/auth/token-storage";
 import { BaseUtil } from "~/common/utility/base.util";
-import { useCheckout } from "~/hooks/useCheckout";
 import { useUser } from "~/hooks/useUser";
+import { logoutFromNextClientToNextServer } from "~/modules/auth/services/AuthService";
 
 const Logout = () => {
   const router = useRouter();
@@ -18,7 +17,7 @@ const Logout = () => {
     const handleLogout = async () => {
       if (accessToken === tokenStorage.value.rawToken.accessToken) {
         try {
-          await authApi.logoutFromNextClientToNextServer(true);
+          await logoutFromNextClientToNextServer(true);
           clearUser();
           tokenStorage.clearToken();
           router.push(ROUTES.AUTH.LOGIN);

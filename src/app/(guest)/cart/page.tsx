@@ -8,8 +8,6 @@ import { Button, buttonVariants } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useCheckout } from "~/hooks/useCheckout";
-import { useUser } from "~/hooks/useUser";
-import cartApi from "~/apis/cart-api";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { BaseUtil } from "~/common/utility/base.util";
 import { ROUTES } from "~/common/constants/routes";
@@ -17,10 +15,11 @@ import { Skeleton } from "~/components/ui/skeleton";
 import { ItemCartPlaceholder } from "~/common/components/skeleton/item-cart";
 import { Loader2 } from "lucide-react";
 import { ProductUtil } from "~/common/utility/product.util";
-import { Cart as CartModel } from "~/common/model/cart.model";
+import { Cart as CartModel } from "~/modules/cart/model/Cart";
 import CartItem from "./cart-item";
 import Breadrumbs from "~/common/components/breadrumbs";
-import { Breadrumb } from "~/common/model/base.model";
+import { cartGetAll } from "~/modules/cart/services/CartService";
+import { BreadCrumb } from "~/modules/common/model/BreadCrumb";
 
 export interface ItemCheckout {
   productId: number;
@@ -30,7 +29,7 @@ export interface ItemCheckout {
   size: string;
   quantity: number;
 }
-const breadcrumbs: Breadrumb[] = [
+const breadcrumbs: BreadCrumb[] = [
   {
     id: 1,
     name: "Giỏ hàng",
@@ -45,8 +44,8 @@ const Cart = () => {
 
   const fetchData = async () => {
     try {
-      const result = await cartApi.getAll();
-      setProducts(result.payload.data);
+      const result = await cartGetAll();
+      setProducts(result.data);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     }

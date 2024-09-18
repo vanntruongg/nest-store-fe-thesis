@@ -30,12 +30,15 @@ import Loading from "~/common/components/loading";
 import { Textarea } from "~/components/ui/textarea";
 import { Checkbox } from "~/components/ui/checkbox";
 import { AddressData } from "~/modules/address/components/address-data";
-import userAddressApi from "~/apis/user-address";
 import { toast } from "~/components/ui/use-toast";
 
 import { useCheckout } from "~/hooks/useCheckout";
 import { AddressAction } from "~/modules/address/modules/AddressAction";
 import { Address } from "~/modules/address/modules/Address";
+import {
+  createAddress,
+  updateAddress,
+} from "~/modules/user/services/UserAddressService";
 
 export interface IAddressFormDialogProps {
   isOpen?: boolean;
@@ -83,16 +86,16 @@ export function AddressFormDialog({
         return;
       let message = "";
       if (action === AddressAction.CREATE) {
-        const res = await userAddressApi.createAddress(data);
-        message = res.payload.message;
-        setDeliveryAddress(res.payload.data);
+        const res = await createAddress(data);
+        message = res.message;
+        setDeliveryAddress(res.data);
       } else if (action === AddressAction.UPDATE) {
         if (address) {
-          const res = await userAddressApi.updateAddress({
+          const res = await updateAddress({
             id: address.id,
             ...data,
           });
-          message = res.payload.message;
+          message = res.message;
         }
       }
 

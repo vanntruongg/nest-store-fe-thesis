@@ -40,9 +40,12 @@ import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/common/components/icon-text-loading";
 import { UpdateStatus } from "./update-status";
 import { useSearchParams } from "next/navigation";
-import orderApi from "~/apis/order-api";
 import { orderStatus } from "~/common/utility/order.util";
 import { Order } from "~/modules/order/model/Order";
+import {
+  getAllOrder,
+  getByStatus,
+} from "~/modules/order/services/OrderService";
 
 export const GetDataAndColumns = () => {
   const [data, setData] = useState<Order[]>([]);
@@ -55,10 +58,10 @@ export const GetDataAndColumns = () => {
     try {
       const result =
         status === orderStatus[0].type
-          ? await orderApi.getAll()
-          : await orderApi.getByStatus(status);
+          ? await getAllOrder()
+          : await getByStatus(status);
 
-      setData(result.payload.data);
+      setData(result.data);
       // console.log(result.payload.data);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });

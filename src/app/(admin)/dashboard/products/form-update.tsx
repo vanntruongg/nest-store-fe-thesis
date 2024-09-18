@@ -28,7 +28,6 @@ import { BaseUtil } from "~/common/utility/base.util";
 import { toast } from "~/components/ui/use-toast";
 import { CloudinaryUtil } from "~/common/utility/cloudinary.util";
 import IconTextLoading from "~/common/components/icon-text-loading";
-import productApi from "~/apis/product-api";
 import {
   ProductShema,
   ProductShemaType,
@@ -39,6 +38,7 @@ import { Product } from "~/modules/product/models/Product";
 import { FileWithPreview } from "~/modules/common/model/FileWithPreview";
 import { Category } from "~/modules/product/models/Category";
 import { ProductPut } from "~/modules/product/models/ProductPut";
+import { updateProduct } from "~/modules/product/services/ProductService";
 
 interface Props {
   product: Product;
@@ -115,9 +115,9 @@ export function FormUpdate({ product, fetchData }: Props) {
         categoryId: category.id,
       };
 
-      const result = await productApi.updateProduct(data);
+      const result = await updateProduct(data);
       fetchData();
-      toast({ description: result.payload.message });
+      toast({ description: result.message });
       setOpen(false);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });

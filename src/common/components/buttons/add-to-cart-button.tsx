@@ -3,10 +3,6 @@ import { useState } from "react";
 import { Button } from "../../../components/ui/button";
 import { Loader2, ShoppingCart } from "lucide-react";
 import { BaseUtil } from "~/common/utility/base.util";
-import { useUser } from "~/hooks/useUser";
-import { Product } from "~/common/model/product.model";
-import cartApi from "~/apis/cart-api";
-import { CartRequest } from "~/common/model/cart.model";
 import { useRouter } from "next/navigation";
 import { useCart } from "~/hooks/useCart";
 import { ToastAction } from "../../../components/ui/toast";
@@ -14,8 +10,11 @@ import Link from "next/link";
 import { cn } from "~/lib/utils";
 import { ROUTES } from "~/common/constants/routes";
 import { AuthUtil } from "~/common/utility/auth.util";
-import { Toast } from "../toast/toast";
 import { CartUtil } from "~/common/utility/cart.util";
+import { addToCart } from "~/modules/cart/services/CartService";
+import { Product } from "~/modules/product/models/Product";
+import { toast } from "~/components/ui/use-toast";
+import { CartPost } from "~/modules/cart/model/CartRequest";
 
 interface AddtoCartButtonProps {
   product: Product;
@@ -51,22 +50,24 @@ const AddtoCartButton = ({
         return;
       }
 
-      const data: CartRequest = {
+      const data: CartPost = {
         productId: product.id,
         size: size!,
         quantity,
       };
 
-      const result = await cartApi.add(data);
+      const result = await addToCart(data);
 
-      if (result.payload.success) {
-        setCartLength(result.payload.data);
-        Toast.success(
-          result.payload.message,
-          <ToastAction altText="Xem giỏ hàng">
-            <Link href={ROUTES.CART}>Xem giỏ hàng</Link>
-          </ToastAction>
-        );
+      if (result.success) {
+        setCartLength(result.data);
+        toast({
+          description: result.message,
+          action: (
+            <ToastAction altText="Xem giỏ hàng">
+              <Link href={ROUTES.CART}>Xem giỏ hàng</Link>
+            </ToastAction>
+          ),
+        });
       }
     } catch (error: any) {
       BaseUtil.handleErrorApi({ error });

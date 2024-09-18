@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { ReactNode } from "react";
 
-import Header from "~/common/components/header";
 import Footer from "~/common/components/footer";
 import CartProvider from "../cart-provider";
 import CheckoutProvider from "../checkout-provider";
+import Header from "~/common/components/header";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: "NEST Store - Cửa hàng thời trang",
@@ -13,10 +14,12 @@ export const metadata: Metadata = {
 };
 
 export default function GuestLayout({ children }: { children: ReactNode }) {
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get("accessToken")?.value || "";
   return (
     <main className="flex flex-col min-h-screen bg-gray-100">
       <div className="flex justify-center">
-        <Header />
+        <Header token={accessToken} />
       </div>
       <CartProvider>
         <CheckoutProvider>

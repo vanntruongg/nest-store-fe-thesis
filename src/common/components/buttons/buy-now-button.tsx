@@ -1,11 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Button } from "../../../components/ui/button";
-import { Product } from "~/common/model/product.model";
 import { BaseUtil } from "~/common/utility/base.util";
 import { useRouter } from "next/navigation";
-import { CartRequest } from "~/common/model/cart.model";
-import { useUser } from "~/hooks/useUser";
 import { useCart } from "~/hooks/useCart";
 import IconTextLoading from "../icon-text-loading";
 import { useCheckout } from "~/hooks/useCheckout";
@@ -13,7 +10,9 @@ import { tokenStorage } from "~/common/utility/auth/token-storage";
 import { ROUTES } from "~/common/constants/routes";
 import { CartUtil } from "~/common/utility/cart.util";
 import { ItemCheckout } from "~/app/(guest)/cart/page";
-import cartApi from "~/apis/cart-api";
+import { Product } from "~/modules/product/models/Product";
+import { CartPost } from "~/modules/cart/model/CartRequest";
+import { addToCart } from "~/modules/cart/services/CartService";
 
 interface AddtoCartButtonProps {
   product: Product;
@@ -47,13 +46,13 @@ const BuyNowButton = ({
         return;
       }
 
-      const data: CartRequest = {
+      const data: CartPost = {
         productId: product.id,
         size: size!,
         quantity,
       };
 
-      const result = await cartApi.add(data);
+      const result = await addToCart(data);
       setCartLength(result.payload.data);
 
       const item: ItemCheckout = {

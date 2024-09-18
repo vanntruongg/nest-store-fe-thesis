@@ -1,6 +1,5 @@
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
-import userAddressApi from "~/apis/user-address";
 import { AddressFormDialog } from "~/app/(guest)/user/address/address-form-dialog";
 import { BaseUtil } from "~/common/utility/base.util";
 import {
@@ -19,6 +18,10 @@ import { toast } from "../../../components/ui/use-toast";
 import { useCheckout } from "~/hooks/useCheckout";
 import { Address } from "../modules/Address";
 import { AddressAction } from "../modules/AddressAction";
+import {
+  getAllAddress,
+  setDefaultAddress,
+} from "~/modules/user/services/UserAddressService";
 
 export function AddressListSelector() {
   const { deliveryAddress, setDeliveryAddress } = useCheckout();
@@ -33,10 +36,10 @@ export function AddressListSelector() {
 
   const fetchData = async () => {
     try {
-      const res = await userAddressApi.getAllAddress();
+      const res = await getAllAddress();
       console.log(res);
 
-      setAddresses(res.payload.data);
+      setAddresses(res.data);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     }
@@ -68,12 +71,12 @@ export function AddressListSelector() {
     setSelectedAddressId(address.id);
   };
 
-  const setDefaultAddress = async (addressId: number) => {
+  const handleSetDefaultAddress = async (addressId: number) => {
     try {
-      const res = await userAddressApi.setDefaultAddress(addressId);
+      const res = await setDefaultAddress(addressId);
 
       await fetchData();
-      toast({ description: res.payload.message });
+      toast({ description: res.message });
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     }
@@ -146,7 +149,7 @@ export function AddressListSelector() {
                   <Button
                     variant={"outline"}
                     disabled={address.isDefault}
-                    onClick={() => setDefaultAddress(address.id)}
+                    onClick={() => handleSetDefaultAddress(address.id)}
                     className="text-sm px-1.5 py-1"
                   >
                     Thiết lập mặc định

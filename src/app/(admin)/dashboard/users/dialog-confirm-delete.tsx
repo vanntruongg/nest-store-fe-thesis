@@ -1,9 +1,7 @@
 "use client";
 import { ShieldAlert } from "lucide-react";
 import { useState } from "react";
-import userApi from "~/apis/user-api";
 import { BaseUtil } from "~/common/utility/base.util";
-import { Button } from "~/components/ui/button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,6 +13,7 @@ import {
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
 import { toast } from "~/components/ui/use-toast";
+import { deleteUser } from "~/modules/user/services/UserService";
 
 interface IConfirmDeleteProps {
   email: string;
@@ -25,8 +24,8 @@ export function ConfirmDelete({ email, fetchData }: IConfirmDeleteProps) {
   const [open, setOpen] = useState<boolean>(false);
   const handleDeleteUser = async () => {
     try {
-      const result = await userApi.deleteUser(email);
-      toast({ description: result.payload.message });
+      const result = await deleteUser(email);
+      toast({ description: result.message });
       setOpen(false);
       fetchData();
     } catch (error) {

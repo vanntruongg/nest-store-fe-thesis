@@ -1,6 +1,5 @@
 "use client";
 
-import authApi from "~/apis/auth-api";
 import { useRouter } from "next/navigation";
 import { BaseUtil } from "~/common/utility/base.util";
 import { LogOut } from "lucide-react";
@@ -18,6 +17,7 @@ import {
 } from "~/components/ui/alert-dialog";
 import { tokenStorage } from "~/common/utility/auth/token-storage";
 import { ROUTES } from "~/common/constants/routes";
+import { logoutFromNextClientToNextServer } from "~/modules/auth/services/AuthService";
 
 export default function ButtonLogout({ className }: { className?: string }) {
   const router = useRouter();
@@ -25,7 +25,7 @@ export default function ButtonLogout({ className }: { className?: string }) {
 
   const handleLogout = async () => {
     try {
-      await authApi.logoutFromNextClientToNextServer();
+      await logoutFromNextClientToNextServer();
       clearUser();
       tokenStorage.clearToken();
       router.push(ROUTES.AUTH.LOGIN);

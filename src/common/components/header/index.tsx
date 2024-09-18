@@ -1,16 +1,23 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 
-import NavBar from "./navbar";
-import Search from "../../app/(guest)/search/search";
-import Logo from "../../../public/assets/logo.png";
-import NavUser from "./nav-user";
-import MaxWidthWrapper from "./max-width-wrapper";
+import Logo from "../../../../public/assets/logo.png";
+import MaxWidthWrapper from "../max-width-wrapper";
 import MobileNav from "./mobile-nav";
-import Wishlist from "./wishlist";
+import NavBar from "./navbar";
+import Wishlist from "../wishlist";
 import Cart from "./cart";
+import NavUser from "./nav-user";
+import Search from "./search";
+import { ButtonLogin } from "./login-btn";
+import { useEffect } from "react";
+import { tokenStorage } from "~/common/utility/auth/token-storage";
+import { useUser } from "~/hooks/useUser";
 
 const Header = () => {
+  const { user } = useUser();
   return (
     <header className="fixed w-full bg-white top-0 lg:min-w-[1280px] p-2 backdrop-blur-lg shadow z-[50] max-h-80">
       <MaxWidthWrapper>
@@ -29,8 +36,14 @@ const Header = () => {
           <div className="flex justify-end items-center gap-2 col-span-5">
             <Search />
             <Wishlist />
-            <Cart />
-            <NavUser />
+            {user.email !== "" ? (
+              <>
+                <Cart />
+                <NavUser />
+              </>
+            ) : (
+              <ButtonLogin />
+            )}
           </div>
         </div>
       </MaxWidthWrapper>

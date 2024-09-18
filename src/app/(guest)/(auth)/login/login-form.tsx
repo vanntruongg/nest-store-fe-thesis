@@ -24,13 +24,13 @@ import {
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import Loading from "~/common/components/loading";
-import authApi from "~/apis/auth-api";
-import userApi from "~/apis/user-api";
 import { useToast } from "~/components/ui/use-toast";
 import { BaseUtil } from "~/common/utility/base.util";
 import { useAuth } from "~/hooks/useAuth";
 import { tokenStorage } from "~/common/utility/auth/token-storage";
 import { ROUTES } from "~/common/constants/routes";
+import { getProfile } from "~/modules/user/services/UserService";
+import { auth, login } from "~/modules/auth/services/AuthService";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -51,15 +51,12 @@ const LoginForm = () => {
     if (loading) return;
     setLoading(true);
     try {
-      const {
-        payload: { message, data, success },
-      } = await authApi.login(loginShema);
-
-      if (success) {
-        toast({ description: message });
+      const res = await login(loginShema);
+      if (res.success) {
+        toast({ description: res.message });
 
         // call api to next server to set token to cookie
-        await authApi.auth(data);
+        await auth(res.data);
 
         if (isAdmin(tokenStorage.value.rawToken.accessToken)) {
           router.push(ROUTES.ADMIN.STATISTIC);
@@ -98,11 +95,8 @@ const LoginForm = () => {
   // call api get user profile and save to zustand
   const fetchProfile = async () => {
     try {
-      const res = await userApi.getProfile(
-        tokenStorage.value.rawToken.accessToken
-      );
-
-      setUser(res.payload.data);
+      const res = await getProfile(tokenStorage.value.rawToken.accessToken);
+      setUser(res.data);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     }

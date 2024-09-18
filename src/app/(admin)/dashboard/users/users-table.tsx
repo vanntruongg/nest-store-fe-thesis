@@ -32,7 +32,6 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
-import userApi from "~/apis/user-api";
 import { useEffect, useState } from "react";
 import { EUserStatus } from "~/common/utility/enum.util";
 import { cn } from "~/lib/utils";
@@ -44,6 +43,7 @@ import IconTextLoading from "~/common/components/icon-text-loading";
 import { BaseUtil } from "~/common/utility/base.util";
 import { User } from "~/modules/user/model/User";
 import { Role } from "~/modules/user/model/Role";
+import { getAllUser } from "~/modules/user/services/UserService";
 
 export const GetDataAndColumns = () => {
   const [data, setData] = useState<User[]>([]);
@@ -51,8 +51,8 @@ export const GetDataAndColumns = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const result = await userApi.getAllUser();
-      setData(result.payload.data);
+      const result = await getAllUser();
+      setData(result.data);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     } finally {

@@ -11,10 +11,10 @@ import { ProductImageGallery } from "./product-image-gallery";
 import { QuantitySelector } from "./quantity-selector";
 import { SizeSelector } from "./size-selector";
 import { QuantityExceededWarning } from "./quantity-exceeded-warning";
-import inventoryApi from "~/apis/inventory-api";
 import { DetailHeader } from "./detail-header";
 import { SizeQuantity } from "../models/SizeQuantity";
 import { Product } from "../models/Product";
+import { getStockByProductId } from "../services/InventoryService";
 
 export interface ProductDetailError {
   quantityError: boolean | null;
@@ -43,8 +43,8 @@ const ProductDetail = ({ product, averageStar, totalRating }: Props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await inventoryApi.getByProductId(product.id);
-      setSizeQuantity(res.payload.data);
+      const res = await getStockByProductId(product.id);
+      setSizeQuantity(res.data);
     };
     fetchData();
   }, [product]);

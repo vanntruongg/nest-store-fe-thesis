@@ -1,7 +1,5 @@
-"use client";
-
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { Search, X, Trash2, Loader2 } from "lucide-react";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { Search as SeachIcon, X, Trash2, Loader2 } from "lucide-react";
 import useDebounce from "~/hooks/useDebounce";
 import { Button } from "../../../components/ui/button";
 import {
@@ -16,13 +14,13 @@ import { Input } from "../../../components/ui/input";
 import { useHistorySearch } from "~/hooks/useHistorySearch";
 import { v4 as uuid } from "uuid";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import ItemProductSearch from "../../../common/components/item-search";
+import ItemProductSearch from "../item-search";
 import { cn } from "~/lib/utils";
-import { Product } from "~/common/model/product.model";
-import productApi from "~/apis/product-api";
 import { BaseUtil } from "~/common/utility/base.util";
+import { getProductByName } from "~/modules/product/services/ProductService";
+import { Product } from "~/modules/product/models/Product";
 
-const SearchComp = () => {
+const Search = () => {
   const { replace } = useRouter();
   const searchParam = useSearchParams();
   const pathname = usePathname();
@@ -44,7 +42,7 @@ const SearchComp = () => {
     const fetchProduct = async () => {
       setLoading(true);
       try {
-        const result = await productApi.getProductByName(debounce, 5);
+        const result = await getProductByName(debounce, 5);
         // console.log(result);
         setRecommedProduct(result.payload.data);
       } catch (error) {
@@ -89,7 +87,7 @@ const SearchComp = () => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <div className="hover:bg-gray-100 hidden lg:block p-2 rounded-full group relative cursor-pointer">
-          <Search
+          <SeachIcon
             strokeWidth={2}
             className="size-5 text-slate-700"
             onClick={() => {
@@ -205,4 +203,4 @@ const SearchComp = () => {
   );
 };
 
-export default SearchComp;
+export default Search;

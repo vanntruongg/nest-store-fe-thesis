@@ -1,13 +1,12 @@
 import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import productApi from "~/apis/product-api";
 import { BaseUtil } from "~/common/utility/base.util";
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
 import { cn } from "~/lib/utils";
 import { Category } from "~/modules/product/models/Category";
-import categoryApi from "~/apis/category-api";
+import { getAllCategory } from "~/modules/product/services/CategoryApi";
 
 export interface Props {
   category?: Category;
@@ -21,8 +20,8 @@ export function CategorySelect({ category, setValue }: Props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await categoryApi.getAll();
-        setCategories(result.payload.data);
+        const result = await getAllCategory();
+        setCategories(result.data);
         // console.log(result.payload.data);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });

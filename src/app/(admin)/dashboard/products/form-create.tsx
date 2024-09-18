@@ -29,7 +29,6 @@ import { toast } from "~/components/ui/use-toast";
 import { CloudinaryUtil } from "~/common/utility/cloudinary.util";
 import IconTextLoading from "~/common/components/icon-text-loading";
 
-import productApi from "~/apis/product-api";
 import {
   ProductShema,
   ProductShemaType,
@@ -39,6 +38,7 @@ import { CategorySelect } from "./category-select";
 import { FileWithPreview } from "~/modules/common/model/FileWithPreview";
 import { Category } from "~/modules/product/models/Category";
 import { ProductPost } from "~/modules/product/models/ProductPost";
+import { createProduct } from "~/modules/product/services/ProductService";
 
 interface IFormUpdateUserProps {
   fetchData: () => void;
@@ -114,9 +114,9 @@ export function FormCreate({ fetchData }: IFormUpdateUserProps) {
         categoryId: category.id,
       };
 
-      const result = await productApi.createProduct(data);
+      const result = await createProduct(data);
       fetchData();
-      toast({ description: result.payload.message });
+      toast({ description: result.message });
       setOpen(false);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });

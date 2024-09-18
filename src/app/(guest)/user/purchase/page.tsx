@@ -4,10 +4,10 @@ import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/common/components/icon-text-loading";
 import { OrderStatus } from "~/common/components/order-status";
 import { Order } from "./order";
-import orderApi from "~/apis/order-api";
 import { Order as OrderModel } from "~/modules/order/model/Order";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { createQueryString } from "~/utils/createQueryString";
+import { getAllMyOrder } from "~/modules/order/services/OrderService";
 
 const PurchasePage = () => {
   const searchParams = useSearchParams();
@@ -28,14 +28,14 @@ const PurchasePage = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const result = await orderApi.getAllMyOrder(
+        const result = await getAllMyOrder(
           parseInt(pageNo) - 1,
           pageSize,
           orderStatus
         );
-        setOrders(result.payload.data.orderList);
-        setTotalElements(result.payload.data.totalElements);
-        setTotalPages(result.payload.data.totalPages);
+        setOrders(result.data.orderList);
+        setTotalElements(result.data.totalElements);
+        setTotalPages(result.data.totalPages);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
       } finally {

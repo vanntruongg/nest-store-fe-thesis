@@ -1,5 +1,4 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
-import addressDataApi from "~/apis/address-data-api";
 
 import { BaseUtil } from "~/common/utility/base.util";
 import {
@@ -17,6 +16,7 @@ import { ScrollArea } from "../../../components/ui/scroll-area";
 import { AddressIdType, AddressLevel } from "../modules/Address";
 import { AddressAction } from "../modules/AddressAction";
 import { Location } from "../modules/Loation";
+import { getAddressDataByParentCode } from "../services/AddressService";
 
 export interface IAddressDataProps {
   form: UseFormReturn<AddressShemaType>;
@@ -50,7 +50,7 @@ export function AddressData({
     parentCode: string | null,
     type: AddressLevel
   ) => {
-    const result = await addressDataApi.getAddressDataByParentCode(parentCode);
+    const result = await getAddressDataByParentCode(parentCode);
 
     setAddressData((prev) => ({
       ...prev,

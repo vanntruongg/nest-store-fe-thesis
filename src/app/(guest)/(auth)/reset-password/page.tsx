@@ -16,7 +16,6 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import authApi from "~/apis/auth-api";
 import { BaseUtil } from "~/common/utility/base.util";
 import { toast } from "~/components/ui/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
@@ -24,6 +23,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import Loading from "~/common/components/loading";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "~/common/constants/routes";
+import { resetPassword } from "~/modules/auth/services/AuthService";
 interface PageProps {
   searchParams: {
     [key: string]: string | string[] | undefined;
@@ -45,11 +45,11 @@ const ResetPassword = ({ searchParams }: PageProps) => {
     setLoading(true);
     try {
       if (token && typeof token === "string") {
-        const result = await authApi.resetPassword({
+        const result = await resetPassword({
           token,
           newPassword: password,
         });
-        toast({ description: result.payload.message });
+        toast({ description: result.message });
       }
       router.push(ROUTES.AUTH.LOGIN);
     } catch (error) {

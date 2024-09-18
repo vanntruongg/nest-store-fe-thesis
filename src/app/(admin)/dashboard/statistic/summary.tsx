@@ -4,8 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import CountUp from "react-countup";
-import productApi from "~/apis/product-api";
-import userApi from "~/apis/user-api";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -16,8 +14,10 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { v4 as uuid } from "uuid";
 import { BaseUtil } from "~/common/utility/base.util";
-import statisticApi from "~/apis/statistic.api";
 import { OrderUtil } from "~/common/utility/order.util";
+import { getUserCount } from "~/modules/user/services/UserService";
+import { getProductCount } from "~/modules/product/services/ProductService";
+import { getOrderCount } from "~/modules/admin/services/StatisticService";
 interface SummaryStatistic {
   users: number;
   products: number;
@@ -36,15 +36,15 @@ const SummaryStatistic = () => {
     const fetchData = async () => {
       try {
         const [users, products, orders] = await Promise.all([
-          userApi.getUserCount(),
-          productApi.getProductCount(),
-          statisticApi.getOrderCount(),
+          getUserCount(),
+          getProductCount(),
+          getOrderCount(),
         ]);
 
         setSummary({
-          users: users.payload.data,
-          products: products.payload.data,
-          orders: orders.payload.data,
+          users: users.data,
+          products: products.data,
+          orders: orders.data,
         });
       } catch (error) {
         BaseUtil.handleErrorApi({ error });

@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import userAddressApi from "~/apis/user-address";
 import { Button } from "~/components/ui/button";
 import { AddressFormDialog } from "./address-form-dialog";
 
@@ -20,13 +19,18 @@ import { Plus } from "lucide-react";
 import AddressPlaholder from "~/common/components/skeleton/address-skeleton";
 import { Address } from "~/modules/address/modules/Address";
 import { AddressAction } from "~/modules/address/modules/AddressAction";
+import {
+  deleteAddress,
+  getAllAddress,
+  setDefaultAddress,
+} from "~/modules/user/services/UserAddressService";
 
 const AddressPage = () => {
   const [addresses, setAddresses] = useState<Address[]>([]);
 
   const fetchData = async () => {
-    const res = await userAddressApi.getAllAddress();
-    setAddresses(res.payload.data);
+    const res = await getAllAddress();
+    setAddresses(res.data);
   };
 
   useEffect(() => {
@@ -41,11 +45,11 @@ const AddressPage = () => {
       let message: string = "";
 
       if (action === AddressAction.DELETE) {
-        const res = await userAddressApi.deleteAddress(addressId);
-        message = res.payload.message;
+        const res = await deleteAddress(addressId);
+        message = res.message;
       } else if (action === AddressAction.SET_DEFAULT) {
-        const res = await userAddressApi.setDefaultAddress(addressId);
-        message = res.payload.message;
+        const res = await setDefaultAddress(addressId);
+        message = res.message;
       }
 
       fetchData();

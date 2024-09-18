@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
-import authApi from "~/apis/auth-api";
 import { HttpError } from "~/common/http-client";
+import { logoutFromNextServer } from "~/modules/auth/services/AuthService";
 
 export async function POST(request: Request) {
   const res = await request.json();
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const result = await authApi.logoutFromNextServer(accessToken.value);
+    const result = await logoutFromNextServer(accessToken.value);
 
     const headers = new Headers();
     headers.append("Set-Cookie", `accessToken=; HttpOnly; Path=/; Secure`);
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
       `refreshToken=; HttpOnly; Path=/; Secure; SameSite=Strict`
     );
 
-    return Response.json(result.payload, {
+    return Response.json(result, {
       status: 200,
       headers,
     });
