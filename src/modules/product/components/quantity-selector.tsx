@@ -20,8 +20,8 @@ export interface IQuantitySelectorProps {
   selectedSize?: string;
   quantity: number;
   setQuantity: Dispatch<SetStateAction<number>>;
-  availableQuantity: number;
-  setAvailableQuantity: Dispatch<SetStateAction<number>>;
+  // availableQuantity: number;
+  // setAvailableQuantity: Dispatch<SetStateAction<number>>;
   error: boolean | null;
   setError: (error: boolean) => void;
   setShowAlertDialog: (error: boolean) => void;
@@ -33,14 +33,15 @@ export function QuantitySelector({
   selectedSize,
   quantity,
   setQuantity,
-  availableQuantity,
-  setAvailableQuantity,
+  // availableQuantity,
+  // setAvailableQuantity,
   error,
   setError,
   setShowAlertDialog,
 }: IQuantitySelectorProps) {
   const { user } = useUser();
   const prevQuantityRef = useRef<number>(quantity);
+  const [availableQuantity, setAvailableQuantity] = useState<number>(0);
   const [sizeQuantityInCart, setSizeQuantityInCart] = useState<SizeQuantity[]>(
     []
   );

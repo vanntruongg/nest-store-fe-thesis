@@ -1,10 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
-import MaxWidthWrapper from "../../../common/components/max-width-wrapper";
-
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { cn } from "~/lib/utils";
 import { Check } from "lucide-react";
-import AddtoCartButton from "../../../common/components/buttons/add-to-cart-button";
-import BuyNowButton from "../../../common/components/buttons/buy-now-button";
+
+import MaxWidthWrapper from "../../../common/components/max-width-wrapper";
 import AddtoWishlistIcon from "../../../common/components/buttons/wishlist-icon";
 import { ProductUtil } from "~/common/utility/product.util";
 import { ProductImageGallery } from "./product-image-gallery";
@@ -15,6 +16,16 @@ import { DetailHeader } from "./detail-header";
 import { SizeQuantity } from "../models/SizeQuantity";
 import { Product } from "../models/Product";
 import { getStockByProductId } from "../services/InventoryService";
+import { CartPost } from "~/modules/cart/model/CartRequest";
+import { addToCart } from "~/modules/cart/services/CartService";
+import { toast } from "~/components/ui/use-toast";
+import { ToastAction } from "~/components/ui/toast";
+import { ROUTES } from "~/common/constants/routes";
+import { Button } from "~/components/ui/button";
+import { BaseUtil } from "~/common/utility/base.util";
+import { useCart } from "~/hooks/useCart";
+import { ItemCheckout } from "~/app/(guest)/cart/page";
+import { useCheckout } from "~/hooks/useCheckout";
 
 export interface ProductDetailError {
   quantityError: boolean | null;
@@ -29,11 +40,15 @@ interface Props {
 }
 
 const ProductDetail = ({ product, averageStar, totalRating }: Props) => {
+  const { addItem } = useCheckout();
+  const { setCartLength } = useCart();
+  const router = useRouter();
+
   const [quantity, setQuantity] = useState<number>(1);
   const [selectedSize, setSelectedSize] = useState<string | undefined>(
     undefined
   );
-  const [availableQuantity, setAvailableQuantity] = useState<number>(0);
+
   const [errors, setErrors] = useState<ProductDetailError>({
     quantityError: null,
     sizeError: false,
@@ -49,6 +64,53 @@ const ProductDetail = ({ product, averageStar, totalRating }: Props) => {
     fetchData();
   }, [product]);
 
+  const handleAddToCartOrBuyNow = async (action: "add" | "buy") => {
+    if (selectedSize === undefined) {
+      setErrors((prev) => ({ ...prev, sizeError: true }));
+      return;
+    }
+    const payload: CartPost = {
+      productId: product.id,
+      size: selectedSize,
+      quantity: quantity,
+    };
+    try {
+      const res = await addToCart(payload);
+      if (res.success) {
+        toast({
+          description: res.message,
+          action: (
+            <ToastAction altText="Xem giỏ hàng">
+              <Link href={ROUTES.CART}>Xem giỏ hàng</Link>
+            </ToastAction>
+          ),
+        });
+      }
+      if (action === "buy") {
+        setCartLength(res.data);
+        const item: ItemCheckout = {
+          productId: product.id,
+          image: product.images[0].imageUrl,
+          name: product.name,
+          price: product.price,
+          size: selectedSize,
+          quantity,
+        };
+        addItem(item);
+        router.push(ROUTES.CHECKOUT);
+      }
+    } catch (error: any) {
+      if (error.status === 401) {
+        toast({
+          variant: "destructive",
+          description: "Bạn cần đăng nhập trước khi mua hàng",
+        });
+      } else {
+        BaseUtil.handleErrorApi({ error });
+      }
+    }
+  };
+
   return (
     <MaxWidthWrapper>
       <QuantityExceededWarning
@@ -58,12 +120,9 @@ const ProductDetail = ({ product, averageStar, totalRating }: Props) => {
         }
       />
 
-      <div className="bg-white flex gap-4 p-5 rounded-sm">
-        <div className="w-full grid grid-cols-10 gap-2">
-          <div className="col-span-8 aspect-square relative">
-            <ProductImageGallery images={product.images} />
-          </div>
-        </div>
+      <div className="bg-white grid grid-cols-2 gap-4 p-5 rounded-sm">
+        <ProductImageGallery images={product.images} />
+
         <div className="w-full flex flex-col space-y-4">
           <DetailHeader
             productName={product.name}
@@ -101,8 +160,8 @@ const ProductDetail = ({ product, averageStar, totalRating }: Props) => {
             selectedSize={selectedSize}
             quantity={quantity}
             setQuantity={setQuantity}
-            availableQuantity={availableQuantity}
-            setAvailableQuantity={setAvailableQuantity}
+            // availableQuantity={availableQuantity}
+            // setAvailableQuantity={setAvailableQuantity}
             error={errors.quantityError}
             setError={(error) =>
               setErrors((prev) => ({ ...prev, quantityError: error }))
@@ -115,7 +174,7 @@ const ProductDetail = ({ product, averageStar, totalRating }: Props) => {
           {/* buttons */}
           <div className="flex gap-4">
             <div className="flex-1">
-              <AddtoCartButton
+              {/* <AddtoCartButton
                 product={product}
                 size={selectedSize}
                 quantity={quantity}
@@ -129,17 +188,27 @@ const ProductDetail = ({ product, averageStar, totalRating }: Props) => {
                   }))
                 }
                 className="w-full bg-black text-white hover:bg-primary"
-              />
+              /> */}
+              <Button
+                onClick={() => handleAddToCartOrBuyNow("add")}
+                size={"sm"}
+                disabled={quantity === 0}
+                className={cn(
+                  "w-full bg-black text-white hover:bg-primary hover:shadow-sm text-sm rounded-none transition-all duration-500"
+                )}
+              >
+                Thêm vào giỏ hàng
+              </Button>
             </div>
             <div className="flex-1">
-              <BuyNowButton
-                product={product}
-                size={selectedSize}
-                quantity={quantity}
-                setError={(error) => {
-                  setErrors((prev) => ({ ...prev, sizeError: error }));
-                }}
-              />
+              <Button
+                onClick={() => handleAddToCartOrBuyNow("buy")}
+                size={"sm"}
+                disabled={quantity === 0}
+                className="w-full bg-transparent border border-black text-black hover:bg-transparent hover:border-primary hover:text-primary text-sm rounded-none transition-all duration-300"
+              >
+                Mua ngay
+              </Button>
             </div>
             <AddtoWishlistIcon product={product} />
           </div>

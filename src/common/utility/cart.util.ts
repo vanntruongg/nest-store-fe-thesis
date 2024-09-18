@@ -1,9 +1,8 @@
-import { ItemCheckout } from "~/app/(guest)/cart/page";
-import { SizeWithQuantity } from "../model/common.model";
+import { SizeQuantity } from "~/modules/product/models/SizeQuantity";
 
 export class CartUtil {
   static validateQuantity(
-    sizeQuantities: SizeWithQuantity[],
+    sizeQuantities: SizeQuantity[],
     selectedSize: string,
     selectedQuantity: number,
     quantityInStock: number
@@ -33,7 +32,7 @@ export class CartUtil {
   }
 
   static getProductQuantityBySize(
-    sizeQuantities: SizeWithQuantity[],
+    sizeQuantities: SizeQuantity[],
     selectedSize: string
   ) {
     const productWithSize = sizeQuantities.find(

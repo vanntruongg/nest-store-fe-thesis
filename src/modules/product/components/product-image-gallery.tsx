@@ -9,7 +9,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 
-import { ProductImage } from "~/common/model/product.model";
+import { Image as ProductImage } from "../models/Image";
 
 export interface IProductImageGalleryProps {
   images: ProductImage[];
@@ -18,7 +18,7 @@ export interface IProductImageGalleryProps {
 export function ProductImageGallery({ images }: IProductImageGalleryProps) {
   const [activeThumb, setActiveThumb] = useState<Swiper>();
   return (
-    <div className="size-full space-y-5">
+    <div className="pr-32 space-y-5">
       <SwiperComponent
         loop={images.length > 1}
         spaceBetween={10}
@@ -26,15 +26,14 @@ export function ProductImageGallery({ images }: IProductImageGalleryProps) {
         thumbs={{ swiper: activeThumb }}
         modules={[Navigation, Thumbs]}
         grabCursor={true}
-        className="product-images-slider w-full h-4/5"
+        className="product-images-slider w-full"
       >
         {images.map((image) => (
-          <SwiperSlide key={image.id}>
+          <SwiperSlide key={image.id} className="p-5 aspect-square">
             <Image
               alt="slide"
               src={image.imageUrl}
               fill
-              sizes="100"
               className="select-none"
             />
           </SwiperSlide>
@@ -45,12 +44,13 @@ export function ProductImageGallery({ images }: IProductImageGalleryProps) {
         onSwiper={setActiveThumb}
         slidesPerView={4}
         spaceBetween={10}
+        // centeredSlides={true}
         modules={[Navigation, Thumbs]}
-        className="product-images-slider-thumbs w-full h-1/6"
+        className="product-images-slider-thumbs"
       >
         {images.map((image) => (
           <SwiperSlide key={image.id} className="border cursor-pointer">
-            <div className="product-images-slider-thumbs-wrapper">
+            <div className="aspect-square">
               <Image
                 fill
                 sizes="100"

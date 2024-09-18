@@ -11,8 +11,9 @@ import {
   DialogTrigger,
 } from "../../../components/ui/dialog";
 import ProductDetail from "../../../modules/product/components/product-detail";
-import { Product } from "~/common/model/product.model";
 import { cn } from "~/lib/utils";
+import { Product } from "~/modules/product/models/Product";
+import { ProductImageGallery } from "~/modules/product/components/product-image-gallery";
 
 interface QuickViewIconProps {
   product: Product;
@@ -44,7 +45,10 @@ const QuickViewIcon = ({ product, className }: QuickViewIconProps) => {
         onOpenAutoFocus={(e) => e.preventDefault()}
         className="max-w-6xl p-0"
       >
-        <ProductDetail product={product} />
+        {/* <ProductDetail product={product} /> */}
+        <div className="">
+          <ProductImageGallery images={product.images} />
+        </div>
       </DialogContent>
     </Dialog>
   );

@@ -34,8 +34,10 @@ export default function ShopPage() {
         const pageSize = Number(searchParams.get("pageSize"));
         const pageNo = Number(searchParams.get("pageNo"));
         const sortOrder = searchParams.get("sortOrder") || "";
+        console.log(pageSize);
 
         const res = await getListProduct(category, sortOrder, pageNo, pageSize);
+        console.log(res);
 
         setProductGet(res.data);
       } catch (error) {

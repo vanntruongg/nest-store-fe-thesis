@@ -53,7 +53,7 @@ const BuyNowButton = ({
       };
 
       const result = await addToCart(data);
-      setCartLength(result.payload.data);
+      setCartLength(result.data);
 
       const item: ItemCheckout = {
         productId: product.id,

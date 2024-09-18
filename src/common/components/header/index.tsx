@@ -12,12 +12,19 @@ import Cart from "./cart";
 import NavUser from "./nav-user";
 import Search from "./search";
 import { ButtonLogin } from "./login-btn";
-import { useEffect } from "react";
-import { tokenStorage } from "~/common/utility/auth/token-storage";
+import { useEffect, useState } from "react";
 import { useUser } from "~/hooks/useUser";
+import { useCart } from "~/hooks/useCart";
 
 const Header = () => {
   const { user } = useUser();
+  const { cartLength } = useCart();
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, [isMounted]);
+
   return (
     <header className="fixed w-full bg-white top-0 lg:min-w-[1280px] p-2 backdrop-blur-lg shadow z-[50] max-h-80">
       <MaxWidthWrapper>
@@ -36,9 +43,9 @@ const Header = () => {
           <div className="flex justify-end items-center gap-2 col-span-5">
             <Search />
             <Wishlist />
-            {user.email !== "" ? (
+            {isMounted && user.email !== "" ? (
               <>
-                <Cart />
+                <Cart cartLength={cartLength} />
                 <NavUser />
               </>
             ) : (

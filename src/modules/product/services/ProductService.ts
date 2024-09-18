@@ -23,10 +23,7 @@ export const getListProduct = async (
   const url = EndpointUtil.NEST.PRODUCT.GET_LIST;
   const res = await httpClient.get<any>(
     url +
-      `?category=${category}&
-      sortOrder=${sortOrder}&
-      pageNo=${pageNo}&
-      pageSize=${pageSize}`
+      `?category=${category}&sortOrder=${sortOrder}&pageNo=${pageNo}&pageSize=${pageSize}`
   );
   return res.payload;
 };

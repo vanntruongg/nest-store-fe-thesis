@@ -5,8 +5,8 @@ import { cn } from "~/lib/utils";
 import AddtoWishlistIcon from "../../../common/components/buttons/wishlist-icon";
 import QuickViewIcon from "../../../common/components/buttons/quick-view-icon";
 import { ProductUtil } from "~/common/utility/product.util";
-import { Product } from "~/common/model/product.model";
 import { ELayoutProduct } from "~/common/utility/enum.util";
+import { Product } from "../models/Product";
 
 interface CardProductProps {
   product: Product;
@@ -43,12 +43,12 @@ const CardProduct = ({ product, layout }: CardProductProps) => {
             )}
           />
         </Link>
-        {layout === ELayoutProduct.GRID && (
+        {/* {layout === ELayoutProduct.GRID && (
           <div className="w-full bottom-0 absolute flex gap-4 justify-center">
             <QuickViewIcon product={product} className="translate-y-14" />
             <AddtoWishlistIcon product={product} className="translate-y-14" />
           </div>
-        )}
+        )} */}
       </figure>
 
       <div
@@ -88,12 +88,12 @@ const CardProduct = ({ product, layout }: CardProductProps) => {
         >
           {ProductUtil.formatPrice(product.price)}
         </p>
-        {layout === ELayoutProduct.LIST && (
+        {/* {layout === ELayoutProduct.LIST && (
           <div className={cn("flex gap-4 transition-all duration-500")}>
             <QuickViewIcon product={product} />
             <AddtoWishlistIcon product={product} />
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

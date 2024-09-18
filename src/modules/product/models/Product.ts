@@ -1,3 +1,4 @@
+import { Category } from "./Category";
 import { Image } from "./Image";
 import { SizeQuantity } from "./SizeQuantity";
 
