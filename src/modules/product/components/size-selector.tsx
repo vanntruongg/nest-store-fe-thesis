@@ -1,11 +1,11 @@
-import { Dispatch, ReactNode, SetStateAction, useEffect } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 import { MESSAGES } from "~/common/constants/messages";
 import { cn } from "~/lib/utils";
 import TooltipCustom from "../../../common/components/tooltip-custom";
-import { SizeWithQuantity } from "~/common/model/common.model";
+import { SizeQuantity } from "../models/SizeQuantity";
 
 export interface ISizeSelectorProps {
-  sizes: SizeWithQuantity[];
+  sizes: SizeQuantity[];
   selectedSize: string | undefined;
   setSelectedSize: Dispatch<SetStateAction<string | undefined>>;
   error: boolean;
@@ -62,9 +62,13 @@ export function SizeSelector({
         </div>
       </div>
       <div className="grid grid-cols-10">
-        {error && (
+        {error ? (
           <span className="col-start-3 col-span-8 text-sm text-red-500">
             {MESSAGES.INVALID_CLASSIFICATION_ITEM}
+          </span>
+        ) : (
+          <span className="col-start-3 col-span-8 text-sm text-red-500">
+            &nbsp;
           </span>
         )}
       </div>
