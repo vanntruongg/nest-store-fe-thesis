@@ -9,8 +9,6 @@ import { OverallRating } from "./overall-rating";
 import { RatingBreakdown } from "./rating-breakdown";
 import { MostHelpfulRating } from "./most-helpful-rating";
 import { RatingBreakdown as RatingBreakdownModel } from "../models/RatingBreakdown";
-import { RatingShemaType } from "~/app/schema-validations/rating.shema";
-import { PostRatingForm } from "./post-rating-form";
 
 export interface Props {
   ratingList: Rating[] | null;
@@ -19,8 +17,9 @@ export interface Props {
   totalPages: number;
   averageStar: number;
   ratingStarPercentage: RatingBreakdownModel[];
+  mostUpvoteRating: Rating | null;
+  toggleVoteRating: (ratingId: string) => void;
   handleChangePage: (selectedItem: { selected: number }) => void;
-  handleCreateRating: (data: RatingShemaType) => void;
   handleDeleteRating: (ratingId: string) => void;
 }
 
@@ -31,8 +30,9 @@ export function RatingList({
   totalPages,
   averageStar,
   ratingStarPercentage,
+  mostUpvoteRating,
+  toggleVoteRating,
   handleChangePage,
-  handleCreateRating,
   handleDeleteRating,
 }: Props) {
   return (
@@ -53,7 +53,12 @@ export function RatingList({
               totalRatings={totalElements}
             />
             <RatingBreakdown ratingStarPercentage={ratingStarPercentage} />
-            <MostHelpfulRating />
+            <div className="col-span-2">
+              <MostHelpfulRating
+                rating={mostUpvoteRating}
+                toggleVoteRating={toggleVoteRating}
+              />
+            </div>
           </div>
           <div className="space-y-4">
             {ratingList?.map((rating) => (
@@ -61,6 +66,7 @@ export function RatingList({
                 key={rating.id}
                 rating={rating}
                 handleDeleteRating={handleDeleteRating}
+                toggleVoteRating={toggleVoteRating}
               />
             ))}
           </div>

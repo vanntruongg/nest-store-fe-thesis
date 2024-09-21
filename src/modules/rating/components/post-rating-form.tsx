@@ -26,15 +26,24 @@ import {
 } from "~/app/schema-validations/rating.shema";
 import StarRatings from "react-star-ratings";
 import { RatingPost } from "../models/RatingPost";
-import { Button } from "~/components/ui/button";
-import { SquarePen } from "lucide-react";
+import { Dispatch, SetStateAction } from "react";
+import { createRating } from "../services/RatingService";
+import { toast } from "~/components/ui/use-toast";
+import { BaseUtil } from "~/common/utility/base.util";
 
 interface Props {
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
   productId: number;
   productName: string;
 }
 
-export function PostRatingForm({ productId, productName }: Props) {
+export function PostRatingForm({
+  open,
+  setOpen,
+  productId,
+  productName,
+}: Props) {
   const form = useForm<RatingShemaType>({
     resolver: zodResolver(RatingShema),
     defaultValues: {
@@ -44,13 +53,29 @@ export function PostRatingForm({ productId, productName }: Props) {
   });
 
   const handleCreateRating = async (data: RatingShemaType) => {
-    // console.log(data);
     const ratingPost: RatingPost = {
       content: data.content,
       star: data.ratingStar,
       productId,
       productName,
     };
+
+    try {
+      const res = await createRating(ratingPost);
+      if (res.success) {
+        toast({ description: res.message });
+        setOpen(false);
+      }
+    } catch (error: any) {
+      if (error.status === 409) {
+        toast({
+          description: "Bạn đã đánh giá sản phẩm này rồi.",
+          variant: "destructive",
+        });
+      } else {
+        BaseUtil.handleErrorApi({ error });
+      }
+    }
   };
 
   const handleChangeRating = (ratingStar: number) => {
@@ -58,14 +83,15 @@ export function PostRatingForm({ productId, productName }: Props) {
   };
 
   return (
-    <AlertDialog
-    //  open={open} onOpenChange={setOpen}
-    >
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild className="self-start">
-        <Button variant={"outline"} className="space-x-1">
+        {/* <Button
+          variant={"outline"}
+          className="space-x-1 border border-primary text-primary hover:text-primary"
+        >
           <SquarePen size={20} strokeWidth={1.5} />
           <span> Viết đánh giá</span>
-        </Button>
+        </Button> */}
       </AlertDialogTrigger>
       <AlertDialogContent className="top-[40%]">
         <AlertDialogHeader>
@@ -76,14 +102,18 @@ export function PostRatingForm({ productId, productName }: Props) {
             onSubmit={form.handleSubmit(handleCreateRating)}
             className="space-y-4"
           >
+            <div className="flex space-x-2 items-center ">
+              <FormLabel className="text-lg text-nowrap leading-none">
+                Tên sản phẩm:
+              </FormLabel>
+              <p className="text-sm"> {productName}</p>
+            </div>
             <FormField
               control={form.control}
               name="ratingStar"
               render={({ field }) => (
                 <FormItem className="w-full flex items-center space-x-2">
-                  <FormLabel className="text-lg leading-none">
-                    Đánh giá của bạn:
-                  </FormLabel>
+                  <FormLabel className=" ">Đánh giá của bạn:</FormLabel>
                   <FormControl>
                     <StarRatings
                       rating={field.value}

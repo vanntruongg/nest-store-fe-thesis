@@ -96,7 +96,9 @@ export class EndpointUtil {
     RATING: {
       GET_RATING_LIST: "/ratings/get/products",
       CREATE_RATING: "/ratings",
-      DELETE_RATING: "/ratings",
+      DELETE_RATING: "/ratings/delete",
+      UPVOTE_RATING: "/ratings/upvote",
+      MOST_UPVOTE_RATING: "/ratings/get/product",
       GET_AVERAGE_STAR_OF_PRODUCT: "/ratings/get/product",
       GET_RATING_STAR_PERCENTAGE: "/ratings/get/product",
     },

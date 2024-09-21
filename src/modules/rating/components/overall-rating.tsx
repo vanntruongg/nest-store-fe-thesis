@@ -8,7 +8,7 @@ export interface Props {
 
 export function OverallRating({ averageStar, totalRatings }: Props) {
   return (
-    <div className="p-4 bg-white rounded-md shadow-sm">
+    <div className="flex flex-col h-full p-4 bg-white rounded-md shadow-sm">
       <div className="flex items-center space-x-1">
         <Target size={16} className="text-primary" />
         <h5 className="text-lg font-semibold">Đánh giá tổng thể</h5>

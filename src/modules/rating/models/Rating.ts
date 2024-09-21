@@ -3,7 +3,7 @@ export type Rating = {
   content: string;
   star: number;
   productId: number;
-  productName: string;
+  upvoteUsers: string[];
   lastName: string;
   firstName: string;
   createdBy: string;

@@ -10,6 +10,8 @@ import { OrderDetail } from "../../../../modules/order/components/order-details"
 import { Order as OrderModel } from "~/modules/order/model/Order";
 import OrderItem from "~/modules/order/components/order-item";
 import { Pagination } from "~/modules/common/components/pagination";
+import { OrderStatus } from "~/modules/order/model/OrderStatus";
+import { ItemRatingSelector } from "./item-rating-selector";
 
 export interface Props {
   orders: OrderModel[];
@@ -28,6 +30,9 @@ export function Order({
 }: Props) {
   const searchParams = useSearchParams();
   const [filterdOrders, setFilteredOrder] = useState<OrderModel[]>([]);
+  const [openItemRatingSelector, setOpenItemRatingSelector] = useState<{
+    [key: number]: boolean;
+  }>({});
 
   useEffect(() => {
     const status = searchParams.get("orderStatus") || "ALL";
@@ -39,6 +44,14 @@ export function Order({
 
     setFilteredOrder(filteredOrderByStatus);
   }, [searchParams]);
+
+  const toggleItemRatingSelector = (orderId: number) => {
+    // Mở selector của orderId hiện tại, và đóng tất cả selector khác
+    setOpenItemRatingSelector((prev) => ({
+      ...prev,
+      [orderId]: !prev[orderId],
+    }));
+  };
 
   return (
     <div className="w-full h-full">
@@ -66,9 +79,18 @@ export function Order({
                   <OrderItem key={itemOrder.orderDetailId} item={itemOrder} />
                 ))}
               </div>
-              <div className="bg-zinc-50 p-6 flex justify-between items-center gap-4 border-t border-dotted">
-                <OrderDetail order={order} />
 
+              <div className="bg-zinc-50 p-6 flex justify-between items-center gap-4 border-t border-dotted">
+                <div className="flex space-x-4">
+                  <OrderDetail order={order} />
+                  {order.orderStatus === OrderStatus.COMPLETED && (
+                    <ItemRatingSelector
+                      open={openItemRatingSelector[order.orderId]}
+                      setOpen={() => toggleItemRatingSelector(order.orderId)}
+                      oderItems={order.orderItems}
+                    />
+                  )}
+                </div>
                 <div className="flex gap-2">
                   Thành tiền:
                   <p className="text-primary font-semibold">

@@ -7,16 +7,15 @@ import { ProductDetailPlaceholder } from "~/common/components/skeleton/product-d
 import { RatingList } from "~/modules/rating/components/rating-list";
 import { Rating } from "~/modules/rating/models/Rating";
 import {
-  createRating,
   deleteRating,
   getAverageStarByProductId,
+  getMostUpvoteRating,
   getRatingByProductId,
   getRatingStarPercentage,
+  upvoteRating,
 } from "~/modules/rating/services/RatingService";
 import { getProductById } from "~/modules/product/services/ProductService";
 import { RatingBreakdown } from "~/modules/rating/models/RatingBreakdown";
-import { RatingShemaType } from "~/app/schema-validations/rating.shema";
-import { RatingPost } from "~/modules/rating/models/RatingPost";
 import { toast } from "~/components/ui/use-toast";
 import { Product } from "~/modules/product/models/Product";
 import { ProductUtil } from "~/common/utility/product.util";
@@ -38,6 +37,7 @@ const ProductDetailPage = ({ params }: Props) => {
   const [ratingStarPercentage, setRatingStarPercentage] = useState<
     RatingBreakdown[]
   >([]);
+  const [mostUpvoteRating, setMostUpvoteRating] = useState<Rating | null>(null);
   const [isPost, setIsPost] = useState<boolean>(false);
 
   useEffect(() => {
@@ -48,19 +48,29 @@ const ProductDetailPage = ({ params }: Props) => {
         const product = res.data;
         setProduct(product);
 
-        const averageStarResponse = await getAverageStarByProductId(product.id);
-        setAverageStar(averageStarResponse.data);
+        const [averageStarRes, ratingStarPercentageRes] = await Promise.all([
+          getAverageStarByProductId(product.id),
+          getRatingStarPercentage(product.id),
+        ]);
 
-        const ratingStarPercentageResponse = await getRatingStarPercentage(
-          product.id
-        );
-        setRatingStarPercentage(ratingStarPercentageResponse.data);
+        setAverageStar(averageStarRes.data);
+        setRatingStarPercentage(ratingStarPercentageRes.data);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
       }
     };
     fetchData();
   }, [params.slug]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (product) {
+        const res = await getMostUpvoteRating(product.id);
+        setMostUpvoteRating(res.data);
+      }
+    };
+    fetchData();
+  }, [product, isPost]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,29 +88,28 @@ const ProductDetailPage = ({ params }: Props) => {
     setPageNo(selected);
   };
 
-  const handleCreateRating = async (data: RatingShemaType) => {
-    if (product) {
-      const ratingPost: RatingPost = {
-        star: data.ratingStar,
-        content: data.content,
-        productId: product.id,
-        productName: product.name,
-      };
-      const res = await createRating(ratingPost);
-      if (res.success) {
-        toast({ description: res.message });
-        setIsPost(!isPost);
-      }
+  const handleDeleteRating = async (ratingId: string) => {
+    const res = await deleteRating(ratingId);
+    if (res.success) {
+      toast({ description: res.message });
+      setIsPost(!isPost);
     }
   };
 
-  const handleDeleteRating = async (ratingId: string) => {
-    console.log(ratingId);
-    // const res = await deleteRating(ratingId);
-    // if (res.success) {
-    //   toast({ description: res.message });
-    //   setIsPost(!isPost);
-    // }
+  const toggleVoteRating = async (ratingId: string) => {
+    try {
+      await upvoteRating(ratingId);
+      setIsPost(!isPost);
+    } catch (error: any) {
+      if (error.status === 401) {
+        toast({
+          description: "Bạn cần đăng nhập trước khi thích đánh giá",
+          variant: "destructive",
+        });
+      } else {
+        BaseUtil.handleErrorApi({ error });
+      }
+    }
   };
 
   return (
@@ -125,8 +134,9 @@ const ProductDetailPage = ({ params }: Props) => {
         totalPages={totalPages}
         averageStar={averageStar}
         ratingStarPercentage={ratingStarPercentage}
+        mostUpvoteRating={mostUpvoteRating}
+        toggleVoteRating={toggleVoteRating}
         handleChangePage={handlePageChange}
-        handleCreateRating={handleCreateRating}
         handleDeleteRating={handleDeleteRating}
       />
     </div>

@@ -1,6 +1,7 @@
 import { RatingPost } from "../models/RatingPost";
 import { EndpointUtil } from "~/common/utility/endpoint.util";
 import httpClient from "~/common/http-client";
+import { toast } from "~/components/ui/use-toast";
 
 export const getAverageStarByProductId = async (productId: number) => {
   const url =
@@ -39,6 +40,19 @@ export const getRatingStarPercentage = async (productId: number) => {
     EndpointUtil.NEST.RATING.GET_RATING_STAR_PERCENTAGE +
     `/${productId}` +
     "/breakdown";
+  const res = await httpClient.get<any>(url);
+  return res.payload;
+};
+
+export const upvoteRating = async (ratingId: string) => {
+  const url = EndpointUtil.NEST.RATING.UPVOTE_RATING + `/${ratingId}`;
+  const res = await httpClient.post<any>(url);
+  return res.payload;
+};
+
+export const getMostUpvoteRating = async (productId: number) => {
+  const url =
+    EndpointUtil.NEST.RATING.MOST_UPVOTE_RATING + `/${productId}/most-upvote`;
   const res = await httpClient.get<any>(url);
   return res.payload;
 };
