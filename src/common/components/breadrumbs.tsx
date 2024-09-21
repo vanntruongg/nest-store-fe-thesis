@@ -12,11 +12,10 @@ import {
 } from "~/components/ui/breadcrumb";
 import { cn } from "~/lib/utils";
 import MaxWidthWrapper from "./max-width-wrapper";
-import { Home } from "lucide-react";
-import { Breadrumb } from "~/common/model/base.model";
+import { BreadCrumb } from "~/modules/common/model/BreadCrumb";
 
 interface BreadrumbsProps {
-  breadrumbs?: Breadrumb[];
+  breadrumbs?: BreadCrumb[];
   options?: string;
   optionPage?: boolean;
   className?: string;
@@ -45,7 +44,7 @@ const Breadrumbs = ({
               <>
                 <BreadcrumbLink asChild>
                   <Link href={"/"} className="flex items-center gap-1">
-                    <Home strokeWidth={2} className="size-4 -mt-1" />
+                    {/* <Home strokeWidth={2} className="size-4 -mt-1" /> */}
                     <span>Home</span>
                   </Link>
                 </BreadcrumbLink>
