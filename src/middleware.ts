@@ -1,10 +1,9 @@
 import { jwtDecode } from "jwt-decode";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { IJWTDecoded } from "./common/model/auth.model";
 import { UserRole } from "./common/utility/enum.util";
 import { ROUTES } from "./common/constants/routes";
-import { useUser } from "./hooks/useUser";
+import { JWTDecoded } from "./modules/auth/model/AuthModel";
 
 const authPaths = [
   ROUTES.AUTH.LOGIN,
@@ -24,11 +23,23 @@ const privatePaths = [
   ROUTES.CHECKOUT,
 ];
 
-const adminPaths = [
-  ROUTES.ADMIN.USERS,
-  ROUTES.ADMIN.STATISTIC,
-  ROUTES.ADMIN.ORDERS,
-  ROUTES.ADMIN.PRODUCTS,
+const routeAdminAccessControl = [
+  {
+    path: ROUTES.ADMIN.USERS,
+    roles: [UserRole.ADMIN],
+  },
+  {
+    path: ROUTES.ADMIN.STATISTIC,
+    roles: [UserRole.ADMIN, UserRole.EMPLOYEE],
+  },
+  {
+    path: ROUTES.ADMIN.ORDERS,
+    roles: [UserRole.ADMIN, UserRole.EMPLOYEE],
+  },
+  {
+    path: ROUTES.ADMIN.PRODUCTS,
+    roles: [UserRole.ADMIN, UserRole.EMPLOYEE],
+  },
 ];
 
 // This function can be marked `async` if using `await` inside
@@ -42,12 +53,21 @@ export function middleware(request: NextRequest) {
   }
 
   // check admin path
-  if (adminPaths.some((path) => pathname.startsWith(path))) {
-    if (accessToken) {
-      const tokenDecoded: IJWTDecoded = jwtDecode(accessToken);
+  const route = routeAdminAccessControl.find((route) =>
+    pathname.startsWith(route.path)
+  );
 
-      if (tokenDecoded.roles.includes(UserRole.ADMIN)) {
+  if (route) {
+    if (accessToken) {
+      const tokenDecoded: JWTDecoded = jwtDecode(accessToken);
+      const userRoles = tokenDecoded.roles;
+
+      if (route.roles.some((role) => userRoles.includes(role))) {
         return NextResponse.next();
+      } else if (userRoles.includes(UserRole.EMPLOYEE)) {
+        return NextResponse.redirect(
+          new URL(ROUTES.ADMIN.STATISTIC, request.url)
+        );
       }
     }
     return NextResponse.redirect(new URL(ROUTES.AUTH.LOGIN, request.url));
