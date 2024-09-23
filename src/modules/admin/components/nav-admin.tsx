@@ -1,77 +1,136 @@
 "use client";
-import { v4 as uuid } from "uuid";
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "../../../../public/assets/nest-logo-tranparent.png";
-import { AreaChart, BaggageClaim, Shirt, Users } from "lucide-react";
+import {
+  LiaClipboardListSolid,
+  LiaUserFriendsSolid,
+  LiaChartBarSolid,
+  LiaBoxesSolid,
+} from "react-icons/lia";
 import { usePathname } from "next/navigation";
+import ButtonLogout from "~/common/components/buttons/logout-button";
+import { ROUTES } from "~/common/constants/routes";
+import { useUser } from "~/hooks/useUser";
+import { UserRole } from "~/common/utility/enum.util";
+import { AuthUtil } from "~/common/utility/auth.util";
+import { useEffect, useState } from "react";
 
-const navLinks = [
+const menuDashboardItems = [
   {
-    id: uuid(),
-    icon: <AreaChart strokeWidth={2} />,
+    id: 1,
+    icon: <LiaChartBarSolid size={20} />,
     label: "Thống kê",
-    link: "/dashboard/statistic",
+    link: ROUTES.ADMIN.STATISTIC,
+    roles: [UserRole.ADMIN, UserRole.EMPLOYEE],
   },
   {
-    id: uuid(),
-    icon: <Users strokeWidth={2} />,
+    id: 2,
+    icon: <LiaUserFriendsSolid size={20} />,
     label: "Quản lý người dùng",
-    link: "/dashboard/users",
+    link: ROUTES.ADMIN.USERS,
+    roles: [UserRole.ADMIN],
   },
   {
-    id: uuid(),
-    icon: <BaggageClaim strokeWidth={2} />,
+    id: 3,
+    icon: <LiaClipboardListSolid size={20} />,
+
     label: "Quản lý đơn hàng",
-    link: "/dashboard/orders",
+    link: ROUTES.ADMIN.ORDERS,
+    roles: [UserRole.ADMIN, UserRole.EMPLOYEE],
   },
   {
-    id: uuid(),
-    icon: <Shirt strokeWidth={2} />,
+    id: 4,
+    icon: <LiaBoxesSolid size={20} />,
     label: "Quản lý sản phẩm",
-    link: "/dashboard/products",
+    link: ROUTES.ADMIN.PRODUCTS,
+    roles: [UserRole.ADMIN, UserRole.EMPLOYEE],
   },
 ];
 
 export function NavAdmin() {
+  const { user: currentUser } = useUser();
   const pathname = usePathname();
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, [isMounted]);
+
+  const userRoles = AuthUtil.getUserRoles(currentUser);
+
+  const rendermenuDashboardItems = menuDashboardItems
+    .filter((item) => item.roles.some((role) => userRoles.includes(role)))
+    .map((item) =>
+      pathname === item.link ? (
+        <div
+          key={item.id}
+          className="px-4 py-2 flex items-center gap-2 rounded-full text-primary bg-gray-100"
+        >
+          {item.icon}
+          <div>{item.label}</div>
+        </div>
+      ) : (
+        <Link
+          key={item.id}
+          href={item.link}
+          className="px-4 py-2 flex items-center gap-2 rounded-full hover:bg-gray-200 transition-all duration-200"
+        >
+          {item.icon}
+          {item.label}
+        </Link>
+      )
+    );
+
   return (
-    <nav className="bg-primary h-full min-h-screen p-4 shadow">
-      <Link
-        href={"/dashboard/statistic"}
-        className="overflow-hidden flex justify-center scale-150"
-      >
-        <Image
-          src={Logo}
-          alt="Logo"
-          width={50}
-          height={50}
-          className="scale-150 overflow-hidden"
-        />
-      </Link>
-      <ul className="px-3 flex flex-col mt-4 text-white text-sm font-semibold">
-        {navLinks.map(({ id, icon, label, link }) =>
-          pathname === link ? (
-            <li
-              key={id}
-              className="flex items-center gap-2 px-2 py-4 rounded-sm text-primary bg-white"
-            >
-              {icon}
-              {label}
-            </li>
-          ) : (
-            <li
-              key={id}
-              className="rounded-sm hover:bg-white hover:text-primary transition-colors duration-200"
-            >
-              <Link href={link} className="flex items-center gap-2 px-2 py-4">
+    <nav className="bg-gray-100 h-full min-h-screen p-4 flex flex-col justify-between shadow">
+      <div>
+        <Link
+          href={ROUTES.ADMIN.STATISTIC}
+          className="overflow-hidden flex justify-center scale-150"
+        >
+          <Image
+            src={Logo}
+            alt="Logo"
+            width={50}
+            height={50}
+            className="scale-150 overflow-hidden"
+          />
+        </Link>
+        <div className="flex flex-col space-y-4 mt-4 text-muted-foreground text-sm font-bold">
+          {/* {menuDashboardItems.map(({ id, icon, label, link }) =>
+            pathname === link ? (
+              <div
+                key={id}
+                className="px-4 py-2 flex items-center gap-2 rounded-full text-primary bg-gray-100"
+              >
+                {icon}
+                <div>{label}</div>
+              </div>
+            ) : (
+              <Link
+                key={id}
+                href={link}
+                className="px-4 py-2 flex items-center gap-2 rounded-full hover:bg-gray-200 transition-all duration-200"
+              >
                 {icon}
                 {label}
               </Link>
-            </li>
-          )
-        )}
-      </ul>
+            )
+          )} */}
+          {isMounted && rendermenuDashboardItems}
+        </div>
+      </div>
+      <div className="bottom-4 flex flex-col justify-between w-full space-y-2 text-sm font-semibold">
+        {/* <Link
+          href={"/"}
+          className="px-2 py-4 flex justify-center items-center space-x-2 cursor-pointer text-white hover:text-primary hover:bg-white rounded-full duration-200"
+        >
+          <Home strokeWidth={2.5} className="size-5" />
+          <p>Cửa hàng</p>
+        </Link> */}
+        <ButtonLogout className="px-2 py-4 flex justify-center space-x-2 bg-gray-300 text-gray-700 hover:text-primary hover:bg-gray-200 rounded-full duration-200" />
+      </div>
     </nav>
   );
 }
