@@ -9,6 +9,7 @@ import { useUser } from "~/hooks/useUser";
 import { ROUTES } from "~/common/constants/routes";
 import DevelopingTooltip from "../developing-tooltip";
 import ButtonLogout from "../buttons/logout-button";
+import { UserAvatar } from "~/modules/user/components/user-avatar";
 
 const menu = [
   {
@@ -51,13 +52,13 @@ const NavUser = () => {
   return (
     <div ref={ref} className="relative">
       <div className="p-2">
-        <Avatar
-          className="size-7 hover:cursor-pointer"
+        {/* <div className="" onClick={() => setOpen(!open)}> */}
+        <UserAvatar
+          imageUrl={user.imageUrl}
+          firstName={user.firstName}
           onClick={() => setOpen(!open)}
-        >
-          <AvatarImage src={user.imageUrl} alt="avatar user" />
-          <AvatarFallback className="size-5">AV</AvatarFallback>
-        </Avatar>
+        />
+        {/* </div> */}
         <div
           className={cn(
             "min-w-60 p-2 bg-white border border-gray-300 rounded-2xl shadow-md absolute top-12 right-0 z-50 transition-all duration-300 invisible origin-top-right transform scale-0 opacity-0 group-hover:visible",

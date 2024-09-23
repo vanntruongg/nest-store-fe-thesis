@@ -115,4 +115,10 @@ export class BaseUtil {
     }
     return "";
   }
+
+  static generateDefaultAvatarInitial(firstName: string) {
+    if (!firstName) return "";
+
+    return firstName.charAt(0).toUpperCase();
+  }
 }
