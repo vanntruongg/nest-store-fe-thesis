@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
-import userApi from "~/apis/user-api";
 import {
   UpdateUserWithoutRoleShema,
   UpdateUserWithoutShemaType,
@@ -33,6 +32,7 @@ import { useUser } from "~/hooks/useUser";
 import { FileWithPreview } from "~/modules/common/model/FileWithPreview";
 import { BaseUtil } from "~/common/utility/base.util";
 import { UserPut } from "~/modules/user/model/UserPut";
+import { updateUser } from "~/modules/user/services/UserService";
 
 export function FormUpdateUser() {
   const { user, setUser } = useUser();
@@ -70,10 +70,7 @@ export function FormUpdateUser() {
         return;
       }
       if (imageSelected) {
-        data.imageUrl = await CloudinaryUtil.handleUploadImage(
-          imageSelected,
-          avatarPreview
-        );
+        data.imageUrl = await CloudinaryUtil.handleUploadImage(imageSelected);
       }
 
       const dataUpdate: UserPut = {
@@ -81,9 +78,9 @@ export function FormUpdateUser() {
         ...data,
       };
 
-      const result = await userApi.updateUser(dataUpdate);
-      setUser(result.payload.data);
-      toast({ description: result.payload.message });
+      const result = await updateUser(dataUpdate);
+      setUser(result.data);
+      toast({ description: result.message });
       setOpen(false);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });

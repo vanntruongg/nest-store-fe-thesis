@@ -63,7 +63,7 @@ const Cart = () => {
           ({ product, sizeQuantities }) =>
             sizeQuantities.map(({ size, quantity }) => ({
               productId: product.id,
-              image: product.images[0].imageUrl,
+              image: product.imageUrl,
               name: product.name,
               price: product.price,
               size,

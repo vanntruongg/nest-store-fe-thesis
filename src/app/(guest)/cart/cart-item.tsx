@@ -118,7 +118,7 @@ const CartItem = ({
     if (checked) {
       addItem({
         productId: product.id,
-        image: product.images[0].imageUrl,
+        image: product.imageUrl,
         name: product.name,
         price: product.price,
         quantity,
@@ -172,7 +172,7 @@ const CartItem = ({
         <div className="col-span-6 flex gap-4">
           <div className="relative min-w-20 aspect-square">
             <Image
-              src={product.images ? product.images[0].imageUrl : ""}
+              src={product.imageUrl || ""}
               fill
               sizes="100"
               alt="product image"

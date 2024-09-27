@@ -90,7 +90,7 @@ const ProductDetail = ({ product, averageStar, totalRating }: Props) => {
         setCartLength(res.data);
         const item: ItemCheckout = {
           productId: product.id,
-          image: product.images[0].imageUrl,
+          image: product.imageUrl,
           name: product.name,
           price: product.price,
           size: selectedSize,
@@ -121,7 +121,7 @@ const ProductDetail = ({ product, averageStar, totalRating }: Props) => {
       />
 
       <div className="bg-white grid grid-cols-2 gap-4 p-5 rounded-sm">
-        <ProductImageGallery images={product.images} />
+        <ProductImageGallery imageUrl={product.imageUrl} />
 
         <div className="w-full flex flex-col space-y-4">
           <DetailHeader

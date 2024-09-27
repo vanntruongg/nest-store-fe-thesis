@@ -1,9 +1,9 @@
 import { X } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Product } from "~/common/model/product.model";
 import { ProductUtil } from "~/common/utility/product.util";
 import { useWishlist } from "~/hooks/useWishlist";
+import { Product } from "~/modules/product/models/Product";
 
 const WishListItem = ({
   product,
@@ -32,7 +32,7 @@ const WishListItem = ({
             className="relative aspect-square h-16 min-w-fit overflow-hidden rounded cursor-pointer"
           >
             <Image
-              src={product.images[0].imageUrl}
+              src={product.imageUrl}
               alt={product.name}
               fill
               sizes="full"

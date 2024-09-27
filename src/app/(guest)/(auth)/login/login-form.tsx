@@ -36,7 +36,7 @@ const LoginForm = () => {
   const router = useRouter();
   const { setUser } = useUser();
   const { toast } = useToast();
-  const { isAdmin } = useAuth();
+  const { isAdmin, isEmployee } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
 
   const form = useForm<LoginShemaType>({
@@ -58,7 +58,10 @@ const LoginForm = () => {
         // call api to next server to set token to cookie
         await auth(res.data);
 
-        if (isAdmin(tokenStorage.value.rawToken.accessToken)) {
+        if (
+          isAdmin(tokenStorage.value.rawToken.accessToken) ||
+          isEmployee(tokenStorage.value.rawToken.accessToken)
+        ) {
           router.push(ROUTES.ADMIN.STATISTIC);
         } else {
           router.push(ROUTES.HOME);

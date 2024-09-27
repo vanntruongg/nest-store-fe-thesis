@@ -6,6 +6,7 @@ export type User = {
   lastName: string;
   dateOfBirth: string;
   phone: string | null;
+  status: string;
   imageUrl: string;
   roles: Role[];
 };

@@ -1,5 +1,3 @@
-import { Category } from "./Category";
-import { Image } from "./Image";
 import { SizeQuantity } from "./SizeQuantity";
 
 export type Product = {
@@ -8,7 +6,14 @@ export type Product = {
   price: number;
   material: string;
   style: string;
-  category: Category;
-  images: Image[];
+  category: CategoryInProduct;
+  imageUrl: string;
   sizeQuantity: SizeQuantity[];
+};
+
+export type CategoryInProduct = {
+  id: number;
+  name: string;
+  image: string;
+  parentCategory: CategoryInProduct;
 };

@@ -8,5 +8,10 @@ export const useAuth = () => {
     return tokenDecoded.roles.includes(UserRole.ADMIN);
   };
 
-  return { isAdmin };
+  const isEmployee = (accessToken: string) => {
+    const tokenDecoded: JWTDecoded = jwtDecode(accessToken);
+    return tokenDecoded.roles.includes(UserRole.EMPLOYEE);
+  };
+
+  return { isAdmin, isEmployee };
 };

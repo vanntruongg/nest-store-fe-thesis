@@ -1,5 +1,3 @@
-"use client";
-
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { ProductUtil } from "~/common/utility/product.util";

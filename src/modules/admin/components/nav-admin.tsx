@@ -15,6 +15,7 @@ import { useUser } from "~/hooks/useUser";
 import { UserRole } from "~/common/utility/enum.util";
 import { AuthUtil } from "~/common/utility/auth.util";
 import { useEffect, useState } from "react";
+import { cn } from "~/lib/utils";
 
 const menuDashboardItems = [
   {
@@ -28,7 +29,7 @@ const menuDashboardItems = [
     id: 2,
     icon: <LiaUserFriendsSolid size={20} />,
     label: "Quản lý người dùng",
-    link: ROUTES.ADMIN.USERS,
+    link: ROUTES.ADMIN.USER,
     roles: [UserRole.ADMIN],
   },
   {
@@ -36,14 +37,14 @@ const menuDashboardItems = [
     icon: <LiaClipboardListSolid size={20} />,
 
     label: "Quản lý đơn hàng",
-    link: ROUTES.ADMIN.ORDERS,
+    link: ROUTES.ADMIN.ORDER,
     roles: [UserRole.ADMIN, UserRole.EMPLOYEE],
   },
   {
     id: 4,
     icon: <LiaBoxesSolid size={20} />,
     label: "Quản lý sản phẩm",
-    link: ROUTES.ADMIN.PRODUCTS,
+    link: ROUTES.ADMIN.PRODUCT,
     roles: [UserRole.ADMIN, UserRole.EMPLOYEE],
   },
 ];
@@ -74,7 +75,12 @@ export function NavAdmin() {
         <Link
           key={item.id}
           href={item.link}
-          className="px-4 py-2 flex items-center gap-2 rounded-full hover:bg-gray-200 transition-all duration-200"
+          className={cn(
+            "px-4 py-2 flex items-center gap-2 rounded-full hover:bg-gray-200 transition-all duration-200",
+            {
+              "text-primary": pathname.includes(item.link),
+            }
+          )}
         >
           {item.icon}
           {item.label}

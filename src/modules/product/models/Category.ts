@@ -1,17 +1,10 @@
 export type Category = {
-  id: number;
-  name: string;
-  image: string;
+  category: ICategory;
   subCategories: Category[];
 };
 
-// interface ICategory {
-//   category: Category;
-//   subCategories?: ICategory[];
-// }
-
-// interface Category {
-//   id: number;
-//   name: string;
-//   image: string;
-// }
+interface ICategory {
+  id: number;
+  name: string;
+  image: string;
+}

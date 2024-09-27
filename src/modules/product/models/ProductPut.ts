@@ -4,6 +4,6 @@ export type ProductPut = {
   price: number;
   material: string;
   style: string;
-  imageUrls: string[];
+  imageUrl: string;
   categoryId: number;
 };

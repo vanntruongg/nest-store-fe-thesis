@@ -1,3 +1,4 @@
+"use client";
 import SummaryStatistic from "./summary";
 import OrderStatisticByMonth from "./order";
 import Revenue from "./revenue";

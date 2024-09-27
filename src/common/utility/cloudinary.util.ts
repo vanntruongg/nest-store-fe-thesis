@@ -1,13 +1,12 @@
-import { FileWithPreview } from "../model/file.model";
+import { FileWithPreview } from "~/modules/common/model/FileWithPreview";
 
 export class CloudinaryUtil {
   static handleUploadImage = async (
-    file: FileWithPreview | null,
-    avatarPreview: string
+    file: FileWithPreview | null
   ): Promise<string> => {
     // if no image is selected, get user's default image
     if (!file) {
-      return avatarPreview;
+      return "";
     }
 
     const formData = new FormData();

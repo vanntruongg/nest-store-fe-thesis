@@ -1,5 +1,4 @@
 "use client";
-import { ICategory } from "~/common/model/product.model";
 import {
   Accordion,
   AccordionContent,
@@ -10,9 +9,10 @@ import { buttonVariants } from "../../../components/ui/button";
 import { cn } from "~/lib/utils";
 import { useSearchParams } from "next/navigation";
 import { Skeleton } from "~/components/ui/skeleton";
+import { Category } from "~/modules/product/models/Category";
 
 interface RecursionCategoryProps {
-  categories: ICategory[];
+  categories: Category[];
   fontSize: number;
   handleFetchData: (categoryId: number) => void;
 }

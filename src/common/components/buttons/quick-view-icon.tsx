@@ -46,9 +46,9 @@ const QuickViewIcon = ({ product, className }: QuickViewIconProps) => {
         className="max-w-6xl p-0"
       >
         {/* <ProductDetail product={product} /> */}
-        <div className="">
+        {/* <div className="">
           <ProductImageGallery images={product.images} />
-        </div>
+        </div> */}
       </DialogContent>
     </Dialog>
   );

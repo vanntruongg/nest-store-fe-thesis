@@ -15,11 +15,13 @@ enum EUserStatus {
 
 enum ERole {
   "ADMIN" = "Quản trị viên",
+  "EMPLOYEE" = "Nhân viên",
   "USER" = "Người dùng",
 }
 
 enum UserRole {
   ADMIN = "ADMIN",
+  EMPLOYEE = "EMPLOYEE",
   USER = "USER",
 }
 

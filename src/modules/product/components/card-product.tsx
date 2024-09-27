@@ -31,7 +31,7 @@ const CardProduct = ({ product, layout }: CardProductProps) => {
         >
           <Image
             fill
-            src={product.images[0].imageUrl}
+            src={product.imageUrl}
             alt="image product"
             sizes="full"
             priority

@@ -1,6 +1,4 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import BarChart from "~/common/components/charts/bar-chart";
@@ -117,4 +115,4 @@ const OrderStatisticByMonth = () => {
   );
 };
 
-export default OrderStatisticByMonth;
+export default memo(OrderStatisticByMonth);

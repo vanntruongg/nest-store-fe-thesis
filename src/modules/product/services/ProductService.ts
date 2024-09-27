@@ -9,8 +9,10 @@ export const getProductById = async (productId: number) => {
   return res.payload;
 };
 
-export const getAllProduct = async () => {
-  const url = EndpointUtil.NEST.PRODUCT.GET_ALL;
+export const getAllProduct = async (pageNo: number, pageSize: number) => {
+  const url =
+    EndpointUtil.NEST.PRODUCT.GET_ALL +
+    `?pageNo=${pageNo}&pageSize=${pageSize}`;
   const res = await httpClient.get<any>(url);
   return res.payload;
 };

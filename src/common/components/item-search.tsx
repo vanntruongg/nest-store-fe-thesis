@@ -1,9 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import * as React from "react";
-import { Product } from "~/common/model/product.model";
+
 import { ProductUtil } from "~/common/utility/product.util";
+import { Product } from "~/modules/product/models/Product";
 
 interface ItemProductSearchProps {
   product: Product;
@@ -28,7 +27,7 @@ const ItemProductSearch = ({
     >
       <div className="hover:bg-gray-200 rounded-full overflow-hidden transition-all duration-300">
         <Image
-          src={product.images[0].imageUrl}
+          src={product.imageUrl}
           alt={`image product ${product.id}`}
           width={50}
           height={50}

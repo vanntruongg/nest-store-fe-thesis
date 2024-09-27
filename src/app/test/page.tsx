@@ -1,6 +1,8 @@
+"use client";
 import React from "react";
-import { PostRatingForm } from "~/modules/rating/components/post-rating-form";
-import { RatingList } from "~/modules/rating/components/rating-list";
+import { RatingItem } from "~/modules/rating/components/rating-item";
+import { Rating } from "~/modules/rating/models/Rating";
+import { UserAvatar } from "~/modules/user/components/user-avatar";
 
 const images = [
   {
@@ -35,7 +37,22 @@ const images = [
   },
 ];
 
+const rating: Rating = {
+  id: "1",
+  content: "Sản phẩm chất lượng",
+  createdBy: "truongtran.lv2019@gmail.com",
+  createdDate: "2 ngày trước",
+  firstName: "Van Truong",
+  lastName: "Tran",
+  productId: 1,
+  upvoteUsers: [],
+  star: 4,
+};
+
 const page = () => {
+  const handleDeleteRating = (ratingId: string) => {
+    console.log(ratingId);
+  };
   return (
     // <div className="bg-white mx-auto h-screen flex items-center justify-center">
     //   {/* <div className="bg-blue-500 h-full flex-1 ">{}</div>
@@ -46,9 +63,10 @@ const page = () => {
     //     <ProductImageSlider images={images} />
     //   </div> */}
     // </div>
-    <div className="w-full h-screen flex justify-center items-center p-20">
+    <div className="w-full h-screen flex justify-center items-center p-20 bg-green-100">
       {/* <RatingList productId={1} /> */}
       {/* <PostRatingForm productId={1} productName="Quần tây" /> */}
+      {/* <RatingItem rating={rating} handleDeleteRating={handleDeleteRating} /> */}
     </div>
   );
 };

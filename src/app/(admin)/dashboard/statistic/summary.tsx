@@ -1,8 +1,11 @@
-"use client";
-import { BaggageClaim, Loader2, Shirt, User } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { Loader2 } from "lucide-react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-
+import {
+  LiaClipboardListSolid,
+  LiaUserFriendsSolid,
+  LiaBoxesSolid,
+} from "react-icons/lia";
 import CountUp from "react-countup";
 import { Button } from "~/components/ui/button";
 import {
@@ -12,7 +15,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { v4 as uuid } from "uuid";
 import { BaseUtil } from "~/common/utility/base.util";
 import { OrderUtil } from "~/common/utility/order.util";
 import { getUserCount } from "~/modules/user/services/UserService";
@@ -32,6 +34,8 @@ const SummaryStatistic = () => {
     products: 0,
     orders: {},
   });
+  console.log("re-render");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -53,31 +57,32 @@ const SummaryStatistic = () => {
     fetchData();
     setIsMounted(true);
   }, []);
+
   const totalOrders = useMemo(() => {
     return Object.values(summary.orders).reduce((acc, curr) => acc + curr, 0);
   }, [summary.orders]);
 
   const sumaryStatistic = [
     {
-      id: uuid(),
+      id: 1,
       label: "Tổng số người dùng",
       value: summary.users,
       details: false,
-      icon: <User strokeWidth={2} className="-mt-1" />,
+      icon: <LiaUserFriendsSolid size={24} />,
     },
     {
-      id: uuid(),
+      id: 2,
       label: "Tổng số sản phẩm",
       value: summary.products,
       details: false,
-      icon: <Shirt strokeWidth={2} className="-mt-1" />,
+      icon: <LiaBoxesSolid size={24} />,
     },
     {
-      id: uuid(),
+      id: 3,
       label: "Tổng số đơn hàng",
       value: summary.orders,
       details: true,
-      icon: <BaggageClaim strokeWidth={2} className="-mt-1" />,
+      icon: <LiaClipboardListSolid size={24} />,
     },
   ];
 
@@ -201,4 +206,4 @@ const SummaryStatistic = () => {
     </div>
   );
 };
-export default SummaryStatistic;
+export default memo(SummaryStatistic);

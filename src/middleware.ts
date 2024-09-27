@@ -25,7 +25,7 @@ const privatePaths = [
 
 const routeAdminAccessControl = [
   {
-    path: ROUTES.ADMIN.USERS,
+    path: ROUTES.ADMIN.USER,
     roles: [UserRole.ADMIN],
   },
   {
@@ -33,11 +33,11 @@ const routeAdminAccessControl = [
     roles: [UserRole.ADMIN, UserRole.EMPLOYEE],
   },
   {
-    path: ROUTES.ADMIN.ORDERS,
+    path: ROUTES.ADMIN.ORDER,
     roles: [UserRole.ADMIN, UserRole.EMPLOYEE],
   },
   {
-    path: ROUTES.ADMIN.PRODUCTS,
+    path: ROUTES.ADMIN.PRODUCT,
     roles: [UserRole.ADMIN, UserRole.EMPLOYEE],
   },
 ];
@@ -97,9 +97,9 @@ export const config = {
     "/user/address",
     "/cart",
     "/checkout",
-    "/dashboard/users",
+    "/dashboard/user",
     "/dashboard/statistic",
-    "/dashboard/orders",
-    "/dashboard/products",
+    "/dashboard/order",
+    "/dashboard/product",
   ],
 };
