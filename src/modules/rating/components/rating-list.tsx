@@ -36,13 +36,13 @@ export function RatingList({
   handleDeleteRating,
 }: Props) {
   return (
-    <MaxWidthWrapper className="my-20 p-6 flex flex-col space-y-8 bg-gray-100">
-      <div className="flex space-x-2 items-center">
+    <div className="p-4 flex flex-col space-y-8">
+      {/* <div className="flex space-x-2 items-center">
         <div className="bg-yellow-500 p-1">
           <IoIosStar className="text-white" />
         </div>
         <h4 className="text-xl font-bold leading-none">Đánh giá sản phẩm</h4>
-      </div>
+      </div> */}
       {totalElements === 0 ? (
         <span>Hiện tại chưa có đánh giá nào</span>
       ) : (
@@ -90,6 +90,6 @@ export function RatingList({
           )}
         </>
       )}
-    </MaxWidthWrapper>
+    </div>
   );
 }

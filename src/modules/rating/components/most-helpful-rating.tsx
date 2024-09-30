@@ -13,7 +13,7 @@ export function MostHelpfulRating({ rating, toggleVoteRating }: Props) {
   const { user } = useUser();
 
   return (
-    <div className="flex flex-col h-full p-4 bg-white rounded-md shadow-sm">
+    <div className="flex flex-col h-full p-4 bg-zinc-100 rounded-md shadow-sm">
       <div className="flex items-center space-x-1">
         <Target size={16} className="text-blue-500" />
         <h5 className="text-lg font-semibold">Đánh giá hữu ích</h5>

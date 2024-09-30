@@ -1,9 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { toast } from "~/components/ui/use-toast";
+
 import { BaseUtil } from "~/common/utility/base.util";
 import Breadrumbs from "~/common/components/breadrumbs";
-import ProductDetail from "~/modules/product/components/product-detail";
 import { ProductDetailPlaceholder } from "~/common/components/skeleton/product-detail-skeleton";
+import { ProductUtil } from "~/common/utility/product.util";
+import MaxWidthWrapper from "~/common/components/max-width-wrapper";
+
+import ProductDetail from "~/modules/product/components/product-detail";
 import { RatingList } from "~/modules/rating/components/rating-list";
 import { Rating } from "~/modules/rating/models/Rating";
 import {
@@ -16,9 +23,8 @@ import {
 } from "~/modules/rating/services/RatingService";
 import { getProductById } from "~/modules/product/services/ProductService";
 import { RatingBreakdown } from "~/modules/rating/models/RatingBreakdown";
-import { toast } from "~/components/ui/use-toast";
 import { Product } from "~/modules/product/models/Product";
-import { ProductUtil } from "~/common/utility/product.util";
+import { ProductDescription } from "~/modules/product/components/product-description";
 
 interface Props {
   params: {
@@ -28,7 +34,6 @@ interface Props {
 
 const ProductDetailPage = ({ params }: Props) => {
   const [product, setProduct] = useState<Product | null>(null);
-  // const [categories, setCategories] = useState<Category[]>([]);
   const [ratingList, setRatingList] = useState<Rating[]>([]);
   const [pageNo, setPageNo] = useState<number>(0);
   const [totalElements, setTotalElement] = useState<number>(0);
@@ -113,32 +118,76 @@ const ProductDetailPage = ({ params }: Props) => {
   };
 
   return (
-    <div className="bg-gray-100 flex flex-col space-y-4 mb-4">
-      <Breadrumbs options={product?.name} optionPage={true} context="page" />
-
-      {product ? (
-        <ProductDetail
-          product={product}
-          averageStar={averageStar}
-          totalRating={totalElements}
-        />
-      ) : (
-        <ProductDetailPlaceholder />
-      )}
-
-      {/* Rating */}
-      <RatingList
-        ratingList={ratingList}
-        pageNo={pageNo}
-        totalElements={totalElements}
-        totalPages={totalPages}
-        averageStar={averageStar}
-        ratingStarPercentage={ratingStarPercentage}
-        mostUpvoteRating={mostUpvoteRating}
-        toggleVoteRating={toggleVoteRating}
-        handleChangePage={handlePageChange}
-        handleDeleteRating={handleDeleteRating}
+    <div className="flex flex-col space-y-4 mb-4">
+      <Breadrumbs
+        options={product?.name}
+        optionPage={true}
+        context="page"
+        className=""
       />
+
+      <MaxWidthWrapper>
+        <div className="bg-white space-y-16">
+          {product ? (
+            <ProductDetail
+              product={product}
+              averageStar={averageStar}
+              totalRating={totalElements}
+            />
+          ) : (
+            <ProductDetailPlaceholder />
+          )}
+
+          <Tabs defaultValue="details" className="w-full bg-white">
+            <TabsList className="w-full h-full p-0 bg-white border-b border-gray-300 rounded-none">
+              <TabsTrigger
+                value="details"
+                className="w-full flex justify-center text-xl"
+              >
+                Chi tiết sản phẩm
+              </TabsTrigger>
+              <TabsTrigger
+                value="reviews"
+                className="w-full flex justify-center text-xl"
+              >
+                Đánh giá
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="details">
+              <div className="p-4 flex flex-col space-y-4 text-sm">
+                <div className="flex gap-2">
+                  <span className="min-w-20 text-muted-foreground">
+                    Chất liệu:
+                  </span>
+                  <p>{product?.material}</p>
+                </div>
+                <div className="flex gap-2">
+                  <span className="min-w-20 text-muted-foreground">
+                    Phong cách:
+                  </span>
+                  <p>{product?.style}</p>
+                </div>
+                <ProductDescription description={product?.description} />
+              </div>
+            </TabsContent>
+            <TabsContent value="reviews">
+              {/* Rating */}
+              <RatingList
+                ratingList={ratingList}
+                pageNo={pageNo}
+                totalElements={totalElements}
+                totalPages={totalPages}
+                averageStar={averageStar}
+                ratingStarPercentage={ratingStarPercentage}
+                mostUpvoteRating={mostUpvoteRating}
+                toggleVoteRating={toggleVoteRating}
+                handleChangePage={handlePageChange}
+                handleDeleteRating={handleDeleteRating}
+              />
+            </TabsContent>
+          </Tabs>
+        </div>
+      </MaxWidthWrapper>
     </div>
   );
 };

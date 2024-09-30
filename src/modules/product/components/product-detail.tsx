@@ -112,7 +112,7 @@ const ProductDetail = ({ product, averageStar, totalRating }: Props) => {
   };
 
   return (
-    <MaxWidthWrapper>
+    <>
       <QuantityExceededWarning
         open={errors.showDialogWarning}
         setOpen={(isShow) =>
@@ -214,21 +214,7 @@ const ProductDetail = ({ product, averageStar, totalRating }: Props) => {
           </div>
         </div>
       </div>
-
-      <div className="bg-white p-4">
-        <h3 className="text-xl">Chi tiết sản phẩm</h3>
-        <div className="py-8 flex flex-col gap-2 text-sm">
-          <div className="flex gap-2">
-            <span className="text-muted-foreground">Chất liệu:</span>
-            <p>{product.material}</p>
-          </div>
-          <div className="flex gap-2">
-            <span className="text-muted-foreground">Phong cách:</span>
-            <p>{product.style}</p>
-          </div>
-        </div>
-      </div>
-    </MaxWidthWrapper>
+    </>
   );
 };
 

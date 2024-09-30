@@ -26,5 +26,5 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export default function ShopLayout({ children }: { children: ReactNode }) {
-  return <>{children}</>;
+  return <div className="bg-gray-100">{children}</div>;
 }

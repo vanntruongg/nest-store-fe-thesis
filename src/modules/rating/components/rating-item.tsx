@@ -23,7 +23,7 @@ export function RatingItem({
   const { user } = useUser();
 
   return (
-    <div className="bg-white p-4 flex flex-col space-y-4 rounded-md">
+    <div className="bg-zinc-100 p-4 flex flex-col space-y-4 rounded-md">
       <div className="flex justify-between">
         <div className="flex space-x-2 items-center">
           <Star star={rating.star} fontSize="18px" />
