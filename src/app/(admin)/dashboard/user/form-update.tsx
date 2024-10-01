@@ -24,29 +24,26 @@ import {
 } from "~/app/schema-validations/auth.shema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useState } from "react";
 import { Checkbox } from "~/components/ui/checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { ERole, UserRole } from "~/common/utility/enum.util";
-import Image from "next/image";
 
 import Loading from "~/common/components/loading";
 import { BaseUtil } from "~/common/utility/base.util";
-import { toast } from "~/components/ui/use-toast";
-import { CloudinaryUtil } from "~/common/utility/cloudinary.util";
 import IconTextLoading from "~/common/components/icon-text-loading";
-import { updateUser } from "~/modules/user/services/UserService";
 import { UserPut } from "~/modules/user/model/UserPut";
 import { FileWithPreview } from "~/modules/common/model/FileWithPreview";
 import { User } from "~/modules/user/model/User";
-import { tokenStorage } from "~/common/utility/auth/token-storage";
+import { uploadToCloudinary } from "~/modules/common/services/CloudinaryService";
+import { ImagePreviewUploader } from "~/common/components/image/image-preview-uploader";
 
 interface IFormUpdateUserProps {
   user: User;
-  fetchData: () => void;
+  updateUser: (userPut: UserPut) => void;
 }
 
-export function FormUpdateUser({ user, fetchData }: IFormUpdateUserProps) {
+export function FormUpdateUser({ user, updateUser }: IFormUpdateUserProps) {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [avatarPreview, setAvatarPreview] = useState(user.imageUrl || "");
@@ -66,28 +63,11 @@ export function FormUpdateUser({ user, fetchData }: IFormUpdateUserProps) {
     },
   });
 
-  useEffect(() => {
-    return () => {
-      if (avatarPreview) {
-        URL.revokeObjectURL(avatarPreview);
-      }
-    };
-  }, [avatarPreview]);
-
-  const handlePerviewAvatar = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] as FileWithPreview;
-
-    if (file) {
-      setImageSelected(file);
-      file.preview = URL.createObjectURL(file);
-      setAvatarPreview(file.preview);
-    }
-  };
-
   const onSubmit = async ({
     firstName,
     lastName,
     phone,
+    imageUrl,
     roles,
   }: UpdateUserShemaType) => {
     setLoading(true);
@@ -99,12 +79,13 @@ export function FormUpdateUser({ user, fetchData }: IFormUpdateUserProps) {
       }
 
       // handle upload image and get url
-      const imageUrl = await CloudinaryUtil.handleUploadImage(
-        imageSelected,
-        avatarPreview
-      );
+      if (imageSelected) {
+        imageUrl = await uploadToCloudinary(imageSelected);
+      } else {
+        imageUrl = user.imageUrl;
+      }
 
-      const usePut: UserPut = {
+      const userPut: UserPut = {
         email: user.email,
         firstName,
         lastName,
@@ -113,9 +94,7 @@ export function FormUpdateUser({ user, fetchData }: IFormUpdateUserProps) {
         roles,
       };
 
-      const result = await updateUser(usePut);
-      fetchData();
-      toast({ description: result.message });
+      updateUser(userPut);
       setOpen(false);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
@@ -154,37 +133,13 @@ export function FormUpdateUser({ user, fetchData }: IFormUpdateUserProps) {
           </DialogHeader>
           <div className="grid grid-cols-6 space-x-16">
             <div className="col-span-2 flex flex-col space-y-4">
-              <div className="bg-muted mx-auto w-1/2 bg-gray-100 aspect-square relative">
-                <Image
-                  src={
-                    avatarPreview ? avatarPreview : "/assets/avatar-default.png"
-                  }
-                  alt="Avatar"
-                  fill
-                  sizes="100"
-                  className="rounded-md object-cover"
-                />
-              </div>
-              <div className="flex flex-col items-center">
-                <input
-                  id="chooseAvatar"
-                  type="file"
-                  accept="png, jpeg"
-                  onChange={handlePerviewAvatar}
-                  className="border sr-only"
-                />
-                <label
-                  htmlFor="chooseAvatar"
-                  className="mt-8 mb-4 cursor-pointer"
-                >
-                  <span className="px-4 py-1 border border-gray-500 rounded-full">
-                    Chọn ảnh
-                  </span>
-                </label>
-                <span className="text-xs text-gray-500">
-                  Định dạng: PNG, JPEG
-                </span>
-              </div>
+              <ImagePreviewUploader
+                form={form}
+                imageSelected={imageSelected}
+                setImageSelected={setImageSelected}
+                image={user.imageUrl}
+                className="w-1/2"
+              />
             </div>
             <Form {...form}>
               <form

@@ -17,20 +17,14 @@ import { deleteUser } from "~/modules/user/services/UserService";
 
 interface IConfirmDeleteProps {
   email: string;
-  fetchData: () => void;
+  deleteUser: (email: string) => void;
 }
 
-export function ConfirmDelete({ email, fetchData }: IConfirmDeleteProps) {
+export function ConfirmDelete({ email, deleteUser }: IConfirmDeleteProps) {
   const [open, setOpen] = useState<boolean>(false);
   const handleDeleteUser = async () => {
-    try {
-      const result = await deleteUser(email);
-      toast({ description: result.message });
-      setOpen(false);
-      fetchData();
-    } catch (error) {
-      BaseUtil.handleErrorApi({ error });
-    }
+    deleteUser(email);
+    setOpen(false);
   };
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
