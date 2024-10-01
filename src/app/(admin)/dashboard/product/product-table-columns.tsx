@@ -5,42 +5,48 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import Image from "next/image";
 import { ProductUtil } from "~/common/utility/product.util";
-import { FormUpdate } from "./form-update";
+import { FormUpdateProduct } from "./form-update-product";
 
 import { Product } from "~/modules/product/models/Product";
 import { ProductPut } from "~/modules/product/models/ProductPut";
+import { SizeQuantity } from "~/modules/product/models/SizeQuantity";
+import { FormUpdateInventory } from "./form-update-inventory";
+import { InventoryPut } from "~/modules/product/models/InventoryPut";
 
 export function productTableColumns(
-  updateProduct: (productPut: ProductPut) => any
+  updateProduct: (productPut: ProductPut) => any,
+  updateInventory: (inventoryPut: InventoryPut) => any
 ): ColumnDef<Product>[] {
-  return [
-    {
-      accessorKey: "name",
-      header: () => <div className="text-left">Sản phẩm</div>,
-      cell: ({ row }) => {
-        const { name, imageUrl } = row.original;
-        return (
-          <div className="flex items-center space-x-2 capitalize">
-            <div className="relative aspect-square h-8 min-w-fit overflow-hidden rounded-full cursor-pointer">
-              <Image
-                src={imageUrl || "/assets/product-default.png"}
-                alt={name}
-                fill
-                sizes="full"
-                className="absolute object-cover"
-              />
-            </div>
-            <div>{name}</div>
+  const columnNameAndImageProduct: ColumnDef<Product> = {
+    accessorKey: "name",
+    header: () => <div className="text-left">Sản phẩm</div>,
+    cell: ({ row }) => {
+      const { name, imageUrl } = row.original;
+      return (
+        <div className="flex items-center space-x-2 capitalize">
+          <div className="relative aspect-square h-10 min-w-fit overflow-hidden rounded-full cursor-pointer">
+            <Image
+              src={imageUrl || "/assets/product-default.png"}
+              alt={name}
+              fill
+              sizes="full"
+              className="absolute object-cover"
+            />
           </div>
-        );
-      },
+          <p className="max-w-96">{name}</p>
+        </div>
+      );
     },
+  };
+  const columnsListProduct: ColumnDef<Product>[] = [
+    columnNameAndImageProduct,
     {
       accessorKey: "price",
       header: ({ column }) => {
@@ -63,24 +69,42 @@ export function productTableColumns(
         );
       },
     },
-    // {
-    //   accessorKey: "stock",
-    //   header: ({ column }) => {
-    //     return (
-    //       <Button
-    //         variant="ghost"
-    //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-    //         className="p-0 w-full"
-    //       >
-    //         Số lượng
-    //         <ArrowUpDown className="ml-2 h-4 w-4" />
-    //       </Button>
-    //     );
-    //   },
-    //   cell: ({ row }) => {
-    //     return <div className="text-center">{row.getValue("stock")}</div>;
-    //   },
-    // },
+
+    {
+      accessorKey: "sizeQuantity",
+      header: ({ column }) => {
+        return (
+          <Button variant="ghost" className="p-0 w-full">
+            PL/SL
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const sizeQuantityList: SizeQuantity[] = row.getValue(
+          "sizeQuantity"
+        ) as SizeQuantity[];
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger className="w-full">
+              <Button size={"sm"} variant={"outline"}>
+                Chi tiết
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Phân loại - Số lượng</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {sizeQuantityList.map(({ size, quantity }) => (
+                <DropdownMenuItem disabled className="flex">
+                  <span className="flex-1 text-center">{size}:</span>
+                  <span className="flex-1 text-center">{quantity}</span>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+
     {
       accessorKey: "category",
       header: ({ column }) => {
@@ -88,6 +112,7 @@ export function productTableColumns(
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="text-center w-full"
           >
             Danh mục
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -96,7 +121,11 @@ export function productTableColumns(
       },
       cell: ({ row }) => {
         const { category } = row.original;
-        return <div className="text-center capitalize">{category.name}</div>;
+        return (
+          <div className="px-1 py-0.5 self-start bg-gray-200 text-xs text-center border rounded-sm">
+            {category.name}
+          </div>
+        );
       },
     },
     {
@@ -114,9 +143,15 @@ export function productTableColumns(
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
               <DropdownMenuItem asChild>
-                <FormUpdate
+                <FormUpdateProduct
                   product={row.original}
                   updateProduct={updateProduct}
+                />
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <FormUpdateInventory
+                  product={row.original}
+                  updateInventory={updateInventory}
                 />
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -125,4 +160,6 @@ export function productTableColumns(
       },
     },
   ];
+
+  return columnsListProduct;
 }

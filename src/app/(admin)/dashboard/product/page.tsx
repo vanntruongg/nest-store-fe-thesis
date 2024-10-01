@@ -1,21 +1,30 @@
 "use client";
 import { useEffect, useState } from "react";
-import { ProductsTable } from "./products-table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+
+import { BaseUtil } from "~/common/utility/base.util";
 import {
   getAllProduct,
   updateProduct,
 } from "~/modules/product/services/ProductService";
-import { BaseUtil } from "~/common/utility/base.util";
+import { ProductGet } from "~/modules/product/models/ProductGet";
 import { ProductPut } from "~/modules/product/models/ProductPut";
 import { toast } from "~/components/ui/use-toast";
-import { ProductGet } from "~/modules/product/models/ProductGet";
-import ReactPaginate from "react-paginate";
+import { ROUTES } from "~/common/constants/routes";
+import Link from "next/link";
+import { InventoryPut } from "~/modules/product/models/InventoryPut";
+import { updateInventory } from "~/modules/product/services/InventoryService";
+import Loading from "~/common/components/loading";
+import { Pagination } from "~/modules/admin/components/pagination";
+import { productTableColumns } from "./product-table-columns";
+import { TableDataAdmin } from "~/modules/admin/components/table";
 
 export default function ProductManagementPage() {
   const [data, setData] = useState<ProductGet | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [pageNo, setPageNo] = useState<number>(0);
-  const pageSize = 5;
+  const [pageSize, setPageSize] = useState<number>(5);
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,11 +40,13 @@ export default function ProductManagementPage() {
       }
     };
     fetchData();
-  }, [pageNo]);
+  }, [pageNo, pageSize, isUpdate]);
 
   const handleUpdateProduct = async (productPut: ProductPut) => {
+    setLoading(true);
     try {
       const result = await updateProduct(productPut);
+      setIsUpdate(!isUpdate);
       toast({ description: result.message });
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
@@ -43,38 +54,52 @@ export default function ProductManagementPage() {
       setLoading(false);
     }
   };
-  // console.log(data);
 
-  const handleChangePage = ({ selected }: any) => {
-    setPageNo(selected);
+  const handleUpdateInventory = async (inventoryPut: InventoryPut) => {
+    setLoading(true);
+    try {
+      const result = await updateInventory(inventoryPut);
+      setIsUpdate(!isUpdate);
+      toast({ description: result.message });
+    } catch (error) {
+      BaseUtil.handleErrorApi({ error });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  return (
-    <>
-      <ProductsTable
-        data={data}
-        pageSize={pageSize}
-        loading={loading}
-        setLoading={setLoading}
-        updateProduct={handleUpdateProduct}
-      />
+  const columns = productTableColumns(
+    handleUpdateProduct,
+    handleUpdateInventory
+  );
 
-      {data && data?.totalPages && (
-        <ReactPaginate
-          forcePage={data.pageNo}
-          previousLabel={"Trước"}
-          nextLabel={"Tiếp"}
-          pageRangeDisplayed={1}
-          marginPagesDisplayed={1}
-          pageCount={data.totalPages}
-          onPageChange={handleChangePage}
-          containerClassName={"pagination-container pagination-center"}
-          previousClassName={"previous-btn"}
-          nextClassName={"next-btn"}
-          disabledClassName={"pagination-disabled"}
-          activeClassName={"pagination-active"}
+  return (
+    <div className="space-y-4">
+      {loading && <Loading />}
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-semibold">Sản phẩm</h2>
+        <Link
+          href={ROUTES.ADMIN.PRODUCT_CREATE}
+          className="px-4 py-1.5 text-white text-sm font-medium border rounded-full bg-gradient-to-br from-purple-700 to-purple-500 hover:opacity-90"
+        >
+          Thêm sản phẩm
+        </Link>
+      </div>
+      <TableDataAdmin
+        data={data?.productContent || []}
+        columns={columns}
+        loading={loading}
+      />
+      {data && (
+        <Pagination
+          pageNo={pageNo}
+          setPageNo={setPageNo}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+          totalPages={data.totalPages}
+          totalElements={data.totalElements}
         />
       )}
-    </>
+    </div>
   );
 }

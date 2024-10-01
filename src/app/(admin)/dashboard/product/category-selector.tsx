@@ -3,7 +3,10 @@ import { Fragment, useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import { ProductShemaType } from "~/app/schema-validations/product.shema";
+import {
+  ProductShemaCreateType,
+  ProductShemaUpdateType,
+} from "~/app/schema-validations/product.shema";
 import { BaseUtil } from "~/common/utility/base.util";
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
@@ -13,7 +16,7 @@ import { getAllCategory } from "~/modules/product/services/CategoryApi";
 
 export interface Props {
   category?: CategoryInProduct;
-  form: UseFormReturn<ProductShemaType>;
+  form: any;
 }
 
 interface SelectedCategoryPath {

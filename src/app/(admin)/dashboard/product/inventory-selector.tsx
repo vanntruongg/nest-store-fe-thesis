@@ -1,25 +1,18 @@
-import { useEffect, useState } from "react";
 import { useFieldArray, UseFormReturn } from "react-hook-form";
-import { ProductShemaType } from "~/app/schema-validations/product.shema";
+import {
+  InventoryUpdateType,
+  ProductShemaCreateType,
+} from "~/app/schema-validations/product.shema";
 import { Input } from "~/components/ui/input";
 import { cn } from "~/lib/utils";
-import { SizeQuantity } from "~/modules/product/models/SizeQuantity";
 
 export interface Props {
-  form: UseFormReturn<ProductShemaType>;
-}
-
-interface SelectedCategoryPath {
-  categorySelected: string[];
-  isLastLevel: boolean;
+  form: UseFormReturn<ProductShemaCreateType | InventoryUpdateType>;
 }
 
 const sizes = ["S", "M", "L", "XL"];
 
 export function InventorySelector({ form }: Props) {
-  const [sizeQuantitySelected, setSizeQuantitySelected] = useState<
-    SizeQuantity[]
-  >([]);
   const {
     control,
     register,
@@ -29,16 +22,6 @@ export function InventorySelector({ form }: Props) {
     control,
     name: "stock",
   });
-
-  useEffect(() => {
-    if (sizeQuantitySelected.length > 0) {
-      form.clearErrors("stock");
-    } else {
-      form.setError("stock", {
-        message: "Vui lòng thêm ít nhất một kích cỡ và số lượng",
-      });
-    }
-  }, [sizeQuantitySelected]);
 
   const handleSelectSize = (size: string) => {
     const sizeExisted = fields.some((s) => s.size === size);
@@ -80,9 +63,7 @@ export function InventorySelector({ form }: Props) {
               className={cn(
                 "w-full p-1 text-center border rounded-sm cursor-pointer",
                 {
-                  "border-primary text-primary": fields.some(
-                    (s) => s.size === size
-                  ),
+                  "bg-primary text-white": fields.some((s) => s.size === size),
                 }
               )}
             >
