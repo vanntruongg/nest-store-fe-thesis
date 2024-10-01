@@ -8,32 +8,24 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { Button } from "~/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
-import { orderStatus as orderStt } from "~/common/utility/order.util";
+import { orderStatusList } from "~/common/utility/order.util";
 import { BaseUtil } from "~/common/utility/base.util";
 import { toast } from "~/components/ui/use-toast";
 import { updateStatus } from "~/modules/order/services/OrderService";
 
 export interface IUpdateStatusProps {
-  status: string;
   orderStatus: string;
   orderId: number;
-  fetchData: () => void;
+  updateOrderStatus: (orderId: number, status: string) => void;
 }
 
 export function UpdateStatus({
-  status,
-  orderStatus,
+  updateOrderStatus,
   orderId,
-  fetchData,
+  orderStatus,
 }: IUpdateStatusProps) {
-  const handleUpdateStatus = async (id: number, status: string) => {
-    try {
-      const result = await updateStatus(id, status);
-      toast({ description: result.message });
-      fetchData();
-    } catch (error) {
-      BaseUtil.handleErrorApi({ error });
-    }
+  const handleUpdateStatus = async (orderId: number, status: string) => {
+    updateOrderStatus(orderId, status);
   };
   return (
     <DropdownMenu>
@@ -46,18 +38,15 @@ export function UpdateStatus({
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Cập nhật trạng thái đơn đơn hàng</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {orderStt
-          .filter(
-            ({ type, typeName }) =>
-              type !== status && typeName != orderStatus && type !== "ALL"
-          )
-          .map(({ type, typeName }) => (
-            <DropdownMenuItem key={typeName} className="p-0">
+        {orderStatusList
+          .filter(({ status }) => status != orderStatus)
+          .map(({ status, displayName }) => (
+            <DropdownMenuItem key={status} className="p-0">
               <Button
                 variant={"ghost"}
-                onClick={() => handleUpdateStatus(orderId, type)}
+                onClick={() => handleUpdateStatus(orderId, status)}
               >
-                {typeName}
+                {displayName}
               </Button>
             </DropdownMenuItem>
           ))}
