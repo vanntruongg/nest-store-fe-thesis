@@ -1,18 +1,25 @@
 import { useFieldArray, UseFormReturn } from "react-hook-form";
+
 import {
-  InventoryUpdateType,
   ProductShemaCreateType,
+  InventoryUpdateType,
 } from "~/app/schema-validations/product.shema";
 import { Input } from "~/components/ui/input";
 import { cn } from "~/lib/utils";
+import { AddNewSize } from "./add-new-size-dialog";
+import { useEffect, useState } from "react";
 
 export interface Props {
   form: UseFormReturn<ProductShemaCreateType | InventoryUpdateType>;
+  context: "create" | "update";
 }
 
-const sizes = ["S", "M", "L", "XL"];
-
-export function InventorySelector({ form }: Props) {
+export function InventorySelector({ form, context }: Props) {
+  const [sizes, setSizes] = useState<string[]>(["S", "M", "L", "XL"]);
+  const [newSizes, setNewSizes] = useState<string[]>(() => {
+    const savedSizes = localStorage.getItem("sizes");
+    return savedSizes ? JSON.parse(savedSizes) : [];
+  });
   const {
     control,
     register,
@@ -22,6 +29,10 @@ export function InventorySelector({ form }: Props) {
     control,
     name: "stock",
   });
+
+  useEffect(() => {
+    return () => localStorage.removeItem("sizes");
+  }, []);
 
   const handleSelectSize = (size: string) => {
     const sizeExisted = fields.some((s) => s.size === size);
@@ -36,58 +47,79 @@ export function InventorySelector({ form }: Props) {
     }
   };
 
-  const handleChangeQuantity = (index: number, quantity: string) => {
-    const updatedQuantity = quantity === "" ? 0 : Number(quantity);
-    if (updatedQuantity < 0) {
-      form.setError("stock", { message: "Số lượng phải lớn hơn 0" });
-    } else {
-      form.clearErrors("stock");
-      const currentField = fields[index];
-
-      if (currentField) {
-        currentField.quantity = updatedQuantity;
-      }
-    }
-  };
-
   return (
     <div className="p-4 bg-white space-y-2 border rounded-sm">
-      <h3 className="text-lg font-semibold">Kho</h3>
-      <div className="space-y-2">
-        <div className="flex justify-evenly gap-4 items-stretch">
-          {sizes.map((size, index) => (
-            <div
-              key={index}
-              onClick={() => handleSelectSize(size)}
-              // onClick={() => append({ size, quantity: 1 })}
-              className={cn(
-                "w-full p-1 text-center border rounded-sm cursor-pointer",
-                {
-                  "bg-primary text-white": fields.some((s) => s.size === size),
-                }
-              )}
-            >
-              {size}
-            </div>
-          ))}
-        </div>
-        <div>
-          {errors.stock && fields.length === 0 && (
-            <span className="text-red-500 text-sm">{errors.stock.message}</span>
-          )}
-        </div>
+      <div className="flex justify-between items-center">
+        <h3 className="text-lg font-semibold">Kho</h3>
+        <AddNewSize sizes={newSizes} setSizes={setNewSizes} />
       </div>
+      {context === "create" && (
+        <div className="space-y-2">
+          <div className="grid grid-cols-4 gap-4">
+            {sizes.map((size, index) => (
+              <div
+                key={index}
+                onClick={() => handleSelectSize(size)}
+                className={cn(
+                  "w-full p-1 text-center border rounded-sm cursor-pointer",
+                  {
+                    "bg-primary text-white": fields.some(
+                      (s) => s.size === size
+                    ),
+                  }
+                )}
+              >
+                {size}
+              </div>
+            ))}
+          </div>
+          <div>
+            {errors.stock && fields.length === 0 && (
+              <span className="text-red-500 text-sm">
+                {errors.stock.message}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+      {newSizes.length > 0 && (
+        <div className="space-y-2">
+          <div className="grid grid-cols-4 gap-4">
+            {newSizes.map((size, index) => (
+              <div
+                key={index}
+                onClick={() => handleSelectSize(size)}
+                className={cn(
+                  "w-full p-1 text-center border rounded-sm cursor-pointer",
+                  {
+                    "bg-primary text-white": fields.some(
+                      (s) => s.size === size
+                    ),
+                  }
+                )}
+              >
+                {size}
+              </div>
+            ))}
+          </div>
+          <div>
+            {errors.stock && fields.length === 0 && (
+              <span className="text-red-500 text-sm">
+                {errors.stock.message}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
       {fields.map((field, index) => (
         <div className="flex flex-col space-y-1">
           <div key={index} className="flex items-center gap-4 text-nowrap ">
-            <p className="min-w-16">{`Size: ${field.size}:`}</p>
+            <p className="min-w-16">{`Size ${field.size}:`}</p>
             <Input
               type="number"
-              value={field.quantity === 0 ? "" : field.quantity}
               {...register(`stock.${index}.quantity`, {
                 valueAsNumber: true,
               })}
-              onChange={(e) => handleChangeQuantity(index, e.target.value)}
             />
           </div>
           {errors.stock?.[index]?.quantity && (
