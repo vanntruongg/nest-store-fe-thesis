@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { BaseUtil } from "~/common/utility/base.util";
 import {
   getAllProduct,
+  searchProductByName,
   updateProduct,
 } from "~/modules/product/services/ProductService";
 import { ProductGet } from "~/modules/product/models/ProductGet";
@@ -18,6 +19,8 @@ import Loading from "~/common/components/loading";
 import { Pagination } from "~/modules/admin/components/pagination";
 import { productTableColumns } from "./product-table-columns";
 import { TableDataAdmin } from "~/modules/admin/components/table";
+import useDebounce from "~/hooks/useDebounce";
+import { Input } from "~/components/ui/input";
 
 export default function ProductManagementPage() {
   const [data, setData] = useState<ProductGet | null>(null);
@@ -25,22 +28,28 @@ export default function ProductManagementPage() {
   const [pageNo, setPageNo] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(5);
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
+  const [searchValue, setSearchValue] = useState<string>("");
 
+  const debounceSearchValue = useDebounce(searchValue, 500);
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const result = await getAllProduct(pageNo, pageSize);
+
+      setData(result.data);
+    } catch (error) {
+      BaseUtil.handleErrorApi({ error });
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const result = await getAllProduct(pageNo, pageSize);
-
-        setData(result.data);
-      } catch (error) {
-        BaseUtil.handleErrorApi({ error });
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [pageNo, pageSize, isUpdate]);
+    if (debounceSearchValue !== "") {
+      handleSearchProduct();
+    } else {
+      fetchData();
+    }
+  }, [debounceSearchValue, pageNo, pageSize, isUpdate]);
 
   const handleUpdateProduct = async (productPut: ProductPut) => {
     setLoading(true);
@@ -68,6 +77,22 @@ export default function ProductManagementPage() {
     }
   };
 
+  const handleSearchProduct = async () => {
+    setLoading(true);
+    try {
+      const res = await searchProductByName(
+        debounceSearchValue,
+        pageNo,
+        pageSize
+      );
+      setData(res.data);
+    } catch (error) {
+      BaseUtil.handleErrorApi({ error });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const columns = productTableColumns(
     handleUpdateProduct,
     handleUpdateInventory
@@ -75,7 +100,6 @@ export default function ProductManagementPage() {
 
   return (
     <div className="space-y-4">
-      {loading && <Loading />}
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Sản phẩm</h2>
         <Link
@@ -85,6 +109,13 @@ export default function ProductManagementPage() {
           Thêm sản phẩm
         </Link>
       </div>
+      <Input
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
+        placeholder="Tìm kiếm sản phẩm..."
+        required={true}
+        className="max-w-72"
+      />
       <TableDataAdmin
         data={data?.productContent || []}
         columns={columns}
