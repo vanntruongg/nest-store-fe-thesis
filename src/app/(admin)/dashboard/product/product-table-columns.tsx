@@ -69,7 +69,29 @@ export function productTableColumns(
         );
       },
     },
-
+    {
+      accessorKey: "category",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="text-center w-full"
+          >
+            Danh mục
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const { category } = row.original;
+        return (
+          <div className="px-1 py-0.5 self-start bg-gray-200 text-xs text-center border rounded-sm">
+            {category.name}
+          </div>
+        );
+      },
+    },
     {
       accessorKey: "sizeQuantity",
       header: ({ column }) => {
@@ -101,30 +123,6 @@ export function productTableColumns(
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-        );
-      },
-    },
-
-    {
-      accessorKey: "category",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="text-center w-full"
-          >
-            Danh mục
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        );
-      },
-      cell: ({ row }) => {
-        const { category } = row.original;
-        return (
-          <div className="px-1 py-0.5 self-start bg-gray-200 text-xs text-center border rounded-sm">
-            {category.name}
-          </div>
         );
       },
     },
