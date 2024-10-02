@@ -76,7 +76,7 @@ export function FormUpdateInventory({ product, updateInventory }: Props) {
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <InventorySelector form={form} />
+            <InventorySelector form={form} context="update" />
           </form>
         </Form>
         <DialogFooter>
