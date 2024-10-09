@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
-    <main className="mx-auto bg-gray-100 flex">
+    <main className="mx-auto min-h-screen flex bg-gray-100">
       <ScrollToTop>
         <div className="min-w-60 max-w-60 fixed top-0">
           <NavAdmin />
