@@ -2,155 +2,91 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { ProductUtil } from "~/common/utility/product.util";
 import LineChart from "~/common/components/charts/line-chart";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
-import { revenueStatistic } from "~/modules/admin/services/StatisticService";
+
+import { getOrderRevenue } from "~/modules/admin/services/StatisticService";
+import { RevenueYearSelector } from "./revenue-year-selector";
+import { RevenueMonthSelector } from "./revenue-month-selector";
 
 const Revenue = () => {
-  const [dataAxis, setDataAxis] = useState<string[]>([]);
-  const [data, setData] = useState<number[]>([]);
+  const [periodTime, setPeriodTime] = useState<number[]>([]);
+  const [totalOrder, setTotalOrder] = useState<number[]>([]);
+  const [totalRevenue, setTotalRevenue] = useState<number[]>([]);
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
+  const [year, setYear] = useState<number>(new Date().getFullYear());
+  const [month, setMonth] = useState<number | string>("");
 
-  const year =
-    searchParams.get("revenueByYear") ?? new Date().getFullYear().toString();
-  const month = searchParams.get("revenueByMonth") ?? "";
+  // const year =
+  //   searchParams.get("revenueByYear") ?? new Date().getFullYear().toString();
+  // const month = searchParams.get("revenueByMonth") ?? "";
   useEffect(() => {
     const fetchData = async () => {
-      const result = await revenueStatistic(parseInt(year), month);
-
-      setDataAxis(Object.keys(result.data));
-      setData(Object.values(result.data));
+      const result = await getOrderRevenue(year, month);
+      const periodTimes = result.data.map((item: any) => item.periodValue);
+      const totalOrders = result.data.map((item: any) => item.totalOrder);
+      const totalRevenues = result.data.map((item: any) => item.totalRevenue);
+      setPeriodTime(periodTimes);
+      setTotalOrder(totalOrders);
+      setTotalRevenue(totalRevenues);
     };
     fetchData();
   }, [year, month]);
 
   const handleChangeYear = (year: string) => {
     const month = searchParams.get("revenueByMonth") || "";
-    handleSetQueryString(year, month);
+    // handleSetQueryString(year, month);
   };
   const handleChangeMonth = (month: string) => {
     const year =
       searchParams.get("revenueByYear") || new Date().getFullYear().toString();
-    handleSetQueryString(year, month);
+    // handleSetQueryString(year, month);
   };
 
-  const handleSetQueryString = (year: string, month: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("revenueByYear", year);
-    params.set("revenueByMonth", month !== " " ? month : "");
-    router.push(pathname + "?" + params.toString());
-  };
+  // const handleSetQueryString = (year: string, month: string) => {
+  //   const params = new URLSearchParams(searchParams.toString());
+  //   params.set("revenueByYear", year);
+  //   params.set("revenueByMonth", month !== " " ? month : "");
+  //   router.push(pathname + "?" + params.toString());
+  // };
 
-  const totalRevenue = useMemo(() => {
-    return data.reduce((acc, curr) => acc + curr, 0);
-  }, [data]);
-
-  const optionsCustom = {
-    yAxis: {
-      axisLabel: {
-        color: "#999",
-        formatter: (value: number) => ProductUtil.formatPrice(value),
-      },
-    },
-
-    toolbox: {
-      right: 0,
-      top: "middle",
-      orient: "vertical",
-      feature: {
-        // dataZoom: {},
-        saveAsImage: {
-          // backgroundColor: "#fff",
-          // connectedBackgroundColor: "#fff",
-          title: "Lưu",
-        },
-
-        dataView: {},
-        magicType: {
-          type: ["line", "bar"],
-        },
-      },
-      borderColor: "#fff",
-      backgroundColor: "transparent",
-    },
-    tooltip: {
-      trigger: "axis",
-      axisPointer: {
-        type: "shadow",
-        axis: "auto",
-      },
-      show: true,
-      formatter: (params: any) => {
-        const name = month !== "" ? "Ngày" : "Tháng";
-        return (
-          `${name} ${params[0].name}` +
-          "<br/>" +
-          params[0].marker +
-          " " +
-          ProductUtil.formatPrice(params[0].value)
-        );
-      },
-    },
-  };
+  const sumOfOrders = useMemo(() => {
+    return totalOrder.reduce((acc, curr) => acc + curr, 0);
+  }, [totalRevenue]);
+  const sumOfRevenues = useMemo(() => {
+    return totalRevenue.reduce((acc, curr) => acc + curr, 0);
+  }, [totalRevenue]);
 
   return (
-    <div className="p-2 w-full bg-white rounded-md shadow-lg">
-      <div className="flex items-center space-x-4 py-2">
-        <h3 className="font-bold text-xl">Doanh thu</h3>
+    <div className="p-4 space-y-2 w-full bg-white rounded-md shadow-lg">
+      <div className="flex justify-between items-center gap-4">
+        <h3 className="font-bold text-xl">Thống kê đơn hàng & doang thu</h3>
 
-        {/* select year */}
-        <Select onValueChange={(value) => handleChangeYear(value)}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder={year} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Chọn năm</SelectLabel>
-              <SelectItem value={(new Date().getFullYear() - 2).toString()}>
-                {new Date().getFullYear() - 2}
-              </SelectItem>
-              <SelectItem value={(new Date().getFullYear() - 1).toString()}>
-                {new Date().getFullYear() - 1}
-              </SelectItem>
-              <SelectItem value={new Date().getFullYear().toString()}>
-                {new Date().getFullYear()}
-              </SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-
-        {/* select month */}
-        <Select onValueChange={(value) => handleChangeMonth(value)}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder={`Tháng ${month}`} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Chọn tháng</SelectLabel>
-              <SelectItem value=" ">Doanh thu tháng</SelectItem>
-              {Array.from({ length: 12 }, (_, i) => (
-                <SelectItem key={i} value={(i + 1).toString()}>
-                  {`Tháng ${i + 1}`}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <div className="flex space-x-4">
+          <RevenueYearSelector year={year} setYear={setYear} />
+          <RevenueMonthSelector month={month} setMonth={setMonth} />
+        </div>
       </div>
+
+      {/* totalOrders & totalRevenue */}
+      <div className="flex space-x-8">
+        <div className="flex space-x-2 items-center text-[#8104fd] font-semibold">
+          <span className="size-2 bg-[#8104fd] rounded-full"></span>
+          <p> {`Tổng ${sumOfOrders} đơn hàng`}</p>
+        </div>
+        <div className="flex space-x-2 items-center text-[#005f88] font-semibold">
+          <span className="size-2 bg-[#005f88] rounded-full"></span>
+          <p>{`Tổng doanh thu ${ProductUtil.formatPrice(sumOfRevenues)}`}</p>
+        </div>
+      </div>
+
       <LineChart
-        title={`Tổng doanh thu ${ProductUtil.formatPrice(totalRevenue)}`}
-        dataAxis={dataAxis}
-        data={data}
-        optionCustom={optionsCustom}
+        title=""
+        // title={`Tổng doanh thu ${ProductUtil.formatPrice(sumOfRevenues)}`}
+        dataAxis={periodTime}
+        totalOrder={totalOrder}
+        totalRevenue={totalRevenue}
+        // optionCustom={optionsCustom}
       />
     </div>
   );
