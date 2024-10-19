@@ -69,7 +69,7 @@ export function ShopToolBar({
             </SelectContent>
           </Select>
           <span>
-            {offset + 1} -{" "}
+            {offset + 1} -
             {offset + pageSize > totalElements
               ? totalElements
               : offset + pageSize}{" "}
