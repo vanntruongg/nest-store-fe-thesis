@@ -63,7 +63,7 @@ const OrderStatisticByMonth = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("orderByYear", year);
     params.set("orderByMonth", month !== " " ? month : "");
-    router.push(pathname + "?" + params.toString());
+    router.push(pathname + "?" + params.toString(), { scroll: false });
   };
 
   return (

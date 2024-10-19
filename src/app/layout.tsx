@@ -51,8 +51,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <AppTokenProvider initialToken={{ accessToken, refreshToken }}>
             {children}
           </AppTokenProvider>
+          <Toaster />
         </ScrollToTop>
-        <Toaster />
       </body>
     </html>
   );

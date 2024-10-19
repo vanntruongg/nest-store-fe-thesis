@@ -1,5 +1,5 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { orderStatus } from "~/common/utility/order.util";
+import { orderStatusList } from "~/common/utility/order.util";
 import { cn } from "~/lib/utils";
 
 export function OrderStatus() {
@@ -7,7 +7,7 @@ export function OrderStatus() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const status = searchParams.get("orderStatus") || orderStatus[0].type;
+  const status = searchParams.get("orderStatus") || orderStatusList[0].status;
 
   const handleSelectStatus = (status: string) => {
     const params = new URLSearchParams();
@@ -17,29 +17,29 @@ export function OrderStatus() {
   };
 
   const renderStatus = ({
-    type,
-    typeName,
+    status,
+    displayName,
   }: {
-    type: string;
-    typeName: string;
+    status: string;
+    displayName: string;
   }) => {
-    const isSelected = type === status;
+    const isSelected = status === status;
     const className = isSelected
       ? "text-nowrap text-primary rounded-sm transition-all duration-200"
       : "cursor-pointer hover:text-primary";
     return (
       <div
-        key={type}
+        key={status}
         className={cn("w-full p-3 text-center text-sm font-bold", className)}
-        onClick={() => handleSelectStatus(type)}
+        onClick={() => handleSelectStatus(status)}
       >
-        {typeName}
+        {displayName}
       </div>
     );
   };
   return (
     <div className="bg-white flex justify-between font-medium">
-      {orderStatus.map(renderStatus)}
+      {orderStatusList.map(renderStatus)}
     </div>
   );
 }

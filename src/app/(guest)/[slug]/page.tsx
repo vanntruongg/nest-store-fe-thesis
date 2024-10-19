@@ -25,6 +25,7 @@ import { getProductById } from "~/modules/product/services/ProductService";
 import { RatingBreakdown } from "~/modules/rating/models/RatingBreakdown";
 import { Product } from "~/modules/product/models/Product";
 import { ProductDescription } from "~/modules/product/components/product-description";
+import { useUser } from "~/hooks/useUser";
 
 interface Props {
   params: {
@@ -33,6 +34,7 @@ interface Props {
 }
 
 const ProductDetailPage = ({ params }: Props) => {
+  const { user } = useUser();
   const [product, setProduct] = useState<Product | null>(null);
   const [ratingList, setRatingList] = useState<Rating[]>([]);
   const [pageNo, setPageNo] = useState<number>(0);
@@ -102,6 +104,13 @@ const ProductDetailPage = ({ params }: Props) => {
   };
 
   const toggleVoteRating = async (ratingId: string) => {
+    if (user.email === "") {
+      toast({
+        description: "Bạn cần đăng nhập trước khi thích đánh giá",
+        variant: "destructive",
+      });
+      return;
+    }
     try {
       await upvoteRating(ratingId);
       setIsPost(!isPost);

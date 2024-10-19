@@ -1,5 +1,9 @@
 import { BaseUtil } from "~/common/utility/base.util";
-import { OrderUtil } from "~/common/utility/order.util";
+import {
+  displayOrderStatus,
+  displayPaymentMethod,
+  OrderUtil,
+} from "~/common/utility/order.util";
 import { ProductUtil } from "~/common/utility/product.util";
 import { Button } from "~/components/ui/button";
 import {
@@ -45,10 +49,10 @@ export function OrderDetail({ order }: Props) {
             <span
               className={cn(
                 "px-2 py-1 font-bold text-sm",
-                statusClasses[OrderUtil.mapOrderStatus(order.orderStatus)]
+                statusClasses[orderStatus]
               )}
             >
-              {OrderUtil.mapOrderStatus(orderStatus)}
+              {displayOrderStatus(orderStatus)}
             </span>
           </DialogDescription>
         </DialogHeader>
@@ -92,7 +96,7 @@ export function OrderDetail({ order }: Props) {
             <div className="px-4 flex items-center space-x-2 text-muted-foreground">
               <span>Phương thức thanh toán:</span>
               <p className="py-1 px-2 border rounded-md">
-                {order.paymentMethod}
+                {displayPaymentMethod(order.paymentMethod)}
               </p>
             </div>
           </div>

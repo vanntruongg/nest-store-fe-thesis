@@ -54,7 +54,7 @@ export function AddressData({
 
     setAddressData((prev) => ({
       ...prev,
-      [type]: result.payload.data,
+      [type]: result.data,
     }));
   };
 

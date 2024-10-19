@@ -50,3 +50,15 @@ export const getProductCount = async () => {
   const res = await httpClient.get<any>(url);
   return res.payload;
 };
+
+export const searchProductByName = async (
+  productName: string,
+  pageNo: number,
+  pageSize: number
+) => {
+  const url = EndpointUtil.NEST.PRODUCT.SEARCH_BY_NAME;
+  const res = await httpClient.get<any>(
+    url + `/${productName}?pageNo=${pageNo}&pageSize=${pageSize}`
+  );
+  return res.payload;
+};

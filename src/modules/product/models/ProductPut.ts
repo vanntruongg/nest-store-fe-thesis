@@ -5,5 +5,6 @@ export type ProductPut = {
   material: string;
   style: string;
   imageUrl: string;
+  description: string;
   categoryId: number;
 };

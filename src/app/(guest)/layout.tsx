@@ -5,7 +5,7 @@ import Footer from "~/common/components/footer";
 import CartProvider from "../cart-provider";
 import CheckoutProvider from "../checkout-provider";
 import Header from "~/common/components/header";
-import { cookies } from "next/headers";
+import ScrollToTop from "~/common/components/scroll-to-top";
 
 export const metadata: Metadata = {
   title: "NEST Store - Cửa hàng thời trang",
@@ -14,12 +14,11 @@ export const metadata: Metadata = {
 };
 
 export default function GuestLayout({ children }: { children: ReactNode }) {
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get("accessToken")?.value || "";
   return (
     <main className="flex flex-col min-h-screen bg-gray-100">
+      {/* <ScrollToTop> */}
       <div className="flex justify-center">
-        <Header token={accessToken} />
+        <Header />
       </div>
       <CartProvider>
         <CheckoutProvider>
@@ -27,6 +26,7 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
         </CheckoutProvider>
       </CartProvider>
       <Footer />
+      {/* </ScrollToTop> */}
     </main>
   );
 }

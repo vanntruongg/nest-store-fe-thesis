@@ -35,4 +35,24 @@ export const ProductShema = z.object({
   category: CategorySchema,
 });
 
-export type ProductShemaType = z.TypeOf<typeof ProductShema>;
+export type ProductShemaCreateType = z.TypeOf<typeof ProductShema>;
+
+export const ProductShemaUpdate = ProductShema.omit({ stock: true });
+export type ProductShemaUpdateType = z.TypeOf<typeof ProductShemaUpdate>;
+
+export const InventoryUpdateSchema = z.object({
+  stock: z
+    .array(
+      z.object({
+        size: z
+          .string()
+          .min(1, { message: "Thêm ít nhất một phân loại sản phẩm" }),
+        quantity: z.number({
+          invalid_type_error: "Số lượng không hợp lệ",
+        }),
+      })
+    )
+    .nonempty({ message: "Vui lòng thêm ít nhất một kích cỡ và số lượng" }),
+});
+
+export type InventoryUpdateType = z.TypeOf<typeof InventoryUpdateSchema>;

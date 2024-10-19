@@ -9,6 +9,7 @@ import { ReactElement, useEffect, useState } from "react";
 import ButtonLogout from "~/common/components/buttons/logout-button";
 import { Skeleton } from "~/components/ui/skeleton";
 import { ROUTES } from "~/common/constants/routes";
+import { BaseUtil } from "~/common/utility/base.util";
 
 interface ILinkNavUserProfile {
   href: string;
@@ -58,8 +59,8 @@ const NavLinkUser = () => {
             alt="avatar user"
             className="size-full rounded-md"
           />
-          <AvatarFallback className="size-full bg-white rounded-md">
-            AVT
+          <AvatarFallback className="bg-gradient-to-br from-purple-800 to-pink-400 text-white rounded-md">
+            {isMounted && BaseUtil.generateDefaultAvatarInitial(user.firstName)}
           </AvatarFallback>
         </Avatar>
       </div>

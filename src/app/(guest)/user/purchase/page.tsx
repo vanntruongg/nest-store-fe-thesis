@@ -2,40 +2,25 @@
 import React, { useEffect, useState } from "react";
 import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/common/components/icon-text-loading";
-import { OrderStatus } from "~/common/components/order-status";
 import { Order } from "./order";
-import { Order as OrderModel } from "~/modules/order/model/Order";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { createQueryString } from "~/utils/createQueryString";
 import { getAllMyOrder } from "~/modules/order/services/OrderService";
+import { OrderGet } from "~/modules/order/model/OrderGet";
+import { OrderStatusSelector } from "~/app/(admin)/dashboard/order/order-status-selector";
 
 const PurchasePage = () => {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
-
   const [loading, setLoading] = useState<boolean>(false);
-  const [orders, setOrders] = useState<OrderModel[]>([]);
+  const [orders, setOrders] = useState<OrderGet | null>(null);
   const [pageNo, setPageNo] = useState<number>(0);
   const pageSize = 5;
 
-  const [totalElements, setTotalElements] = useState<number>(0);
-  const [totalPages, setTotalPages] = useState<number>(0);
+  const [orderStatus, setOrderStatus] = useState<string>("");
 
   useEffect(() => {
-    const pageNo = searchParams.get("pageNo") || "1";
-    const orderStatus = searchParams.get("orderStatus") || "ALL";
     const fetchData = async () => {
       setLoading(true);
       try {
-        const result = await getAllMyOrder(
-          parseInt(pageNo) - 1,
-          pageSize,
-          orderStatus
-        );
-        setOrders(result.data.orderList);
-        setTotalElements(result.data.totalElements);
-        setTotalPages(result.data.totalPages);
+        const result = await getAllMyOrder(pageNo, pageSize, orderStatus);
+        setOrders(result.data);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
       } finally {
@@ -43,33 +28,33 @@ const PurchasePage = () => {
       }
     };
     fetchData();
-    setPageNo(parseInt(pageNo) - 1);
-  }, [searchParams]);
+    setPageNo(pageNo);
+  }, [orderStatus, pageNo, pageSize]);
 
   const handleChangePage = ({ selected }: any) => {
-    router.push(
-      pathname + "?" + createQueryString("pageNo", selected + 1, searchParams)
-    );
     setPageNo(selected);
   };
 
   return (
     <div className="h-full flex flex-col gap-4 rounded-sm">
-      <OrderStatus />
-      {/* orders */}
-
+      <OrderStatusSelector
+        status={orderStatus}
+        setOrderStatus={setOrderStatus}
+      />
       {loading ? (
         <div className="h-full bg-white flex justify-center items-center">
           <IconTextLoading />
         </div>
       ) : (
-        <Order
-          orders={orders}
-          pageNo={pageNo}
-          totalElements={totalElements}
-          totalPages={totalPages}
-          handleChangePage={handleChangePage}
-        />
+        orders && (
+          <Order
+            orders={orders.orderList || []}
+            pageNo={pageNo}
+            totalElements={orders.totalElements}
+            totalPages={orders.totalPages}
+            handleChangePage={handleChangePage}
+          />
+        )
       )}
     </div>
   );

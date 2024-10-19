@@ -1,6 +1,7 @@
 export const ROUTES = {
   AUTH: {
     LOGIN: "/login",
+    LOGOUT: "/logout",
     REGISTER: "/register",
     VERIFY_EMAIL: "/verify-email",
     PROCESS_VERIFY_EMAIL: "/process-verify-email",
@@ -19,6 +20,8 @@ export const ROUTES = {
     ORDER: "/dashboard/order",
     PRODUCT: "/dashboard/product",
     PRODUCT_CREATE: "/dashboard/product/create",
+    CATEGORY: "/dashboard/category",
+    CATEGORY_CREATE: "/dashboard/category/create",
   },
   HOME: "/",
   SHOP: "/shop",

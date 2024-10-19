@@ -10,6 +10,8 @@ import { ROUTES } from "~/common/constants/routes";
 import DevelopingTooltip from "../developing-tooltip";
 import ButtonLogout from "../buttons/logout-button";
 import { UserAvatar } from "~/modules/user/components/user-avatar";
+import { UserRole } from "~/common/utility/enum.util";
+import { BaseUtil } from "~/common/utility/base.util";
 
 const menu = [
   {
@@ -52,13 +54,11 @@ const NavUser = () => {
   return (
     <div ref={ref} className="relative">
       <div className="p-2">
-        {/* <div className="" onClick={() => setOpen(!open)}> */}
         <UserAvatar
           imageUrl={user.imageUrl}
           firstName={user.firstName}
           onClick={() => setOpen(!open)}
         />
-        {/* </div> */}
         <div
           className={cn(
             "min-w-60 p-2 bg-white border border-gray-300 rounded-2xl shadow-md absolute top-12 right-0 z-50 transition-all duration-300 invisible origin-top-right transform scale-0 opacity-0 group-hover:visible",
@@ -69,27 +69,29 @@ const NavUser = () => {
         >
           <Link
             href={ROUTES.USER.PROFILE}
-            className="p-2 flex items-center gap-4 border-b hover:opacity-80"
+            className="p-2 flex justify-center items-center gap-4 border-b hover:opacity-80"
           >
-            <Avatar>
+            {/* <Avatar>
               <AvatarImage src={user.imageUrl} alt="avatar user" />
-              <AvatarFallback>AV</AvatarFallback>
-            </Avatar>
+              <AvatarFallback className="bg-gradient-to-br from-purple-800 to-pink-400 text-white">
+                {BaseUtil.generateDefaultAvatarInitial(user.firstName)}
+              </AvatarFallback>
+            </Avatar> */}
             {isMounted && (
               <p className="font-semibold">{`${user.lastName} ${user.firstName}`}</p>
             )}
           </Link>
           <div className="p-2">
-            {/* {user.roles.includes(UserRole.ADMIN) && ( */}
-            <Link
-              key={ROUTES.ADMIN.STATISTIC}
-              href={ROUTES.ADMIN.STATISTIC}
-              className="p-2 flex gap-4 items-center text-sm text-gray-500 hover:bg-gray-100 rounded-md"
-            >
-              <AreaChart />
-              <p>Trang quản trị</p>
-            </Link>
-            {/* )} */}
+            {user.roles.find((role) => role.name === UserRole.ADMIN) && (
+              <Link
+                key={ROUTES.ADMIN.STATISTIC}
+                href={ROUTES.ADMIN.STATISTIC}
+                className="p-2 flex gap-4 items-center text-sm text-gray-500 hover:bg-gray-100 rounded-md"
+              >
+                <AreaChart />
+                <p>Trang quản trị</p>
+              </Link>
+            )}
             {menu.map((item) =>
               item.status === "available" ? (
                 <Link

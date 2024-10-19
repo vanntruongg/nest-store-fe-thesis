@@ -10,12 +10,12 @@ const StatisticPage = () => {
       <SummaryStatistic />
 
       <Revenue />
-      <div className="grid grid-cols-3 gap-4">
+      {/* <div className="grid grid-cols-3 gap-4">
         <TotalRevenue />
         <div className="col-span-2">
           <OrderStatisticByMonth />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

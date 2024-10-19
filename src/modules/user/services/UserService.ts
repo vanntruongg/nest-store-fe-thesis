@@ -12,9 +12,11 @@ export const getProfile = async (accessToken: string) => {
 
   return res.payload;
 };
-export const getAllUser = async () => {
+export const getAllUser = async (pageNo: number, pageSize: number) => {
   const url = EndpointUtil.NEST.IDENTITY.USER.GET_ALL;
-  const res = await httpClient.get<any>(url);
+  const res = await httpClient.get<any>(
+    url + `?pageNo=${pageNo}&pageSize=${pageSize}`
+  );
   return res.payload;
 };
 export const changePassword = async (
@@ -41,5 +43,16 @@ export const deleteUser = async (email: string) => {
 export const getUserCount = async () => {
   const url = EndpointUtil.NEST.IDENTITY.USER.COUNT_USER;
   const res = await httpClient.get<any>(url);
+  return res.payload;
+};
+export const searchUserByName = async (
+  name: string,
+  pageNo: number,
+  pageSize: number
+) => {
+  const url = EndpointUtil.NEST.IDENTITY.USER.SEARCH_BY_NAME;
+  const res = await httpClient.get<any>(
+    url + `/${name}?pageNo=${pageNo}&pageSize=${pageSize}`
+  );
   return res.payload;
 };

@@ -23,6 +23,7 @@ export class EndpointUtil {
         DELETE_USER: "/identity/users/delete",
         COUNT_USER: "/identity/users/count",
         GET_ALL_ADDRESS: "/identity/users/get/address",
+        SEARCH_BY_NAME: "/identity/users/search/name",
       },
     },
     PRODUCT: {
@@ -39,9 +40,12 @@ export class EndpointUtil {
       UPDATE_PRODUCT: "/product/update",
       COUNT_PRODUCT: "/product/count",
       CATEGORY: {
+        CREATE: "/product/category/create",
+        UPDATE: "/product/category/update",
         GET_ALL: "/product/category",
         GET_ALL_PARENT_BY_ID: "/product/category/get/all-parent",
       },
+      SEARCH_BY_NAME: "/product/search/name",
     },
     CART: {
       GET_ALL: "/cart/items",
@@ -60,6 +64,7 @@ export class EndpointUtil {
       GET_BY_STATUS: "/order/get/status",
       GET_BY_USER_AND_STATUS: "/order/get/user/status",
       UPDATE_STATUS: "/order/update/status",
+      SEARCH_BY_ID: "/order/search",
     },
     ORDER_PAYMENT: {
       GET_BY_ORDER_ID: "/payments/get/order",
@@ -70,7 +75,7 @@ export class EndpointUtil {
     },
     STATISTIC: {
       GET_TOTAL_ORDER_COUNT_BY_STATUS: "/order/statistic/total-order",
-      REVENUE_STATISTIC: "/order/statistic/revenue",
+      REVENUE: "/order/statistic/revenue",
       ORDER_STATISTIC: "/order/statistic/order",
     },
     ADDRESS_DATA: {
@@ -91,6 +96,7 @@ export class EndpointUtil {
     },
     INVENTORY: {
       GET_BY_PRODUCT_ID: "/inventory/get",
+      UPDATE: "/inventory/update",
       GET_BY_PRODUCT_ID_AND_SIZE: "/inventory/get/size/id",
     },
     RATING: {

@@ -15,8 +15,8 @@ import {
 
 import { ImagePreviewUploader } from "~/common/components/image/image-preview-uploader";
 import { FileWithPreview } from "~/modules/common/model/FileWithPreview";
-import { CategorySelector } from "../category-selector";
 import { InventorySelector } from "../inventory-selector";
+import { CategorySelector } from "../category-selector";
 
 export interface Props {
   form: UseFormReturn<any>;
@@ -106,7 +106,7 @@ export function FormCreateProduct({
             onClick={form.handleSubmit(onSubmit)}
             className="self-start"
           >
-            Thêm sản phẩm
+            Thêm
           </Button>
         </div>
         <div className="col-span-3 flex flex-col space-y-4">

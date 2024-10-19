@@ -6,7 +6,7 @@ import { Skeleton } from "~/components/ui/skeleton";
 import RecursionCategory from "./recursion-category";
 import { useEffect, useState } from "react";
 import { Category } from "~/modules/product/models/Category";
-import { getAllCategory } from "~/modules/product/services/CategoryApi";
+import { getAllCategory } from "~/modules/product/services/CategoryService";
 
 const ListCategory = () => {
   const searchParams = useSearchParams();

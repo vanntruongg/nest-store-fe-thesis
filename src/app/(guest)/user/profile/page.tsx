@@ -4,6 +4,8 @@ import { useUser } from "~/hooks/useUser";
 import { FormUpdateUser } from "./form-update";
 import { useEffect, useState } from "react";
 import { Skeleton } from "~/components/ui/skeleton";
+import { displayUserStatus } from "~/utils/displayUserStatus";
+import { BaseUtil } from "~/common/utility/base.util";
 
 const Profile = () => {
   const { user } = useUser();
@@ -38,12 +40,12 @@ const Profile = () => {
           <div className="flex items-center gap-2">
             <Check className="size-5" />
             <div className="font-semibold">Trạng thái:</div>
-            <div>{user.status}</div>
+            <div>{displayUserStatus(user.status)}</div>
           </div>
           <div className="flex items-center gap-2">
             <Phone className="size-5" />
             <div className="font-semibold">Số điện thoại:</div>
-            <div>{user.phone}</div>
+            <div>{BaseUtil.formatPhoneNumber(user.phone || "")}</div>
           </div>
           <div className="flex items-center gap-2">
             <Mail className="size-5" />

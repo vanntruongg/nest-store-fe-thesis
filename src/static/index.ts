@@ -35,9 +35,9 @@ export const navLinks: ItemNav[] = [
 ];
 
 export const statusClasses: Record<string, string> = {
-  "Chờ xác nhận": "text-warning bg-warning",
-  "Đang xử lý": "text-processing bg-processing",
-  "Đang giao": "text-shipping bg-shipping",
-  "Hoàn thành": "text-success bg-success",
-  "Đã hủy": "text-danger bg-danger",
+  PENDING: "text-warning bg-warning",
+  ACCEPTED: "text-processing bg-processing",
+  SHIPPING: "text-shipping bg-shipping",
+  COMPLETED: "text-success bg-success",
+  CANCELED: "text-danger bg-danger",
 };

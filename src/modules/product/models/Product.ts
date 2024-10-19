@@ -8,6 +8,7 @@ export type Product = {
   style: string;
   category: CategoryInProduct;
   imageUrl: string;
+  description: string;
   sizeQuantity: SizeQuantity[];
 };
 

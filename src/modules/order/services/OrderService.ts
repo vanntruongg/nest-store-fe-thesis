@@ -8,11 +8,20 @@ export const createOrder = async (orderRequest: OrderPost) => {
   return res.payload;
 };
 
-export const getAllOrder = async () => {
+export const getAllOrder = async (
+  pageNo: number,
+  pageSize: number,
+  orderStatus: string,
+  paymentMethod: string
+) => {
   const url = EndpointUtil.NEST.ORDER.GET_ALL;
-  const res = await httpClient.get<any>(url);
+  const res = await httpClient.get<any>(
+    url +
+      `?pageNo=${pageNo}&pageSize=${pageSize}&orderStatus=${orderStatus}&paymentMethod=${paymentMethod}`
+  );
   return res.payload;
 };
+
 export const getAllMyOrder = async (
   pageNo: number,
   pageSize: number,
@@ -24,13 +33,21 @@ export const getAllMyOrder = async (
   );
   return res.payload;
 };
-export const getByStatus = async (status: string) => {
-  const url = EndpointUtil.NEST.ORDER.GET_BY_STATUS;
-  const res = await httpClient.get<any>(url + `?status=${status}`);
-  return res.payload;
-};
+
+// export const getByStatus = async (status: string) => {
+//   const url = EndpointUtil.NEST.ORDER.GET_BY_STATUS;
+//   const res = await httpClient.get<any>(url + `?status=${status}`);
+//   return res.payload;
+// };
+
 export const updateStatus = async (id: number, status: string) => {
   const url = EndpointUtil.NEST.ORDER.UPDATE_STATUS;
   const res = await httpClient.post<any>(url + `?id=${id}&status=${status}`);
+  return res.payload;
+};
+
+export const searchOrderById = async (orderId: number) => {
+  const url = EndpointUtil.NEST.ORDER.SEARCH_BY_ID;
+  const res = await httpClient.get<any>(url + `/${orderId}`);
   return res.payload;
 };

@@ -47,6 +47,13 @@ const menuDashboardItems = [
     link: ROUTES.ADMIN.PRODUCT,
     roles: [UserRole.ADMIN, UserRole.EMPLOYEE],
   },
+  {
+    id: 5,
+    icon: <LiaBoxesSolid size={20} />,
+    label: "Quản lý danh mục",
+    link: ROUTES.ADMIN.CATEGORY,
+    roles: [UserRole.ADMIN, UserRole.EMPLOYEE],
+  },
 ];
 
 export function NavAdmin() {
@@ -89,7 +96,7 @@ export function NavAdmin() {
     );
 
   return (
-    <nav className="bg-gray-100 h-full min-h-screen p-4 flex flex-col justify-between shadow">
+    <nav className="bg-gray-100 h-full min-h-screen p-4 flex flex-col justify-between shadow overflow-hidden">
       <div>
         <Link
           href={ROUTES.ADMIN.STATISTIC}

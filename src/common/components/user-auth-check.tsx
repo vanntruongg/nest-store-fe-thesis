@@ -4,45 +4,44 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { UserRound, LogOut, ShoppingCart, Sun } from "lucide-react";
 import { useOutsideClick } from "~/hooks/useOutsideClick";
-import { routes } from "~/static";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "../../components/ui/avatar";
-import { IUser } from "~/common/model/user.model";
 import { ROUTES } from "~/common/constants/routes";
+import { User } from "~/modules/user/model/User";
 
 const menu = [
   {
     icon: <UserRound className="size-5" />,
     label: "Tài khoản",
-    href: routes.PROFILE,
+    href: ROUTES.USER.PROFILE,
     status: "available",
   },
   {
     icon: <ShoppingCart className="size-5" />,
     label: "Giỏ hàng",
-    href: routes.CART,
+    href: ROUTES.CART,
     status: "available",
   },
   {
     icon: <Sun className="size-5" />,
     label: "Chế độ tối",
-    href: routes.LOGOUT,
+    href: "",
     status: "notAvailable",
   },
 
   {
     icon: <LogOut className="size-5" />,
     label: "Đăng xuất",
-    href: routes.LOGOUT,
+    href: ROUTES.AUTH.LOGOUT,
     status: "available",
   },
 ];
 
 export function UserAuthCheck() {
-  const [profile, setProfile] = useState<IUser>();
+  const [profile, setProfile] = useState<User>();
   const [open, setOpen] = useState<boolean>(false);
   const pathname = usePathname();
 
@@ -77,7 +76,7 @@ export function UserAuthCheck() {
             `}
             >
               <Link
-                href={routes.PROFILE}
+                href={ROUTES.USER.PROFILE}
                 className="p-2 flex items-center gap-4 border-b hover:opacity-80"
               >
                 <Avatar>
@@ -90,10 +89,10 @@ export function UserAuthCheck() {
                 <p className="font-semibold">Trần Văn Trường</p>
               </Link>
               <div className="p-2">
-                {menu.map((item) =>
+                {menu.map((item, index) =>
                   item.status === "available" ? (
                     <Link
-                      key={item.href}
+                      key={index}
                       href={item.href}
                       className="p-2 flex gap-4 items-center text-sm text-gray-500 hover:bg-gray-100 rounded-md"
                     >
@@ -102,7 +101,7 @@ export function UserAuthCheck() {
                     </Link>
                   ) : (
                     <Link
-                      key={item.href}
+                      key={index}
                       href={item.href}
                       className="p-2 flex gap-4 items-center text-sm text-gray-500 hover:bg-gray-100 rounded-md pointer-events-none opacity-50"
                     >

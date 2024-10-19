@@ -21,6 +21,7 @@ import { productTableColumns } from "./product-table-columns";
 import { TableDataAdmin } from "~/modules/admin/components/table";
 import useDebounce from "~/hooks/useDebounce";
 import { Input } from "~/components/ui/input";
+import { Category } from "~/modules/product/models/Category";
 
 export default function ProductManagementPage() {
   const [data, setData] = useState<ProductGet | null>(null);
@@ -109,13 +110,27 @@ export default function ProductManagementPage() {
           Thêm sản phẩm
         </Link>
       </div>
-      <Input
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
-        placeholder="Tìm kiếm sản phẩm..."
-        required={true}
-        className="max-w-72"
-      />
+      <div className="flex space-x-4 items-center">
+        <Input
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          placeholder="Tìm kiếm sản phẩm..."
+          required={true}
+          className="max-w-72"
+        />
+        <Link
+          href={ROUTES.ADMIN.PRODUCT_CREATE}
+          className="px-4 py-1.5 text-white text-sm font-medium border rounded-full bg-gradient-to-br from-purple-700 to-purple-500 hover:opacity-90"
+        >
+          Thêm sản phẩm
+        </Link>
+        <Link
+          href={ROUTES.ADMIN.PRODUCT_CREATE}
+          className="px-4 py-1.5 text-white text-sm font-medium border rounded-full bg-gradient-to-br from-purple-700 to-purple-500 hover:opacity-90"
+        >
+          Thêm danh mục
+        </Link>
+      </div>
       <TableDataAdmin
         data={data?.productContent || []}
         columns={columns}

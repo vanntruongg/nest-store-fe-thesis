@@ -1,12 +1,7 @@
 import { IoIosStar, IoIosStarOutline } from "react-icons/io";
 import Image from "next/image";
 import { useState } from "react";
-import { ProductReview } from "~/common/model/product.model";
 import { cn } from "~/lib/utils";
-
-export interface IReviewProps {
-  review: ProductReview;
-}
 
 const filterOptions: {
   label: string;
@@ -104,7 +99,7 @@ const reviews = [
   },
 ];
 
-export function Review({ review }: IReviewProps) {
+export function Review() {
   const [filterValue, setFilterValue] = useState<string | number>(
     filterOptions[0].value
   );

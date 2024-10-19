@@ -2,6 +2,7 @@ import { UseFormSetError } from "react-hook-form";
 import { toast } from "~/components/ui/use-toast";
 import { EntityError } from "../http-client";
 import { Location, LocationType } from "~/modules/address/modules/Loation";
+import { split } from "postcss/lib/list";
 
 export class BaseUtil {
   static handleErrorApi({
@@ -119,6 +120,9 @@ export class BaseUtil {
   static generateDefaultAvatarInitial(firstName: string) {
     if (!firstName) return "";
 
-    return firstName.charAt(0).toUpperCase();
+    const words = firstName.trim().split(" ");
+    const lastName = words[words.length - 1];
+
+    return lastName.charAt(0).toUpperCase();
   }
 }
