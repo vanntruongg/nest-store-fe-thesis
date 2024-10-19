@@ -29,7 +29,6 @@ import Loading from "~/common/components/loading";
 import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/common/components/icon-text-loading";
 import { ImagePreviewUploader } from "~/common/components/image/image-preview-uploader";
-import { CategorySelector } from "./category-selector";
 
 import {
   ProductShema,
@@ -41,6 +40,7 @@ import { FileWithPreview } from "~/modules/common/model/FileWithPreview";
 import { Product } from "~/modules/product/models/Product";
 import { ProductPut } from "~/modules/product/models/ProductPut";
 import { uploadToCloudinary } from "~/modules/common/services/CloudinaryService";
+import { CategorySelector } from "./category-selector";
 
 interface Props {
   product: Product;

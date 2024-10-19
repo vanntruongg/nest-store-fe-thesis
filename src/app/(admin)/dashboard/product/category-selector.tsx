@@ -1,18 +1,13 @@
 import Image from "next/image";
 import { Fragment, useEffect, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import {
-  ProductShemaCreateType,
-  ProductShemaUpdateType,
-} from "~/app/schema-validations/product.shema";
 import { BaseUtil } from "~/common/utility/base.util";
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { Category } from "~/modules/product/models/Category";
 import { CategoryInProduct } from "~/modules/product/models/Product";
-import { getAllCategory } from "~/modules/product/services/CategoryApi";
+import { getAllCategory } from "~/modules/product/services/CategoryService";
 
 export interface Props {
   category?: CategoryInProduct;
@@ -50,10 +45,7 @@ export function CategorySelector({ category, form }: Props) {
     fetchData();
   }, []);
 
-  const handleSelectSubCategory = (
-    e: any,
-    categoryWithSubCategory: Category
-  ) => {
+  const handleSelectCategory = (e: any, categoryWithSubCategory: Category) => {
     e.preventDefault();
 
     const {
@@ -174,10 +166,11 @@ export function CategorySelector({ category, form }: Props) {
                   "p-2 flex items-center space-x-2 border rounded-md cursor-pointer hover:bg-gray-50",
                   {
                     "border-primary text-primary":
+                      form.watch("category") &&
                       form.watch("category").id === id,
                   }
                 )}
-                onClick={(e) => handleSelectSubCategory(e, category)}
+                onClick={(e) => handleSelectCategory(e, category)}
               >
                 <div className="aspect-square h-8 rounded-sm">
                   <Image
