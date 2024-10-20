@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "../../../components/ui/button";
 import { useWishlist } from "~/hooks/useWishlist";
-import { Product } from "~/common/model/product.model";
+import { Product } from "~/modules/product/models/Product";
 
 const AddtoWishlistButton = ({ product }: { product: Product }) => {
   const { addItem } = useWishlist();

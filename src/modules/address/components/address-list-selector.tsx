@@ -59,7 +59,7 @@ export function AddressListSelector() {
     if (newAddressSelected) {
       setDeliveryAddress(newAddressSelected);
     }
-  }, [addresses]);
+  }, [addresses, selectedAddress?.id, setDeliveryAddress]);
 
   const handleChangeAddress = () => {
     if (selectedAddress) {

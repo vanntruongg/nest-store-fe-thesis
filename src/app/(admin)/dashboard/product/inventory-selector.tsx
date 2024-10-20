@@ -122,9 +122,9 @@ export function InventorySelector({ form, context }: Props) {
               })}
             />
           </div>
-          {errors.stock?.[index]?.quantity && (
+          {errors?.stock?.[index]?.quantity && (
             <p className="text-red-500 text-xs">
-              {errors.stock[index].quantity?.message}
+              {errors.stock[index]?.quantity?.message}
             </p>
           )}
         </div>

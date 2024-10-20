@@ -13,7 +13,7 @@ const initialUser: User = {
   lastName: "",
   email: "",
   phone: "",
-  dateOfBirth: "",
+  status: "",
   imageUrl: "",
   roles: [],
 };

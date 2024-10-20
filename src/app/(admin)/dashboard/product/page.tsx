@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 
 import { BaseUtil } from "~/common/utility/base.util";
 import {
@@ -15,13 +14,11 @@ import { ROUTES } from "~/common/constants/routes";
 import Link from "next/link";
 import { InventoryPut } from "~/modules/product/models/InventoryPut";
 import { updateInventory } from "~/modules/product/services/InventoryService";
-import Loading from "~/common/components/loading";
 import { Pagination } from "~/modules/admin/components/pagination";
 import { productTableColumns } from "./product-table-columns";
 import { TableDataAdmin } from "~/modules/admin/components/table";
 import useDebounce from "~/hooks/useDebounce";
 import { Input } from "~/components/ui/input";
-import { Category } from "~/modules/product/models/Category";
 
 export default function ProductManagementPage() {
   const [data, setData] = useState<ProductGet | null>(null);
@@ -32,19 +29,36 @@ export default function ProductManagementPage() {
   const [searchValue, setSearchValue] = useState<string>("");
 
   const debounceSearchValue = useDebounce(searchValue, 500);
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const result = await getAllProduct(pageNo, pageSize);
 
-      setData(result.data);
-    } catch (error) {
-      BaseUtil.handleErrorApi({ error });
-    } finally {
-      setLoading(false);
-    }
-  };
   useEffect(() => {
+    const handleSearchProduct = async () => {
+      setLoading(true);
+      try {
+        const res = await searchProductByName(
+          debounceSearchValue,
+          pageNo,
+          pageSize
+        );
+        setData(res.data);
+      } catch (error) {
+        BaseUtil.handleErrorApi({ error });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const result = await getAllProduct(pageNo, pageSize);
+
+        setData(result.data);
+      } catch (error) {
+        BaseUtil.handleErrorApi({ error });
+      } finally {
+        setLoading(false);
+      }
+    };
     if (debounceSearchValue !== "") {
       handleSearchProduct();
     } else {
@@ -71,22 +85,6 @@ export default function ProductManagementPage() {
       const result = await updateInventory(inventoryPut);
       setIsUpdate(!isUpdate);
       toast({ description: result.message });
-    } catch (error) {
-      BaseUtil.handleErrorApi({ error });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSearchProduct = async () => {
-    setLoading(true);
-    try {
-      const res = await searchProductByName(
-        debounceSearchValue,
-        pageNo,
-        pageSize
-      );
-      setData(res.data);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     } finally {

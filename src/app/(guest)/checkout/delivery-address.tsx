@@ -19,7 +19,7 @@ export function DeliveryAddress() {
     };
     fetchData();
     setIsMounted(true);
-  }, []);
+  }, [deliveryAddress, setDeliveryAddress]);
 
   const renderAddress = () => {
     return deliveryAddress

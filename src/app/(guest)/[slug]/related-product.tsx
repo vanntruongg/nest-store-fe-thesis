@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import productApi from "~/apis/product-api";
-import { Product } from "~/common/model/product.model";
 import MaxWidthWrapper from "../../../common/components/max-width-wrapper";
 import CardProduct from "../../../modules/product/components/card-product";
 import { ProductUtil } from "~/common/utility/product.util";
 import { useRouter } from "next/navigation";
 import { ELayoutProduct } from "~/common/utility/enum.util";
+import { Product } from "~/modules/product/models/Product";
+import { getProductByCategory } from "~/modules/product/services/ProductService";
 
 export interface IRelatedProductProps {
   product: Product;
@@ -17,17 +17,14 @@ export function RelatedProduct({ product }: IRelatedProductProps) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await productApi.getProductByCategory(
-        product.category.id,
-        5
-      ); // limit: 5
-      setRelatedProducts(result.payload.data);
+      const result = await getProductByCategory(product.category.id, 5); // limit: 5
+      setRelatedProducts(result.data);
       setRelatedProducts((preData) =>
         preData.filter((data) => data.id !== product.id)
       );
     };
     fetchData();
-  }, [product.category.id]);
+  }, [product.category.id, product.id]);
 
   const handleRedirect = () => {
     localStorage.setItem("category", product.category.name);

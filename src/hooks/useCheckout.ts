@@ -1,19 +1,19 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { ItemCheckout } from "~/app/(guest)/cart/page";
-import { Address } from "~/common/model/address.model";
-import { IPaymentMethod } from "~/common/model/payment.model";
+import { Address } from "~/modules/address/modules/Address";
+import { PaymentMethod } from "~/modules/payment/model/PaymentMethod";
 
 type CheckoutState = {
   items: ItemCheckout[];
   deliveryAddress: Address | null;
   notes: string;
-  paymentMethod: IPaymentMethod | null;
+  paymentMethod: PaymentMethod | null;
   addItem: (item: ItemCheckout) => void;
   removeItem: (itemId: number, size: string) => void;
   addItems: (items: ItemCheckout[]) => void;
   setDeliveryAddress: (deliveryAddress: Address) => void;
-  setPaymentMethod: (method: IPaymentMethod) => void;
+  setPaymentMethod: (method: PaymentMethod) => void;
   setNotes: (notes: string) => void;
   clearCheckout: () => void;
   updateQuantityItemCheckOut: (
@@ -61,7 +61,7 @@ export const useCheckout = create<CheckoutState>()(
         set((state) => {
           return { deliveryAddress: deliveryAddress };
         }),
-      setPaymentMethod: (method: IPaymentMethod) =>
+      setPaymentMethod: (method: PaymentMethod) =>
         set((state) => {
           return { paymentMethod: method };
         }),

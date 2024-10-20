@@ -11,7 +11,7 @@ export const getOrderRevenue = async (year: number, month: number | string) => {
   const res = await httpClient.get<any>(url + `?year=${year}&month=${month}`);
   return res.payload;
 };
-export const orderStatistic = async (year: number, month: number) => {
+export const orderStatistic = async (year: number, month: number | string) => {
   const url = EndpointUtil.NEST.STATISTIC.ORDER_STATISTIC;
   const res = await httpClient.get<any>(url + `?year=${year}&month=${month}`);
   return res.payload;

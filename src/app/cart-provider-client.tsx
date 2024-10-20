@@ -23,11 +23,12 @@ export default function CartProviderClient({
         BaseUtil.handleErrorApi({ error });
       }
     };
-    if (tokenStorage.value.rawToken.accessToken) {
+    const accessToken = tokenStorage.value.rawToken.accessToken;
+    if (accessToken) {
       fetchData();
     } else {
       setCartLength(0);
     }
-  }, [tokenStorage.value.rawToken.accessToken]);
+  }, [setCartLength]);
   return <>{children}</>;
 }

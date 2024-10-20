@@ -1,10 +1,10 @@
 "use client";
-
+import dynamic from "next/dynamic";
 import * as echarts from "echarts";
-import ReactECcharts from "echarts-for-react";
-import { memo, useEffect, useState } from "react";
-import { ProductUtil } from "~/common/utility/product.util";
-
+import { memo, useEffect, useState, lazy, useMemo } from "react";
+const ReactECcharts = dynamic(() => import("echarts-for-react"), {
+  ssr: false, // Disable server-side rendering for this component
+});
 interface LineChartProps {
   title: string;
   subTitle?: string;
@@ -21,10 +21,28 @@ const LineChart = ({
   totalRevenue,
   optionCustom,
 }: LineChartProps) => {
-  const [option, setOption] = useState({});
-  const scaledTotalRevenue = totalRevenue.map((revenue) => revenue / 1000000);
-  useEffect(() => {
-    const lineChartOptions = {
+  const scaledTotalRevenue = useMemo(
+    () => totalRevenue.map((revenue) => revenue / 1_000_000),
+    [totalRevenue]
+  );
+
+  const lineChartOptions = useMemo(() => {
+    const commonItemStyle = {
+      showBackground: true,
+      smooth: 0.6,
+      animationEasing: "bounceInOut",
+      animationDuration: 2000,
+    };
+
+    const commonAreaStyle = (colorStart: any, colorEnd: any) => ({
+      opacity: 0.1,
+      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+        { offset: 0, color: colorStart },
+        { offset: 0.7, color: colorEnd },
+        { offset: 1, color: colorEnd },
+      ]),
+    });
+    return {
       title: {
         text: title,
         textStyle: {
@@ -91,30 +109,27 @@ const LineChart = ({
           smooth: 0.6, // boolean | number
           name: "Đơn hàng",
           showBackground: true,
-          areaStyle: {
-            opacity: 0.1,
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: "#b394fc" },
-              { offset: 0.7, color: "#8104fd" },
-              { offset: 1, color: "#8104fd" },
-            ]),
-          },
+          // areaStyle: {
+          //   opacity: 0.1,
+          //   color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          //     { offset: 0, color: "#b394fc" },
+          //     { offset: 0.7, color: "#8104fd" },
+          //     { offset: 1, color: "#8104fd" },
+          //   ]),
+          // },
           itemStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: "#b394fc" },
-              { offset: 0.7, color: "#8104fd" },
-              { offset: 1, color: "#8104fd" },
-            ]),
+            ...commonItemStyle,
+            areaStyle: commonAreaStyle("#b394fc", "#8104fd"),
           },
-          emphasis: {
-            itemStyle: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: "#8104fd" },
-                { offset: 0.7, color: "#8104fd" },
-                { offset: 1, color: "#b394fc" },
-              ]),
-            },
-          },
+          // emphasis: {
+          //   itemStyle: {
+          //     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          //       { offset: 0, color: "#8104fd" },
+          //       { offset: 0.7, color: "#8104fd" },
+          //       { offset: 1, color: "#b394fc" },
+          //     ]),
+          //   },
+          // },
           animationEasing: "bounceInOut",
           animationDuration: 2000,
           data: totalOrder,
@@ -124,30 +139,27 @@ const LineChart = ({
           smooth: 0.6, // boolean | number
           name: "Doanh thu",
           showBackground: true,
-          areaStyle: {
-            opacity: 0.1,
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: "#a0e6ff" },
-              { offset: 0.7, color: "#00aaff" },
-              { offset: 1, color: "#005f88" },
-            ]),
-          },
+          // areaStyle: {
+          //   opacity: 0.1,
+          //   color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          //     { offset: 0, color: "#a0e6ff" },
+          //     { offset: 0.7, color: "#00aaff" },
+          //     { offset: 1, color: "#005f88" },
+          //   ]),
+          // },
           itemStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: "#005f88" },
-              { offset: 0.7, color: "#00aaff" },
-              { offset: 1, color: "#a0e6ff" },
-            ]),
+            ...commonItemStyle,
+            areaStyle: commonAreaStyle("#005f88", "#00aaff"),
           },
-          emphasis: {
-            itemStyle: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: "#005f88" },
-                { offset: 0.7, color: "#00aaff" },
-                { offset: 1, color: "#a0e6ff" },
-              ]),
-            },
-          },
+          // emphasis: {
+          //   itemStyle: {
+          //     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          //       { offset: 0, color: "#005f88" },
+          //       { offset: 0.7, color: "#00aaff" },
+          //       { offset: 1, color: "#a0e6ff" },
+          //     ]),
+          //   },
+          // },
           animationEasing: "bounceInOut",
           animationDuration: 2000,
           data: scaledTotalRevenue,
@@ -198,13 +210,10 @@ const LineChart = ({
         borderColor: "#fff",
         backgroundColor: "transparent",
       },
-      ...optionCustom,
     };
+  }, [dataAxis, title, scaledTotalRevenue]);
 
-    setOption(lineChartOptions);
-  }, [dataAxis, totalOrder, title, optionCustom]);
-
-  return <ReactECcharts option={option}></ReactECcharts>;
+  return <ReactECcharts option={lineChartOptions}></ReactECcharts>;
 };
 
 export default memo(LineChart);

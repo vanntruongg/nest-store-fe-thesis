@@ -1,16 +1,14 @@
 "use client";
-import { useEffect, useState } from "react";
 import { useWishlist } from "~/hooks/useWishlist";
-import { Loader2 } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "../../../components/ui/tooltip";
-import { Product } from "~/common/model/product.model";
 import { cn } from "~/lib/utils";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { Product } from "~/modules/product/models/Product";
 
 interface AddtoWishlistIconProps {
   product: Product;

@@ -35,6 +35,14 @@ export const getProductByName = async (name: string, limit: number = 10) => {
   const res = await httpClient.get<any>(url + `?name=${name}&limit=${limit}`);
   return res.payload;
 };
+export const getProductByCategory = async (
+  categoryId: number,
+  limit: number = 5
+) => {
+  const url = EndpointUtil.NEST.PRODUCT.GET_BY_CATEGORY;
+  const res = await httpClient.get<any>(url + `/${categoryId}&limit=${limit}`);
+  return res.payload;
+};
 export const createProduct = async (createProductData: ProductPost) => {
   const url = EndpointUtil.NEST.PRODUCT.CREATE_PRODUCT;
   const res = await httpClient.post<any>(url, createProductData);

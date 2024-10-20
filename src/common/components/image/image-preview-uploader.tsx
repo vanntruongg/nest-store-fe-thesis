@@ -8,14 +8,14 @@ import {
   useState,
 } from "react";
 import { FileWithPreview } from "~/modules/common/model/FileWithPreview";
-import { ProductShemaType } from "~/app/schema-validations/product.shema";
 import { cn } from "~/lib/utils";
+import { ProductShemaCreateType } from "~/app/schema-validations/product.shema";
 
 export interface Props {
   image?: string;
   imageSelected: FileWithPreview | null;
   setImageSelected: Dispatch<SetStateAction<FileWithPreview | null>>;
-  form: UseFormReturn<ProductShemaType>;
+  form: any;
   className?: string;
 }
 

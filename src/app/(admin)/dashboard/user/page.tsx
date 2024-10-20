@@ -25,18 +25,34 @@ const UserManagement = () => {
 
   const debounceSearchValue = useDebounce(searchValue, 500);
 
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const result = await getAllUser(pageNo, pageSize);
-      setData(result.data);
-    } catch (error) {
-      BaseUtil.handleErrorApi({ error });
-    } finally {
-      setLoading(false);
-    }
-  };
   useEffect(() => {
+    const handleSearchUser = async () => {
+      setLoading(true);
+      try {
+        const res = await searchUserByName(
+          debounceSearchValue,
+          pageNo,
+          pageSize
+        );
+        setData(res.data);
+      } catch (error) {
+        BaseUtil.handleErrorApi({ error });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const result = await getAllUser(pageNo, pageSize);
+        setData(result.data);
+      } catch (error) {
+        BaseUtil.handleErrorApi({ error });
+      } finally {
+        setLoading(false);
+      }
+    };
     if (debounceSearchValue === "") {
       fetchData();
     } else {
@@ -61,18 +77,6 @@ const UserManagement = () => {
       toast({ description: result.message });
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
-    }
-  };
-
-  const handleSearchUser = async () => {
-    setLoading(true);
-    try {
-      const res = await searchUserByName(debounceSearchValue, pageNo, pageSize);
-      setData(res.data);
-    } catch (error) {
-      BaseUtil.handleErrorApi({ error });
-    } finally {
-      setLoading(false);
     }
   };
 

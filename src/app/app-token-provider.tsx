@@ -28,7 +28,7 @@ export default function AppTokenProvider({
       clearUser();
       setIsCleared(true); // Đặt flag sau khi clearUser được gọi
     }
-  }, [accessToken, isCleared]);
+  }, [accessToken, isCleared, clearUser]);
 
   return <>{children}</>;
 }

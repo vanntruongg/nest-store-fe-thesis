@@ -23,9 +23,6 @@ export function RevenueYearSelector({ year, setYear }: Props) {
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Chọn năm</SelectLabel>
-          <SelectItem value={(new Date().getFullYear() - 2).toString()}>
-            {new Date().getFullYear() - 2}
-          </SelectItem>
           <SelectItem value={(new Date().getFullYear() - 1).toString()}>
             {new Date().getFullYear() - 1}
           </SelectItem>

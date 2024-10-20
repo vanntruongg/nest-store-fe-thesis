@@ -1,8 +1,8 @@
-import { Product } from "~/common/model/product.model";
 import MaxWidthWrapper from "../../../common/components/max-width-wrapper";
 import CardProduct from "../../product/components/card-product";
 import { ELayoutProduct } from "~/common/utility/enum.util";
 import { GridLayout } from "../../../common/components/layout/grid-layout";
+import { Product } from "~/modules/product/models/Product";
 
 interface FeaturedProductProps {
   title: string;

@@ -1,4 +1,3 @@
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { ProductUtil } from "~/common/utility/product.util";
 import LineChart from "~/common/components/charts/line-chart";
@@ -11,15 +10,10 @@ const Revenue = () => {
   const [periodTime, setPeriodTime] = useState<number[]>([]);
   const [totalOrder, setTotalOrder] = useState<number[]>([]);
   const [totalRevenue, setTotalRevenue] = useState<number[]>([]);
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
+
   const [year, setYear] = useState<number>(new Date().getFullYear());
   const [month, setMonth] = useState<number | string>("");
 
-  // const year =
-  //   searchParams.get("revenueByYear") ?? new Date().getFullYear().toString();
-  // const month = searchParams.get("revenueByMonth") ?? "";
   useEffect(() => {
     const fetchData = async () => {
       const result = await getOrderRevenue(year, month);
@@ -31,28 +25,11 @@ const Revenue = () => {
       setTotalRevenue(totalRevenues);
     };
     fetchData();
-  }, [year, month]);
-
-  const handleChangeYear = (year: string) => {
-    const month = searchParams.get("revenueByMonth") || "";
-    // handleSetQueryString(year, month);
-  };
-  const handleChangeMonth = (month: string) => {
-    const year =
-      searchParams.get("revenueByYear") || new Date().getFullYear().toString();
-    // handleSetQueryString(year, month);
-  };
-
-  // const handleSetQueryString = (year: string, month: string) => {
-  //   const params = new URLSearchParams(searchParams.toString());
-  //   params.set("revenueByYear", year);
-  //   params.set("revenueByMonth", month !== " " ? month : "");
-  //   router.push(pathname + "?" + params.toString());
-  // };
+  }, [year, month, totalOrder]);
 
   const sumOfOrders = useMemo(() => {
     return totalOrder.reduce((acc, curr) => acc + curr, 0);
-  }, [totalRevenue]);
+  }, [totalOrder]);
   const sumOfRevenues = useMemo(() => {
     return totalRevenue.reduce((acc, curr) => acc + curr, 0);
   }, [totalRevenue]);

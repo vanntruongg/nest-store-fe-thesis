@@ -54,7 +54,7 @@ export function QuantitySelector({
       }
     };
     fetchData();
-  }, [productId]);
+  }, [productId, user.email]);
 
   useEffect(() => {
     if (!selectedSize) return;
@@ -72,7 +72,14 @@ export function QuantitySelector({
     );
     const newQuantity = sizeInCart?.quantity === availableQuantity ? 0 : 1;
     setQuantity(newQuantity);
-  }, [sizeQuantity, selectedSize, sizeQuantityInCart, availableQuantity]);
+  }, [
+    sizeQuantity,
+    selectedSize,
+    sizeQuantityInCart,
+    availableQuantity,
+    setError,
+    setQuantity,
+  ]);
 
   const handleInCreaseQuantity = () => {
     if (selectedSize) {

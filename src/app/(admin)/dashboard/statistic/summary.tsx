@@ -1,6 +1,5 @@
-import { Loader2 } from "lucide-react";
 import { memo, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 import {
   LiaClipboardListSolid,
   LiaUserFriendsSolid,
@@ -16,11 +15,9 @@ interface SummaryStatistic {
   users: number;
   products: number;
   orders: number;
-  // orders: { [key: string]: number };
 }
 
 const SummaryStatistic = () => {
-  const router = useRouter();
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [summary, setSummary] = useState<SummaryStatistic>({
     users: 0,

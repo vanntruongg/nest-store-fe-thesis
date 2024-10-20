@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { toast } from "~/components/ui/use-toast";
@@ -48,39 +48,32 @@ const ProductDetailPage = ({ params }: Props) => {
   const [isPost, setIsPost] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchProductData = async () => {
       try {
         const productId = ProductUtil.extractProductIdFromSlug(params.slug);
         const res = await getProductById(productId);
         const product = res.data;
         setProduct(product);
 
-        const [averageStarRes, ratingStarPercentageRes] = await Promise.all([
-          getAverageStarByProductId(product.id),
-          getRatingStarPercentage(product.id),
-        ]);
+        const [averageStarRes, ratingStarPercentageRes, mostUpvoteRatingRes] =
+          await Promise.all([
+            getAverageStarByProductId(product.id),
+            getRatingStarPercentage(product.id),
+            getMostUpvoteRating(product.id),
+          ]);
 
         setAverageStar(averageStarRes.data);
         setRatingStarPercentage(ratingStarPercentageRes.data);
+        setMostUpvoteRating(mostUpvoteRatingRes.data);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
       }
     };
-    fetchData();
+    fetchProductData();
   }, [params.slug]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (product) {
-        const res = await getMostUpvoteRating(product.id);
-        setMostUpvoteRating(res.data);
-      }
-    };
-    fetchData();
-  }, [product, isPost]);
-
-  useEffect(() => {
-    const fetchData = async () => {
+    const fetchRatingData = async () => {
       if (product) {
         const ratings = await getRatingByProductId(product.id, pageNo);
         setRatingList(ratings.data.ratingList);
@@ -88,43 +81,46 @@ const ProductDetailPage = ({ params }: Props) => {
         setTotalPages(ratings.data.totalPages);
       }
     };
-    fetchData();
+    fetchRatingData();
   }, [product, pageNo, isPost]);
 
   const handlePageChange = ({ selected }: any) => {
     setPageNo(selected);
   };
 
-  const handleDeleteRating = async (ratingId: string) => {
+  const handleDeleteRating = useCallback(async (ratingId: string) => {
     const res = await deleteRating(ratingId);
     if (res.success) {
       toast({ description: res.message });
-      setIsPost(!isPost);
+      setIsPost((prev) => !prev);
     }
-  };
+  }, []);
 
-  const toggleVoteRating = async (ratingId: string) => {
-    if (user.email === "") {
-      toast({
-        description: "Bạn cần đăng nhập trước khi thích đánh giá",
-        variant: "destructive",
-      });
-      return;
-    }
-    try {
-      await upvoteRating(ratingId);
-      setIsPost(!isPost);
-    } catch (error: any) {
-      if (error.status === 401) {
+  const toggleVoteRating = useCallback(
+    async (ratingId: string) => {
+      if (user.email === "") {
         toast({
           description: "Bạn cần đăng nhập trước khi thích đánh giá",
           variant: "destructive",
         });
-      } else {
-        BaseUtil.handleErrorApi({ error });
+        return;
       }
-    }
-  };
+      try {
+        await upvoteRating(ratingId);
+        setIsPost((prev) => !prev);
+      } catch (error: any) {
+        if (error.status === 401) {
+          toast({
+            description: "Bạn cần đăng nhập trước khi thích đánh giá",
+            variant: "destructive",
+          });
+        } else {
+          BaseUtil.handleErrorApi({ error });
+        }
+      }
+    },
+    [user.email]
+  );
 
   return (
     <div className="flex flex-col space-y-4 mb-4">
@@ -147,10 +143,10 @@ const ProductDetailPage = ({ params }: Props) => {
             <ProductDetailPlaceholder />
           )}
 
-          <Tabs defaultValue="details" className="w-full bg-white">
+          <Tabs defaultValue="productDetails" className="w-full bg-white">
             <TabsList className="w-full h-full p-0 bg-white border-b border-gray-300 rounded-none">
               <TabsTrigger
-                value="details"
+                value="productDetails"
                 className="w-full flex justify-center text-xl"
               >
                 Chi tiết sản phẩm
@@ -162,7 +158,7 @@ const ProductDetailPage = ({ params }: Props) => {
                 Đánh giá
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="details">
+            <TabsContent value="productDetails">
               <div className="p-4 flex flex-col space-y-4 text-sm">
                 <div className="flex gap-2">
                   <span className="min-w-20 text-muted-foreground">

@@ -46,17 +46,17 @@ export function AddressData({
   const [open, setOpen] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>("");
 
-  const fetchAddressData = async (
-    parentCode: string | null,
-    type: AddressLevel
-  ) => {
-    const result = await getAddressDataByParentCode(parentCode);
+  const fetchAddressData = useCallback(
+    async (parentCode: string | null, type: AddressLevel) => {
+      const result = await getAddressDataByParentCode(parentCode);
 
-    setAddressData((prev) => ({
-      ...prev,
-      [type]: result.data,
-    }));
-  };
+      setAddressData((prev) => ({
+        ...prev,
+        [type]: result.data,
+      }));
+    },
+    []
+  );
 
   useEffect(() => {
     fetchAddressData(null, "province");
@@ -65,7 +65,7 @@ export function AddressData({
       fetchAddressData(province?.code, "district");
       fetchAddressData(district?.code, "ward");
     }
-  }, []);
+  }, [action, province, district, fetchAddressData]);
 
   const handleSelectAddress = (
     fieldName: AddressIdType,

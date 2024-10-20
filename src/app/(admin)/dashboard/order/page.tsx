@@ -28,23 +28,37 @@ export default function OrderManagementPage() {
   const [searchValue, setSearchValue] = useState<number | undefined>(undefined);
 
   const debounceSearchValue = useDebounce(searchValue, 500);
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const result = await getAllOrder(
-        pageNo,
-        pageSize,
-        orderStatus,
-        paymentMethod
-      );
-      setData(result.data);
-    } catch (error) {
-      BaseUtil.handleErrorApi({ error });
-    } finally {
-      setLoading(false);
-    }
-  };
+
   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const result = await getAllOrder(
+          pageNo,
+          pageSize,
+          orderStatus,
+          paymentMethod
+        );
+        setData(result.data);
+      } catch (error) {
+        BaseUtil.handleErrorApi({ error });
+      } finally {
+        setLoading(false);
+      }
+    };
+    const handleSearchOrder = async () => {
+      setLoading(true);
+      try {
+        if (debounceSearchValue !== undefined) {
+          const res = await searchOrderById(debounceSearchValue);
+          setData(res.data);
+        }
+      } catch (error) {
+        BaseUtil.handleErrorApi({ error });
+      } finally {
+        setLoading(false);
+      }
+    };
     if (debounceSearchValue === 0 || debounceSearchValue === undefined) {
       fetchData();
     } else {
@@ -66,20 +80,6 @@ export default function OrderManagementPage() {
       setIsUpdate(!isUpdate);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
-    }
-  };
-
-  const handleSearchOrder = async () => {
-    setLoading(true);
-    try {
-      if (debounceSearchValue !== undefined) {
-        const res = await searchOrderById(debounceSearchValue);
-        setData(res.data);
-      }
-    } catch (error) {
-      BaseUtil.handleErrorApi({ error });
-    } finally {
-      setLoading(false);
     }
   };
 

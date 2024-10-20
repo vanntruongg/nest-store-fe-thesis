@@ -36,8 +36,8 @@ export default function CreateProductPage() {
       category: { id: 0, name: "" },
     },
   });
-
-  useEffect(() => {}, [form.watch("category")]);
+  const category = form.watch("category");
+  useEffect(() => {}, [category]);
 
   const onSubmit = async (data: CategoryShemaCreateType) => {
     setLoading(true);

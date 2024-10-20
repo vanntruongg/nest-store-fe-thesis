@@ -33,7 +33,7 @@ export function PaymentMethod({ error, setError }: PaymentMethodProps) {
 
   useEffect(() => {
     setError(false);
-  }, [paymentMethod]);
+  }, [paymentMethod, setError]);
 
   return (
     <section

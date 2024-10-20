@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { Product } from "~/common/model/product.model";
+import { Product } from "~/modules/product/models/Product";
 
 export type WishlistItem = {
   product: Product;
