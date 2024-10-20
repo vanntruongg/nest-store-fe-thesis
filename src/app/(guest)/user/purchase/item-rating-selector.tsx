@@ -50,6 +50,7 @@ export function ItemRatingSelector({ open, setOpen, oderItems }: Props) {
           </AlertDialogHeader>
           {oderItems.map((item) => (
             <div
+              key={item.productId}
               className="px-4 border rounded-md hover:bg-gray-100 cursor-pointer"
               onClick={() => handleSelectItemRating(item)}
             >

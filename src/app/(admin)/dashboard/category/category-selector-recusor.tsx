@@ -25,7 +25,11 @@ export function CategorySelectorRecusor({
   return (
     <Accordion type="single" collapsible className="text-sm w-full ">
       {categories.map(({ category, subCategories }) => (
-        <AccordionItem value={`item-${category.id}`} className="border-none ">
+        <AccordionItem
+          key={category.id}
+          value={`item-${category.id}`}
+          className="border-none "
+        >
           {currentCategory?.id !== category.id && (
             <AccordionTrigger className="p-2 font-semibold text-gray-700 hover:no-underline hover:text-primary ">
               <div

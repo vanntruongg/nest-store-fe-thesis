@@ -32,6 +32,7 @@ export function PaymentMethodSelector({ method, setPaymentMethod }: Props) {
       <SelectContent>
         {paymentMethodList.map(({ method, displayName }) => (
           <SelectItem
+            key={method}
             value={method}
             className="flex justify-center cursor-pointer"
           >

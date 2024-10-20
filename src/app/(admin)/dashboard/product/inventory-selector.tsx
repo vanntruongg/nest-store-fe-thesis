@@ -112,7 +112,7 @@ export function InventorySelector({ form, context }: Props) {
         </div>
       )}
       {fields.map((field, index) => (
-        <div className="flex flex-col space-y-1">
+        <div key={index} className="flex flex-col space-y-1">
           <div key={index} className="flex items-center gap-4 text-nowrap ">
             <p className="min-w-16">{`Size ${field.size}:`}</p>
             <Input

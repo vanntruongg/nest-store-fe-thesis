@@ -116,7 +116,7 @@ export function productTableColumns(
               <DropdownMenuLabel>Phân loại - Số lượng</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {sizeQuantityList.map(({ size, quantity }) => (
-                <DropdownMenuItem disabled className="flex">
+                <DropdownMenuItem key={size} disabled className="flex">
                   <span className="flex-1 text-center">{size}:</span>
                   <span className="flex-1 text-center">{quantity}</span>
                 </DropdownMenuItem>

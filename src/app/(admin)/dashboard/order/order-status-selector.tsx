@@ -33,7 +33,11 @@ export function OrderStatusSelector({ status, setOrderStatus }: Props) {
       </SelectTrigger>
       <SelectContent>
         {orderStatusList.map(({ status, displayName }) => (
-          <SelectItem value={status} className="flex justify-center">
+          <SelectItem
+            key={status}
+            value={status}
+            className="flex justify-center"
+          >
             {displayName}
           </SelectItem>
         ))}
