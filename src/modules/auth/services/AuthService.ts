@@ -54,12 +54,12 @@ export const verifyEmail = async (token: string) => {
   return res.payload;
 };
 export const forgotPassword = async (email: string) => {
-  const url = EndpointUtil.NEST.IDENTITY.AUTH.FORGOT_PASSWORD;
+  const url = EndpointUtil.NEST.IDENTITY.USER.FORGOT_PASSWORD;
   const res = await httpClient.post<any>(url + `?email=${email}`);
   return res.payload;
 };
 export const resetPassword = async (resetPassword: ResetPassword) => {
-  const url = EndpointUtil.NEST.IDENTITY.AUTH.RESET_PASSWORD;
+  const url = EndpointUtil.NEST.IDENTITY.USER.RESET_PASSWORD;
   const res = await httpClient.post<any>(url, resetPassword);
   return res.payload;
 };

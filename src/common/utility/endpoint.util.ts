@@ -11,8 +11,6 @@ export class EndpointUtil {
         REFRESH_TOKEN: "/identity/auth/refresh-token",
         VERIFY_EMAIL: "/identity/auth/verify-email",
         REQUEST_VERIFY_ACCOUNT: "/identity/auth/request/verify",
-        FORGOT_PASSWORD: "/identity/auth/forgot-password",
-        RESET_PASSWORD: "/identity/auth/reset-password",
       },
       USER: {
         GET_ALL: "/identity/users",
@@ -24,6 +22,8 @@ export class EndpointUtil {
         COUNT_USER: "/identity/users/count",
         GET_ALL_ADDRESS: "/identity/users/get/address",
         SEARCH_BY_NAME: "/identity/users/search/name",
+        FORGOT_PASSWORD: "/identity/users/forgot-password",
+        RESET_PASSWORD: "/identity/users/reset-password",
       },
     },
     PRODUCT: {
