@@ -49,7 +49,7 @@ const CartItem = ({
       setSizeQuantity(result.data);
     };
     fetchStock();
-  }, [product.id, productSize]);
+  }, [product.id]);
 
   // delay call api when increase or decrease quantity continuously
 
@@ -73,7 +73,7 @@ const CartItem = ({
         setLoading(false);
       }
     },
-    [product.id, fetchData, productQuantity, productSize]
+    [product.id]
   );
   // handle quantity change on blur or debounced value update
   useEffect(() => {
@@ -88,14 +88,7 @@ const CartItem = ({
 
     // update quantity item in storage to update total price items checkout
     updateQuantityItemCheckOut(product.id, debounceQuantity, productSize);
-  }, [
-    debounceQuantity,
-    isMounted,
-    product.id,
-    productSize,
-    updateItem,
-    updateQuantityItemCheckOut,
-  ]);
+  }, [debounceQuantity]);
 
   const handleBlurInputQuantity = (quantity: number) => {
     // if user clear input or input === 0

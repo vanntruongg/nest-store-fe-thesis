@@ -109,27 +109,31 @@ const LineChart = ({
           smooth: 0.6, // boolean | number
           name: "Đơn hàng",
           showBackground: true,
-          // areaStyle: {
-          //   opacity: 0.1,
-          //   color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          //     { offset: 0, color: "#b394fc" },
-          //     { offset: 0.7, color: "#8104fd" },
-          //     { offset: 1, color: "#8104fd" },
-          //   ]),
-          // },
-          itemStyle: {
-            ...commonItemStyle,
-            areaStyle: commonAreaStyle("#b394fc", "#8104fd"),
+          areaStyle: {
+            opacity: 0.1,
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: "#b394fc" },
+              { offset: 0.7, color: "#8104fd" },
+              { offset: 1, color: "#8104fd" },
+            ]),
           },
-          // emphasis: {
-          //   itemStyle: {
-          //     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          //       { offset: 0, color: "#8104fd" },
-          //       { offset: 0.7, color: "#8104fd" },
-          //       { offset: 1, color: "#b394fc" },
-          //     ]),
-          //   },
-          // },
+          itemStyle: {
+            opacity: 0.1,
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: "#8104fd" },
+              { offset: 0.7, color: "#8104fd" },
+              { offset: 1, color: "#b394fc" },
+            ]),
+          },
+          emphasis: {
+            itemStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: "#8104fd" },
+                { offset: 0.7, color: "#8104fd" },
+                { offset: 1, color: "#b394fc" },
+              ]),
+            },
+          },
           animationEasing: "bounceInOut",
           animationDuration: 2000,
           data: totalOrder,
@@ -139,27 +143,31 @@ const LineChart = ({
           smooth: 0.6, // boolean | number
           name: "Doanh thu",
           showBackground: true,
-          // areaStyle: {
-          //   opacity: 0.1,
-          //   color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          //     { offset: 0, color: "#a0e6ff" },
-          //     { offset: 0.7, color: "#00aaff" },
-          //     { offset: 1, color: "#005f88" },
-          //   ]),
-          // },
-          itemStyle: {
-            ...commonItemStyle,
-            areaStyle: commonAreaStyle("#005f88", "#00aaff"),
+          areaStyle: {
+            opacity: 0.1,
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: "#a0e6ff" },
+              { offset: 0.7, color: "#00aaff" },
+              { offset: 1, color: "#005f88" },
+            ]),
           },
-          // emphasis: {
-          //   itemStyle: {
-          //     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          //       { offset: 0, color: "#005f88" },
-          //       { offset: 0.7, color: "#00aaff" },
-          //       { offset: 1, color: "#a0e6ff" },
-          //     ]),
-          //   },
-          // },
+          itemStyle: {
+            opacity: 0.1,
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: "#005f88" },
+              { offset: 0.7, color: "#00aaff" },
+              { offset: 1, color: "#a0e6ff" },
+            ]),
+          },
+          emphasis: {
+            itemStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: "#005f88" },
+                { offset: 0.7, color: "#00aaff" },
+                { offset: 1, color: "#a0e6ff" },
+              ]),
+            },
+          },
           animationEasing: "bounceInOut",
           animationDuration: 2000,
           data: scaledTotalRevenue,
