@@ -21,6 +21,7 @@ import Loading from "~/common/components/loading";
 import { toast } from "~/components/ui/use-toast";
 import { register } from "~/modules/auth/services/AuthService";
 import { BaseUtil } from "~/common/utility/base.util";
+import { Eye, EyeOff } from "lucide-react";
 
 const RegisterForm = () => {
   const router = useRouter();
@@ -111,36 +112,70 @@ const RegisterForm = () => {
           <FormField
             control={form.control}
             name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Mật khẩu</FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Mật khẩu của bạn"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
+            render={({ field }) => {
+              const [showPassword, setShowPassword] = useState(false);
+              return (
+                <>
+                  <FormLabel>Mật khẩu</FormLabel>
+                  <FormItem>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Mật khẩu"
+                          {...field}
+                        />
+                        <div
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                        >
+                          {showPassword ? (
+                            <Eye strokeWidth={1.5} size={18} />
+                          ) : (
+                            <EyeOff strokeWidth={1.5} size={18} />
+                          )}
+                        </div>
+                      </div>
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                </>
+              );
+            }}
           />
           <FormField
             control={form.control}
             name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Xác nhận mật khẩu</FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Xác nhận mật khẩu"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
+            render={({ field }) => {
+              const [showPassword, setShowPassword] = useState(false);
+              return (
+                <>
+                  <FormLabel>Xác nhận mật khẩu</FormLabel>
+                  <FormItem>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Xác nhận mật khẩu"
+                          {...field}
+                        />
+                        <div
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                        >
+                          {showPassword ? (
+                            <Eye strokeWidth={1.5} size={18} />
+                          ) : (
+                            <EyeOff strokeWidth={1.5} size={18} />
+                          )}
+                        </div>
+                      </div>
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                </>
+              );
+            }}
           />
           <Button type="submit" className="w-full">
             Đăng ký

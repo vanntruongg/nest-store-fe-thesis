@@ -31,6 +31,7 @@ import { tokenStorage } from "~/common/utility/auth/token-storage";
 import { ROUTES } from "~/common/constants/routes";
 import { getProfile } from "~/modules/user/services/UserService";
 import { auth, login } from "~/modules/auth/services/AuthService";
+import { Eye, EyeOff } from "lucide-react";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -126,15 +127,36 @@ const LoginForm = () => {
           <FormField
             control={form.control}
             name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Mật khẩu</FormLabel>
-                <FormControl>
-                  <Input type="password" placeholder="Mật khẩu" {...field} />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>
-            )}
+            render={({ field }) => {
+              const [showPassword, setShowPassword] = useState(false);
+              return (
+                <>
+                  <FormLabel>Mật khẩu</FormLabel>
+                  <FormItem>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Mật khẩu"
+                          {...field}
+                        />
+                        <div
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                        >
+                          {showPassword ? (
+                            <Eye strokeWidth={1.5} size={18} />
+                          ) : (
+                            <EyeOff strokeWidth={1.5} size={18} />
+                          )}
+                        </div>
+                      </div>
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                </>
+              );
+            }}
           />
           <Button type="submit" className="w-full">
             Đăng nhập

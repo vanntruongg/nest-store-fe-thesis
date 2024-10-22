@@ -21,6 +21,8 @@ import {
 import { ROUTES } from "~/common/constants/routes";
 import { ChangePassword } from "~/modules/user/model/ChangePassword";
 import { changePassword } from "~/modules/user/services/UserService";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 const ChangePasswordPage = () => {
   const router = useRouter();
@@ -60,41 +62,101 @@ const ChangePasswordPage = () => {
             <FormField
               control={form.control}
               name="oldPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mật khẩu cũ:</FormLabel>
-                  <FormControl>
-                    <Input type="password" {...field} />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
+              render={({ field }) => {
+                const [showPassword, setShowPassword] = useState(false);
+                return (
+                  <div>
+                    <FormLabel>Mật khẩu cũ</FormLabel>
+                    <FormItem>
+                      <FormControl>
+                        <div className="relative">
+                          <Input
+                            type={showPassword ? "text" : "password"}
+                            {...field}
+                          />
+                          <div
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                          >
+                            {showPassword ? (
+                              <Eye strokeWidth={1.5} size={18} />
+                            ) : (
+                              <EyeOff strokeWidth={1.5} size={18} />
+                            )}
+                          </div>
+                        </div>
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  </div>
+                );
+              }}
             />
             <FormField
               control={form.control}
               name="newPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mật khẩu mới:</FormLabel>
-                  <FormControl>
-                    <Input type="password" {...field} />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
+              render={({ field }) => {
+                const [showPassword, setShowPassword] = useState(false);
+                return (
+                  <div>
+                    <FormLabel>Mật khẩu mới</FormLabel>
+                    <FormItem>
+                      <FormControl>
+                        <div className="relative">
+                          <Input
+                            type={showPassword ? "text" : "password"}
+                            {...field}
+                          />
+                          <div
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                          >
+                            {showPassword ? (
+                              <Eye strokeWidth={1.5} size={18} />
+                            ) : (
+                              <EyeOff strokeWidth={1.5} size={18} />
+                            )}
+                          </div>
+                        </div>
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  </div>
+                );
+              }}
             />
             <FormField
               control={form.control}
               name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Xác nhận mật khẩu:</FormLabel>
-                  <FormControl>
-                    <Input type="password" {...field} />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
+              render={({ field }) => {
+                const [showPassword, setShowPassword] = useState(false);
+                return (
+                  <div>
+                    <FormLabel>Xác nhận mật khẩu</FormLabel>
+                    <FormItem>
+                      <FormControl>
+                        <div className="relative">
+                          <Input
+                            type={showPassword ? "text" : "password"}
+                            {...field}
+                          />
+                          <div
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                          >
+                            {showPassword ? (
+                              <Eye strokeWidth={1.5} size={18} />
+                            ) : (
+                              <EyeOff strokeWidth={1.5} size={18} />
+                            )}
+                          </div>
+                        </div>
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  </div>
+                );
+              }}
             />
 
             <Button onClick={form.handleSubmit(onSubmit)}>Lưu thay đổi</Button>
