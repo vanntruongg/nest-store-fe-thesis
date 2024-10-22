@@ -1,11 +1,9 @@
-"use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { cn } from "~/lib/utils";
 import { Check } from "lucide-react";
 
-import MaxWidthWrapper from "../../../common/components/max-width-wrapper";
 import AddtoWishlistIcon from "../../../common/components/buttons/wishlist-icon";
 import { ProductUtil } from "~/common/utility/product.util";
 import { ProductImageGallery } from "./product-image-gallery";
@@ -26,6 +24,7 @@ import { BaseUtil } from "~/common/utility/base.util";
 import { useCart } from "~/hooks/useCart";
 import { ItemCheckout } from "~/app/(guest)/cart/page";
 import { useCheckout } from "~/hooks/useCheckout";
+import { useUser } from "~/hooks/useUser";
 
 export interface ProductDetailError {
   quantityError: boolean | null;
@@ -41,6 +40,7 @@ interface Props {
 
 const ProductDetail = ({ product, averageStar, totalRating }: Props) => {
   const { addItem } = useCheckout();
+  const { user } = useUser();
   const { setCartLength } = useCart();
   const router = useRouter();
 
@@ -65,6 +65,13 @@ const ProductDetail = ({ product, averageStar, totalRating }: Props) => {
   }, [product]);
 
   const handleAddToCartOrBuyNow = async (action: "add" | "buy") => {
+    if (user.email === "") {
+      toast({
+        variant: "destructive",
+        description: "Bạn cần đăng nhập trước khi mua hàng",
+      });
+      return;
+    }
     if (selectedSize === undefined) {
       setErrors((prev) => ({ ...prev, sizeError: true }));
       return;
@@ -160,8 +167,6 @@ const ProductDetail = ({ product, averageStar, totalRating }: Props) => {
             selectedSize={selectedSize}
             quantity={quantity}
             setQuantity={setQuantity}
-            // availableQuantity={availableQuantity}
-            // setAvailableQuantity={setAvailableQuantity}
             error={errors.quantityError}
             setError={(error) =>
               setErrors((prev) => ({ ...prev, quantityError: error }))
