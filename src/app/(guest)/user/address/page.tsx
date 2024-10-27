@@ -24,8 +24,10 @@ import {
   getAllAddress,
   setDefaultAddress,
 } from "~/modules/user/services/UserAddressService";
+import IconTextLoading from "~/common/components/icon-text-loading";
 
 const AddressPage = () => {
+  const [isMounted, setIsMounted] = useState<boolean>(false);
   const [addresses, setAddresses] = useState<Address[]>([]);
 
   const fetchData = async () => {
@@ -35,7 +37,8 @@ const AddressPage = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+    setIsMounted(true);
+  }, [isMounted]);
 
   const handleAddressAction = async (
     action: AddressAction,
@@ -74,14 +77,13 @@ const AddressPage = () => {
           </Button>
         </AddressFormDialog>
       </div>
-      <div className="">
-        <h2 className="">Địa chỉ</h2>
-        <div className="divide-y">
-          {addresses.length > 0 ? (
-            addresses.map((address) => (
+      {isMounted ? (
+        addresses.length > 0 ? (
+          <div className="divide-y">
+            {addresses.map((address) => (
               <div
                 key={address.id}
-                className="py-5 flex justify-between text-sm"
+                className="py-2 flex justify-between space-y-2 text-sm"
               >
                 <div className="flex flex-col space-y-1">
                   <div className="flex items-center divide-x-[1.5px]">
@@ -161,12 +163,14 @@ const AddressPage = () => {
                   </Button>
                 </div>
               </div>
-            ))
-          ) : (
-            <AddressPlaholder />
-          )}
-        </div>
-      </div>
+            ))}
+          </div>
+        ) : (
+          <span>Chưa có địa chỉ nào để hiển thị.</span>
+        )
+      ) : (
+        <AddressPlaholder />
+      )}
     </div>
   );
 };
