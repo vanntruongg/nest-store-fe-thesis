@@ -31,6 +31,13 @@ const PurchasePage = () => {
     setPageNo(pageNo);
   }, [orderStatus, pageNo, pageSize]);
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [pageNo]);
+
   const handleChangePage = ({ selected }: any) => {
     setPageNo(selected);
   };
