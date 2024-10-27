@@ -17,6 +17,7 @@ import { AddressIdType, AddressLevel } from "../modules/Address";
 import { AddressAction } from "../modules/AddressAction";
 import { Location } from "../modules/Loation";
 import { getAddressDataByParentCode } from "../services/AddressService";
+import IconTextLoading from "~/common/components/icon-text-loading";
 
 export interface IAddressDataProps {
   form: UseFormReturn<AddressShemaType>;
@@ -44,16 +45,24 @@ export function AddressData({
     useState<AddressIdType>("provinceId");
 
   const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>("");
 
   const fetchAddressData = useCallback(
     async (parentCode: string | null, type: AddressLevel) => {
-      const result = await getAddressDataByParentCode(parentCode);
+      setLoading(true);
+      try {
+        const result = await getAddressDataByParentCode(parentCode);
 
-      setAddressData((prev) => ({
-        ...prev,
-        [type]: result.data,
-      }));
+        setAddressData((prev) => ({
+          ...prev,
+          [type]: result.data,
+        }));
+      } catch (error) {
+        BaseUtil.handleErrorApi({ error });
+      } finally {
+        setLoading(false);
+      }
     },
     []
   );
@@ -95,6 +104,7 @@ export function AddressData({
   const onTabChangeDefault = useCallback(
     (tab: string) => {
       setTabContentAddress(tab as AddressIdType);
+
       switch (tab as AddressIdType) {
         case "provinceId":
           fetchAddressData("null", "province");
@@ -103,6 +113,7 @@ export function AddressData({
           const province = addressData.province.find(
             (address) => address.id === form.getValues("provinceId")
           );
+
           if (province) {
             fetchAddressData(province.code, "district");
           }
@@ -111,11 +122,10 @@ export function AddressData({
           const district = addressData.district.find(
             (address) => address.id === form.getValues("districtId")
           );
+
           if (district) {
             fetchAddressData(district.code, "ward");
           }
-          break;
-        default:
           break;
       }
     },
@@ -172,6 +182,7 @@ export function AddressData({
     }
     return null;
   };
+  console.log(addressData);
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -213,34 +224,41 @@ export function AddressData({
           />
           <TabsContent value={"provinceId"} className="mt-0 flex flex-col">
             <ScrollArea className="h-72 mt-10">
-              {addressData.province.map(
-                ({ id, name }) =>
-                  BaseUtil.filterAddress(searchValue, name) && (
-                    <div
-                      key={id}
-                      onClick={() =>
-                        handleSelectAddress("provinceId", id, name)
-                      }
-                      className={cn("p-2 hover:bg-gray-100 cursor-pointer", {
-                        "text-primary pointer-events-none":
-                          form.getValues("provinceId") === id,
-                      })}
-                    >
-                      {name}
-                    </div>
-                  )
+              {!loading ? (
+                addressData.province.map(
+                  ({ id, name, code }) =>
+                    BaseUtil.filterAddress(searchValue, name) && (
+                      <div
+                        key={id}
+                        onClick={() =>
+                          handleSelectAddress("provinceId", id, code)
+                        }
+                        className={cn("p-2 hover:bg-gray-100 cursor-pointer", {
+                          "text-primary pointer-events-none":
+                            form.getValues("provinceId") === id,
+                        })}
+                      >
+                        {name}
+                      </div>
+                    )
+                )
+              ) : (
+                <div className="h-72 flex justify-center items-center">
+                  {" "}
+                  <IconTextLoading />
+                </div>
               )}
             </ScrollArea>
           </TabsContent>
           <TabsContent value={"districtId"} className="mt-0 flex flex-col">
             <ScrollArea className="h-72 mt-10">
               {addressData.district.map(
-                ({ id, name }) =>
+                ({ id, name, code }) =>
                   BaseUtil.filterAddress(searchValue, name) && (
                     <div
                       key={id}
                       onClick={() =>
-                        handleSelectAddress("districtId", id, name)
+                        handleSelectAddress("districtId", id, code)
                       }
                       className={cn("p-2 hover:bg-gray-100 cursor-pointer", {
                         "text-primary pointer-events-none":
@@ -256,11 +274,11 @@ export function AddressData({
           <TabsContent value={"wardId"} className="mt-0 flex flex-col">
             <ScrollArea className="h-72 mt-10">
               {addressData.ward.map(
-                ({ id, name }) =>
+                ({ id, name, code }) =>
                   BaseUtil.filterAddress(searchValue, name) && (
                     <div
                       key={id}
-                      onClick={() => handleSelectAddress("wardId", id, name)}
+                      onClick={() => handleSelectAddress("wardId", id, code)}
                       className={cn("p-2 hover:bg-gray-100 cursor-pointer", {
                         "text-primary pointer-events-none":
                           form.getValues("wardId") === id,
