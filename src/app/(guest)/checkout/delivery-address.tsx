@@ -1,14 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { MapPin } from "lucide-react";
 import { AddressListSelector } from "~/modules/address/components/address-list-selector";
 import { BaseUtil } from "~/common/utility/base.util";
 import { useCheckout } from "~/hooks/useCheckout";
-import { Skeleton } from "~/components/ui/skeleton";
 import { getDefaultAddress } from "~/modules/user/services/UserAddressService";
 
 export function DeliveryAddress() {
   const { deliveryAddress, setDeliveryAddress } = useCheckout();
-  const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,7 +16,6 @@ export function DeliveryAddress() {
       }
     };
     fetchData();
-    setIsMounted(true);
   }, [deliveryAddress, setDeliveryAddress]);
 
   const renderAddress = () => {
@@ -32,7 +29,7 @@ export function DeliveryAddress() {
       : "";
   };
 
-  return isMounted ? (
+  return (
     <div className="bg-white py-6 px-8 border-t-2 border-primary">
       <div className="flex items-center space-x-2 text-lg text-primary leading-none">
         <MapPin size={18} />
@@ -55,30 +52,5 @@ export function DeliveryAddress() {
         <AddressListSelector />
       </div>
     </div>
-  ) : (
-    <DeliveryAddressPlaceHolder />
   );
 }
-
-const DeliveryAddressPlaceHolder = () => {
-  return (
-    <div className="bg-white py-6 px-8 border-t-2 border-primary">
-      <div className="flex items-center space-x-2 text-lg text-primary leading-none">
-        <MapPin size={18} />
-        <p>Địa chỉ nhận hàng</p>
-      </div>
-      <div className="flex items-center space-x-10 pt-2">
-        <div className="flex space-x-2 font-bold">
-          <Skeleton className="w-[88px] h-6 mt-2" />
-          <Skeleton className="w-[104px] h-6 my-2" />
-        </div>
-        <div className="flex items-center space-x-4">
-          <Skeleton className="w-[326px] h-6 my-2" />
-        </div>
-        <div className="px-4">
-          <Skeleton className="w-16 h-6 my-2 ml-16" />
-        </div>
-      </div>
-    </div>
-  );
-};
