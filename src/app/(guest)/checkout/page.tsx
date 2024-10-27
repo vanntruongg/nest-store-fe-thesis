@@ -19,6 +19,7 @@ import { OrderUtil } from "~/common/utility/order.util";
 import { OrderPost } from "~/modules/order/model/OrderPost";
 import { EPaymentMethod } from "~/modules/payment/model/EPaymentMethod";
 import { createOrder } from "~/modules/order/services/OrderService";
+import { DeliveryAddressPlaceHolder } from "~/common/components/skeleton/delivery-address-skeleton";
 
 const CheckOutPage = () => {
   const { items, notes, deliveryAddress, setNotes, paymentMethod } =
@@ -27,10 +28,16 @@ const CheckOutPage = () => {
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [paymentMethodError, setPaymentMethodError] = useState<boolean>(false);
+  const [deliveryAddressError, setDeliveryAddressError] =
+    useState<boolean>(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    setDeliveryAddressError(false);
+  }, [deliveryAddress]);
 
   const totalPrice = useMemo(
     () => items.reduce((acc, curr) => acc + curr.price * curr.quantity, 0),
@@ -40,8 +47,13 @@ const CheckOutPage = () => {
   const handleCheckOut = async () => {
     if (!paymentMethod) {
       setPaymentMethodError(true);
-      return;
     }
+    if (!deliveryAddress) {
+      setDeliveryAddressError(true);
+    }
+
+    if (paymentMethodError || deliveryAddressError) return;
+
     setLoading(true);
     try {
       await handleCreateOrder();
@@ -73,7 +85,6 @@ const CheckOutPage = () => {
         ),
       };
       try {
-        // console.log("data: ", orderRequest);
         const result = await createOrder(orderRequest);
 
         if (result.data.paymentMethod === EPaymentMethod.COD) {
@@ -94,7 +105,11 @@ const CheckOutPage = () => {
         Thanh toán
       </h1>
 
-      <DeliveryAddress />
+      {isMounted ? (
+        <DeliveryAddress error={deliveryAddressError} />
+      ) : (
+        <DeliveryAddressPlaceHolder />
+      )}
 
       {/* List items */}
       <div className="h-full w-full bg-white py-6 divide-y relative">
