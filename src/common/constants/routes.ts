@@ -17,6 +17,7 @@ export const ROUTES = {
   ADMIN: {
     USER: "/dashboard/user",
     STATISTIC: "/dashboard/statistic",
+    AI_PREDICT: "/dashboard/ai-predict",
     ORDER: "/dashboard/order",
     PRODUCT: "/dashboard/product",
     PRODUCT_CREATE: "/dashboard/product/create",

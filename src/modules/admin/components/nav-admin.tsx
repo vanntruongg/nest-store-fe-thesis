@@ -6,6 +6,7 @@ import {
   LiaClipboardListSolid,
   LiaUserFriendsSolid,
   LiaChartBarSolid,
+  LiaChartLineSolid,
   LiaBoxesSolid,
 } from "react-icons/lia";
 import { usePathname } from "next/navigation";
@@ -27,13 +28,20 @@ const menuDashboardItems = [
   },
   {
     id: 2,
+    icon: <LiaChartLineSolid size={20} />,
+    label: "Dự báo thông minh",
+    link: ROUTES.ADMIN.AI_PREDICT,
+    roles: [UserRole.ADMIN, UserRole.EMPLOYEE],
+  },
+  {
+    id: 3,
     icon: <LiaUserFriendsSolid size={20} />,
     label: "Quản lý người dùng",
     link: ROUTES.ADMIN.USER,
     roles: [UserRole.ADMIN],
   },
   {
-    id: 3,
+    id: 4,
     icon: <LiaClipboardListSolid size={20} />,
 
     label: "Quản lý đơn hàng",
@@ -41,14 +49,14 @@ const menuDashboardItems = [
     roles: [UserRole.ADMIN, UserRole.EMPLOYEE],
   },
   {
-    id: 4,
+    id: 5,
     icon: <LiaBoxesSolid size={20} />,
     label: "Quản lý sản phẩm",
     link: ROUTES.ADMIN.PRODUCT,
     roles: [UserRole.ADMIN, UserRole.EMPLOYEE],
   },
   {
-    id: 5,
+    id: 6,
     icon: <LiaBoxesSolid size={20} />,
     label: "Quản lý danh mục",
     link: ROUTES.ADMIN.CATEGORY,
