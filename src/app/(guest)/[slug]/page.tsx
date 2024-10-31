@@ -1,5 +1,17 @@
 "use client";
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
+
+const RatingList = dynamic(
+  () => import("~/modules/rating/components/rating-list"),
+  {
+    ssr: false,
+  }
+);
+
+const RelatedProduct = dynamic(() => import("./related-product"), {
+  ssr: false,
+});
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { toast } from "~/components/ui/use-toast";
@@ -11,7 +23,6 @@ import { ProductUtil } from "~/common/utility/product.util";
 import MaxWidthWrapper from "~/common/components/max-width-wrapper";
 
 import ProductDetail from "~/modules/product/components/product-detail";
-import { RatingList } from "~/modules/rating/components/rating-list";
 import { Rating } from "~/modules/rating/models/Rating";
 import {
   deleteRating,
@@ -132,7 +143,7 @@ const ProductDetailPage = ({ params }: Props) => {
       />
 
       <MaxWidthWrapper>
-        <div className="bg-white space-y-16">
+        <div className="bg-white space-y-8">
           {product ? (
             <ProductDetail
               product={product}
@@ -143,7 +154,7 @@ const ProductDetailPage = ({ params }: Props) => {
             <ProductDetailPlaceholder />
           )}
 
-          <Tabs defaultValue="productDetails" className="w-full bg-white">
+          <Tabs defaultValue="productDetails" className="w-full pt-8 bg-white">
             <TabsList className="w-full h-full p-0 bg-white border-b border-gray-300 rounded-none">
               <TabsTrigger
                 value="productDetails"
@@ -193,6 +204,12 @@ const ProductDetailPage = ({ params }: Props) => {
           </Tabs>
         </div>
       </MaxWidthWrapper>
+      {product && (
+        <RelatedProduct
+          productId={product.id}
+          categoryId={product.category.id}
+        />
+      )}
     </div>
   );
 };
