@@ -1,20 +1,33 @@
 "use client";
-
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+
+const TableDataAdmin = dynamic(
+  () => import("~/modules/admin/components/table"),
+  {
+    ssr: false,
+  }
+);
+const Pagination = dynamic(
+  () => import("~/modules/admin/components/pagination"),
+  {
+    ssr: false,
+  }
+);
+import useDebounce from "~/hooks/useDebounce";
 import { OrderGet } from "~/modules/order/model/OrderGet";
 import {
   getAllOrder,
   searchOrderById,
   updateStatus,
 } from "~/modules/order/services/OrderService";
+
 import { BaseUtil } from "~/common/utility/base.util";
-import { Pagination } from "~/modules/admin/components/pagination";
-import { OrderStatusSelector } from "./order-status-selector";
+
 import { orderTableColumns } from "./order-table-columns";
-import { TableDataAdmin } from "~/modules/admin/components/table";
+import { OrderStatusSelector } from "./order-status-selector";
 import { PaymentMethodSelector } from "./payment-method-selector";
 import { toast } from "~/components/ui/use-toast";
-import useDebounce from "~/hooks/useDebounce";
 import { Input } from "~/components/ui/input";
 
 export default function OrderManagementPage() {

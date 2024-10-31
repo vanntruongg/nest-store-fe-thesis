@@ -9,6 +9,7 @@ import { OverallRating } from "./overall-rating";
 import { RatingBreakdown } from "./rating-breakdown";
 import { MostHelpfulRating } from "./most-helpful-rating";
 import { RatingBreakdown as RatingBreakdownModel } from "../models/RatingBreakdown";
+import { memo } from "react";
 
 export interface Props {
   ratingList: Rating[] | null;
@@ -23,7 +24,7 @@ export interface Props {
   handleDeleteRating: (ratingId: string) => void;
 }
 
-export function RatingList({
+function RatingList({
   ratingList,
   pageNo,
   totalElements,
@@ -93,3 +94,5 @@ export function RatingList({
     </div>
   );
 }
+
+export default memo(RatingList);

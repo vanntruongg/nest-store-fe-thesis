@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -28,7 +28,7 @@ export interface Props {
   loading: boolean;
 }
 
-export function TableDataAdmin({ data, columns, loading }: Props) {
+function TableDataAdmin({ data, columns, loading }: Props) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -103,3 +103,5 @@ export function TableDataAdmin({ data, columns, loading }: Props) {
     </Table>
   );
 }
+
+export default memo(TableDataAdmin);

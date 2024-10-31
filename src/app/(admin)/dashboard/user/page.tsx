@@ -1,18 +1,33 @@
 "use client";
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+
+const TableDataAdmin = dynamic(
+  () => import("~/modules/admin/components/table"),
+  {
+    ssr: false,
+  }
+);
+const Pagination = dynamic(
+  () => import("~/modules/admin/components/pagination"),
+  {
+    ssr: false,
+  }
+);
 import {
   deleteUser,
   getAllUser,
   searchUserByName,
   updateUser,
 } from "~/modules/user/services/UserService";
-import { TableDataAdmin } from "~/modules/admin/components/table";
 import { UserGet } from "~/modules/user/model/UserGet";
 import { UserPut } from "~/modules/user/model/UserPut";
-import { Pagination } from "~/modules/admin/components/pagination";
+
 import useDebounce from "~/hooks/useDebounce";
-import { userTableColumns } from "./user-table-columns";
+
 import { BaseUtil } from "~/common/utility/base.util";
+
+import { userTableColumns } from "./user-table-columns";
 import { toast } from "~/components/ui/use-toast";
 import { Input } from "~/components/ui/input";
 

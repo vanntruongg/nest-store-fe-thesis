@@ -1,25 +1,35 @@
 "use client";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
+
+const DeliveryAddress = dynamic(() => import("./delivery-address"), {
+  ssr: false,
+});
+const PaymentMethod = dynamic(() => import("./payment-method"), {
+  ssr: false,
+});
+
 import { useCheckout } from "~/hooks/useCheckout";
-import { ProductUtil } from "~/common/utility/product.util";
+
+import { EPaymentMethod } from "~/modules/payment/model/EPaymentMethod";
+import { OrderPost } from "~/modules/order/model/OrderPost";
+import { createOrder } from "~/modules/order/services/OrderService";
+
 import { BaseUtil } from "~/common/utility/base.util";
-import { DeliveryAddress } from "./delivery-address";
-import { PaymentMethod } from "./payment-method";
+import { ProductUtil } from "~/common/utility/product.util";
 import IconTextLoading from "~/common/components/icon-text-loading";
+import { ROUTES } from "~/common/constants/routes";
 import Loading from "~/common/components/loading";
+import { ItemCheckOutPlaceholder } from "~/common/components/skeleton/item-checkout";
+import { OrderUtil } from "~/common/utility/order.util";
+import { DeliveryAddressPlaceHolder } from "~/common/components/skeleton/delivery-address-skeleton";
+
+import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
-import { useRouter } from "next/navigation";
-import { ItemCheckOutPlaceholder } from "~/common/components/skeleton/item-checkout";
-import { ROUTES } from "~/common/constants/routes";
-import { OrderUtil } from "~/common/utility/order.util";
-import { OrderPost } from "~/modules/order/model/OrderPost";
-import { EPaymentMethod } from "~/modules/payment/model/EPaymentMethod";
-import { createOrder } from "~/modules/order/services/OrderService";
-import { DeliveryAddressPlaceHolder } from "~/common/components/skeleton/delivery-address-skeleton";
 
 const CheckOutPage = () => {
   const { items, notes, deliveryAddress, setNotes, paymentMethod } =

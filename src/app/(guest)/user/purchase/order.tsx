@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import Image from "next/image";
 
 import NoData from "../../../../../public/assets/no-data.png";
@@ -20,7 +20,7 @@ export interface Props {
   handleChangePage: (selected: any) => void;
 }
 
-export function Order({ orders, pageNo, totalPages, handleChangePage }: Props) {
+function Order({ orders, pageNo, totalPages, handleChangePage }: Props) {
   const [openItemRatingSelector, setOpenItemRatingSelector] = useState<{
     [key: number]: boolean;
   }>({});
@@ -94,3 +94,5 @@ export function Order({ orders, pageNo, totalPages, handleChangePage }: Props) {
     </div>
   );
 }
+
+export default memo(Order);

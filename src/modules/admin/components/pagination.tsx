@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, memo, SetStateAction } from "react";
 import ReactPaginate from "react-paginate";
 
 import {
@@ -19,7 +19,7 @@ export interface Props {
   totalElements: number;
 }
 
-export function Pagination({
+function Pagination({
   pageNo,
   setPageNo,
   pageSize,
@@ -77,3 +77,5 @@ export function Pagination({
     </div>
   );
 }
+
+export default memo(Pagination);

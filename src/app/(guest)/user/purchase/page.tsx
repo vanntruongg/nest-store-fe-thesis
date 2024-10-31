@@ -1,10 +1,17 @@
 "use client";
+import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
+
+const Order = dynamic(() => import("~/app/(guest)/user/purchase/order"), {
+  ssr: false,
+});
+
 import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/common/components/icon-text-loading";
-import { Order } from "./order";
+
 import { getAllMyOrder } from "~/modules/order/services/OrderService";
 import { OrderGet } from "~/modules/order/model/OrderGet";
+
 import { OrderStatusSelector } from "~/app/(admin)/dashboard/order/order-status-selector";
 
 const PurchasePage = () => {

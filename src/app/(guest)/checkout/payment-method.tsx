@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { MESSAGES } from "~/common/constants/messages";
 import TooltipCustom from "~/common/components/tooltip-custom";
 import { useCheckout } from "~/hooks/useCheckout";
@@ -28,7 +28,7 @@ interface PaymentMethodProps {
   setError: (error: boolean) => void;
 }
 
-export function PaymentMethod({ error, setError }: PaymentMethodProps) {
+function PaymentMethod({ error, setError }: PaymentMethodProps) {
   const { paymentMethod, setPaymentMethod } = useCheckout();
 
   useEffect(() => {
@@ -83,3 +83,4 @@ export function PaymentMethod({ error, setError }: PaymentMethodProps) {
     </section>
   );
 }
+export default memo(PaymentMethod);

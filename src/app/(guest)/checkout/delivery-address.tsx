@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { MapPin } from "lucide-react";
 import { AddressListSelector } from "~/modules/address/components/address-list-selector";
 import { BaseUtil } from "~/common/utility/base.util";
@@ -13,7 +13,7 @@ interface Props {
   error: boolean;
 }
 
-export function DeliveryAddress({ error }: Props) {
+function DeliveryAddress({ error }: Props) {
   const { deliveryAddress, setDeliveryAddress } = useCheckout();
 
   const fetchData = async () => {
@@ -87,3 +87,5 @@ export function DeliveryAddress({ error }: Props) {
     </div>
   );
 }
+
+export default memo(DeliveryAddress);

@@ -1,7 +1,25 @@
 "use client";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import dynamic from "next/dynamic";
+import { useEffect, useMemo, useState } from "react";
 
+const TableDataAdmin = dynamic(
+  () => import("~/modules/admin/components/table"),
+  {
+    ssr: false,
+  }
+);
+const Pagination = dynamic(
+  () => import("~/modules/admin/components/pagination"),
+  {
+    ssr: false,
+  }
+);
+import useDebounce from "~/hooks/useDebounce";
+
+import { ROUTES } from "~/common/constants/routes";
 import { BaseUtil } from "~/common/utility/base.util";
+
 import {
   getAllProduct,
   searchProductByName,
@@ -9,15 +27,11 @@ import {
 } from "~/modules/product/services/ProductService";
 import { ProductGet } from "~/modules/product/models/ProductGet";
 import { ProductPut } from "~/modules/product/models/ProductPut";
-import { toast } from "~/components/ui/use-toast";
-import { ROUTES } from "~/common/constants/routes";
-import Link from "next/link";
 import { InventoryPut } from "~/modules/product/models/InventoryPut";
 import { updateInventory } from "~/modules/product/services/InventoryService";
-import { Pagination } from "~/modules/admin/components/pagination";
+
 import { productTableColumns } from "./product-table-columns";
-import { TableDataAdmin } from "~/modules/admin/components/table";
-import useDebounce from "~/hooks/useDebounce";
+import { toast } from "~/components/ui/use-toast";
 import { Input } from "~/components/ui/input";
 
 export default function ProductManagementPage() {
@@ -29,36 +43,36 @@ export default function ProductManagementPage() {
   const [searchValue, setSearchValue] = useState<string>("");
 
   const debounceSearchValue = useDebounce(searchValue, 500);
+  const handleSearchProduct = async () => {
+    setLoading(true);
+    try {
+      const res = await searchProductByName(
+        debounceSearchValue,
+        pageNo,
+        pageSize
+      );
+      setData(res.data);
+    } catch (error) {
+      BaseUtil.handleErrorApi({ error });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const result = await getAllProduct(pageNo, pageSize);
+
+      setData(result.data);
+    } catch (error) {
+      BaseUtil.handleErrorApi({ error });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const handleSearchProduct = async () => {
-      setLoading(true);
-      try {
-        const res = await searchProductByName(
-          debounceSearchValue,
-          pageNo,
-          pageSize
-        );
-        setData(res.data);
-      } catch (error) {
-        BaseUtil.handleErrorApi({ error });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const result = await getAllProduct(pageNo, pageSize);
-
-        setData(result.data);
-      } catch (error) {
-        BaseUtil.handleErrorApi({ error });
-      } finally {
-        setLoading(false);
-      }
-    };
     if (debounceSearchValue !== "") {
       handleSearchProduct();
     } else {
@@ -66,10 +80,13 @@ export default function ProductManagementPage() {
     }
   }, [debounceSearchValue, pageNo, pageSize, isUpdate]);
 
-  const handleUpdateProduct = async (productPut: ProductPut) => {
+  const handleUpdate = async (
+    updateFn: (data: any) => Promise<any>,
+    data: ProductPut | InventoryPut
+  ) => {
     setLoading(true);
     try {
-      const result = await updateProduct(productPut);
+      const result = await updateFn(data);
       setIsUpdate(!isUpdate);
       toast({ description: result.message });
     } catch (error) {
@@ -79,35 +96,24 @@ export default function ProductManagementPage() {
     }
   };
 
-  const handleUpdateInventory = async (inventoryPut: InventoryPut) => {
-    setLoading(true);
-    try {
-      const result = await updateInventory(inventoryPut);
-      setIsUpdate(!isUpdate);
-      toast({ description: result.message });
-    } catch (error) {
-      BaseUtil.handleErrorApi({ error });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const columns = productTableColumns(
-    handleUpdateProduct,
-    handleUpdateInventory
-  );
+  const columns = useMemo(() => {
+    return productTableColumns(
+      (productPut) => handleUpdate(updateProduct, productPut),
+      (inventoryPut) => handleUpdate(updateInventory, inventoryPut)
+    );
+  }, []);
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Sản phẩm</h2>
-        <Link
+      {/* <div className="flex items-center justify-between"> */}
+      <h2 className="text-xl font-semibold">Sản phẩm</h2>
+      {/* <Link
           href={ROUTES.ADMIN.PRODUCT_CREATE}
           className="px-4 py-1.5 text-white text-sm font-medium border rounded-full bg-gradient-to-br from-purple-700 to-purple-500 hover:opacity-90"
         >
           Thêm sản phẩm
-        </Link>
-      </div>
+        </Link> */}
+      {/* </div> */}
       <div className="flex space-x-4 items-center">
         <Input
           value={searchValue}
