@@ -10,18 +10,18 @@ interface Props {
   };
 }
 export async function generateMetadata({ params }: Props) {
-  const productId = ProductUtil.extractProductIdFromSlug(params.slug);
-  if (isNaN(productId)) {
-    notFound();
-  }
+  // const productId = ProductUtil.extractProductIdFromSlug(params.slug);
+  // if (isNaN(productId)) {
+  //   notFound();
+  // }
 
-  const result = await getProductById(productId);
-  const product: Product = result.data;
+  // const result = await getProductById(productId);
+  // const product: Product = result.data;
 
   return {
-    // title: "Chi tiết sản phẩm",
-    title: product.name,
-    description: `Khám phá chi tiết sản phẩm ${product.name} từ NEST Store. Hãy tìm hiểu thêm về đặc điểm, mô tả, và giá của sản phẩm để có quyết định mua hàng chính xác!`,
+    title: "Chi tiết sản phẩm",
+    // title: product.name,
+    description: `Khám phá chi tiết sản phẩm từ NEST Store. Hãy tìm hiểu thêm về đặc điểm, mô tả, và giá của sản phẩm để có quyết định mua hàng chính xác!`,
   };
 }
 

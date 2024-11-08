@@ -37,6 +37,7 @@ import { RatingBreakdown } from "~/modules/rating/models/RatingBreakdown";
 import { Product } from "~/modules/product/models/Product";
 import { ProductDescription } from "~/modules/product/components/product-description";
 import { useUser } from "~/hooks/useUser";
+import { notFound } from "next/navigation";
 
 interface Props {
   params: {
@@ -62,6 +63,9 @@ const ProductDetailPage = ({ params }: Props) => {
     const fetchProductData = async () => {
       try {
         const productId = ProductUtil.extractProductIdFromSlug(params.slug);
+        if (isNaN(productId)) {
+          notFound();
+        }
         const res = await getProductById(productId);
         const product = res.data;
         setProduct(product);
