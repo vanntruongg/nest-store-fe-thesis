@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
 import { HttpError } from "~/common/http-client";
-import { logoutFromNextServer } from "~/modules/auth/services/AuthService";
 
 export async function POST(request: Request) {
   const res = await request.json();
@@ -38,10 +37,13 @@ export async function POST(request: Request) {
       `refreshToken=; HttpOnly; Path=/; Secure; SameSite=Strict`
     );
 
-    // return Response.json(result, {
-    //   status: 200,
-    //   headers,
-    // });
+    return Response.json(
+      {},
+      {
+        status: 200,
+        headers,
+      }
+    );
   } catch (error) {
     if (error instanceof HttpError) {
       return Response.json(error.payload, {

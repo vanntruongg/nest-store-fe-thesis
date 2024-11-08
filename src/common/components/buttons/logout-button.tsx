@@ -28,8 +28,8 @@ export default function ButtonLogout({ className }: { className?: string }) {
 
   const handleLogout = async () => {
     try {
-      await logoutFromNextClientToNextServer();
       await logout(tokenStorage.value.rawToken.accessToken);
+      await logoutFromNextClientToNextServer();
       clearUser();
       tokenStorage.clearToken();
       router.push(ROUTES.AUTH.LOGIN);
