@@ -17,7 +17,10 @@ import {
 } from "~/components/ui/alert-dialog";
 import { tokenStorage } from "~/common/utility/auth/token-storage";
 import { ROUTES } from "~/common/constants/routes";
-import { logoutFromNextClientToNextServer } from "~/modules/auth/services/AuthService";
+import {
+  logout,
+  logoutFromNextClientToNextServer,
+} from "~/modules/auth/services/AuthService";
 
 export default function ButtonLogout({ className }: { className?: string }) {
   const router = useRouter();
@@ -26,6 +29,7 @@ export default function ButtonLogout({ className }: { className?: string }) {
   const handleLogout = async () => {
     try {
       await logoutFromNextClientToNextServer();
+      await logout(tokenStorage.value.rawToken.accessToken);
       clearUser();
       tokenStorage.clearToken();
       router.push(ROUTES.AUTH.LOGIN);

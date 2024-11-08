@@ -29,6 +29,11 @@ export const logoutFromNextServer = async (token: string) => {
   const res = await httpClient.post<any>(url, { token });
   return res.payload;
 };
+export const logout = async (token: string) => {
+  const url = EndpointUtil.NEST.IDENTITY.AUTH.LOGOUT;
+  const res = await httpClient.post<any>(url, { token });
+  return res.payload;
+};
 
 export const logoutFromNextClientToNextServer = async (
   force?: boolean | undefined

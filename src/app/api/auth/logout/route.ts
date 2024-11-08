@@ -29,9 +29,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    console.error("Lỗi 1");
-    const result = await logoutFromNextServer(accessToken.value);
-    console.error("Lỗi 2");
+    // const result = await logoutFromNextServer(accessToken.value);
 
     const headers = new Headers();
     headers.append("Set-Cookie", `accessToken=; HttpOnly; Path=/; Secure`);
@@ -40,10 +38,10 @@ export async function POST(request: Request) {
       `refreshToken=; HttpOnly; Path=/; Secure; SameSite=Strict`
     );
 
-    return Response.json(result, {
-      status: 200,
-      headers,
-    });
+    // return Response.json(result, {
+    //   status: 200,
+    //   headers,
+    // });
   } catch (error) {
     if (error instanceof HttpError) {
       return Response.json(error.payload, {

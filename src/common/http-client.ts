@@ -67,7 +67,6 @@ const request = async <Response>(
     },
     body,
     method,
-    cache: "no-store",
   });
 
   if (!res.ok) {
