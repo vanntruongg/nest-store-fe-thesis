@@ -48,6 +48,7 @@ export async function POST(request: Request) {
         status: error.status,
       });
     } else {
+      console.error("Error during logout:", error); // Log chi tiết lỗi
       return Response.json(
         {
           message: "Lỗi không xác định",
