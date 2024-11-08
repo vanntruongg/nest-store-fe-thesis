@@ -29,7 +29,9 @@ export async function POST(request: Request) {
   }
 
   try {
+    console.error("Lỗi 1");
     const result = await logoutFromNextServer(accessToken.value);
+    console.error("Lỗi 2");
 
     const headers = new Headers();
     headers.append("Set-Cookie", `accessToken=; HttpOnly; Path=/; Secure`);
