@@ -30,14 +30,7 @@ export async function POST(request: Request) {
 
   try {
     console.error("Lỗi 1");
-    // const result = await logoutFromNextServer(accessToken.value);
-    const response = await fetch(`http://localhost:9000/api/v1/api/logout`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken.value}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const result = await logoutFromNextServer(accessToken.value);
     console.error("Lỗi 2");
 
     const headers = new Headers();
@@ -47,7 +40,7 @@ export async function POST(request: Request) {
       `refreshToken=; HttpOnly; Path=/; Secure; SameSite=Strict`
     );
 
-    return Response.json(response, {
+    return Response.json(result, {
       status: 200,
       headers,
     });
