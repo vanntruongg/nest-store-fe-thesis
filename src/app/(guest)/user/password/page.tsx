@@ -26,6 +26,9 @@ import { Eye, EyeOff } from "lucide-react";
 
 const ChangePasswordPage = () => {
   const router = useRouter();
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const form = useForm<TChangePasswordShema>({
     resolver: zodResolver(ChangePasswordShema),
     defaultValues: {
@@ -63,7 +66,6 @@ const ChangePasswordPage = () => {
               control={form.control}
               name="oldPassword"
               render={({ field }) => {
-                const [showPassword, setShowPassword] = useState(false);
                 return (
                   <div>
                     <FormLabel>Mật khẩu cũ</FormLabel>
@@ -71,14 +73,14 @@ const ChangePasswordPage = () => {
                       <FormControl>
                         <div className="relative">
                           <Input
-                            type={showPassword ? "text" : "password"}
+                            type={showOldPassword ? "text" : "password"}
                             {...field}
                           />
                           <div
-                            onClick={() => setShowPassword(!showPassword)}
+                            onClick={() => setShowOldPassword(!showOldPassword)}
                             className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
                           >
-                            {showPassword ? (
+                            {showOldPassword ? (
                               <Eye strokeWidth={1.5} size={18} />
                             ) : (
                               <EyeOff strokeWidth={1.5} size={18} />
@@ -96,7 +98,6 @@ const ChangePasswordPage = () => {
               control={form.control}
               name="newPassword"
               render={({ field }) => {
-                const [showPassword, setShowPassword] = useState(false);
                 return (
                   <div>
                     <FormLabel>Mật khẩu mới</FormLabel>
@@ -104,14 +105,14 @@ const ChangePasswordPage = () => {
                       <FormControl>
                         <div className="relative">
                           <Input
-                            type={showPassword ? "text" : "password"}
+                            type={showNewPassword ? "text" : "password"}
                             {...field}
                           />
                           <div
-                            onClick={() => setShowPassword(!showPassword)}
+                            onClick={() => setShowNewPassword(!showNewPassword)}
                             className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
                           >
-                            {showPassword ? (
+                            {showNewPassword ? (
                               <Eye strokeWidth={1.5} size={18} />
                             ) : (
                               <EyeOff strokeWidth={1.5} size={18} />
@@ -129,7 +130,6 @@ const ChangePasswordPage = () => {
               control={form.control}
               name="confirmPassword"
               render={({ field }) => {
-                const [showPassword, setShowPassword] = useState(false);
                 return (
                   <div>
                     <FormLabel>Xác nhận mật khẩu</FormLabel>
@@ -137,14 +137,16 @@ const ChangePasswordPage = () => {
                       <FormControl>
                         <div className="relative">
                           <Input
-                            type={showPassword ? "text" : "password"}
+                            type={showConfirmPassword ? "text" : "password"}
                             {...field}
                           />
                           <div
-                            onClick={() => setShowPassword(!showPassword)}
+                            onClick={() =>
+                              setShowConfirmPassword(!showConfirmPassword)
+                            }
                             className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
                           >
-                            {showPassword ? (
+                            {showConfirmPassword ? (
                               <Eye strokeWidth={1.5} size={18} />
                             ) : (
                               <EyeOff strokeWidth={1.5} size={18} />

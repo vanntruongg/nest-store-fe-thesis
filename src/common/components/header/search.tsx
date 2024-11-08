@@ -43,8 +43,7 @@ const Search = () => {
       setLoading(true);
       try {
         const result = await getProductByName(debounce, 5);
-        // console.log(result);
-        setRecommedProduct(result.payload.data);
+        setRecommedProduct(result.data);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
       } finally {
@@ -63,11 +62,12 @@ const Search = () => {
 
     addItem({ id: uuid(), searchValue: searchValue });
 
-    const params = new URLSearchParams(searchParam);
+    const params = new URLSearchParams(searchParam as any);
 
     params.set("keyword", searchValue);
 
     const newParams = params.toString().replace(/\+/g, "%20");
+
     if (pathname === "/search") {
       replace(`${pathname}?${newParams}`);
     } else {

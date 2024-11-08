@@ -20,6 +20,7 @@ const Search = () => {
     const fetchProducts = async () => {
       try {
         const result = await getProductByName(productName);
+
         setProducts(result.data);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });

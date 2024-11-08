@@ -18,20 +18,20 @@ export const orderStatusList = [
   },
   {
     status: "ACCEPTED",
-    displayName: "Đã chấp nhận",
+    displayName: "Đã xác nhận",
   },
   {
     status: "SHIPPING",
-    displayName: "Vận chuyển",
+    displayName: "Đang vận chuyển",
   },
   {
     status: "COMPLETED",
     displayName: "Hoàn thành",
   },
-  {
-    status: "CANCELED",
-    displayName: "Đã hủy",
-  },
+  // {
+  //   status: "CANCELED",
+  //   displayName: "Đã hủy",
+  // },
 ];
 
 export function displayOrderStatus(statusCode: string): string {

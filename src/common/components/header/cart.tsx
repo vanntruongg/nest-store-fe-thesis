@@ -1,12 +1,11 @@
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { ROUTES } from "~/common/constants/routes";
+import { useCart } from "~/hooks/useCart";
 
-interface Props {
-  cartLength: number;
-}
+const Cart = () => {
+  const { cartLength } = useCart();
 
-const Cart = ({ cartLength }: Props) => {
   return (
     <Link
       href={ROUTES.CART}

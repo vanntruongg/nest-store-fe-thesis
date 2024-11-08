@@ -26,13 +26,13 @@ const menuDashboardItems = [
     link: ROUTES.ADMIN.STATISTIC,
     roles: [UserRole.ADMIN, UserRole.EMPLOYEE],
   },
-  {
-    id: 2,
-    icon: <LiaChartLineSolid size={20} />,
-    label: "Dự báo thông minh",
-    link: ROUTES.ADMIN.AI_PREDICT,
-    roles: [UserRole.ADMIN, UserRole.EMPLOYEE],
-  },
+  // {
+  //   id: 2,
+  //   icon: <LiaChartLineSolid size={20} />,
+  //   label: "Dự báo thông minh",
+  //   link: ROUTES.ADMIN.AI_PREDICT,
+  //   roles: [UserRole.ADMIN, UserRole.EMPLOYEE],
+  // },
   {
     id: 3,
     icon: <LiaUserFriendsSolid size={20} />,

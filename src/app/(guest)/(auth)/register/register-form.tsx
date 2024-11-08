@@ -26,6 +26,8 @@ import { Eye, EyeOff } from "lucide-react";
 const RegisterForm = () => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const form = useForm<RegisterShemaType>({
     resolver: zodResolver(RegisterShema),
@@ -113,7 +115,6 @@ const RegisterForm = () => {
             control={form.control}
             name="password"
             render={({ field }) => {
-              const [showPassword, setShowPassword] = useState(false);
               return (
                 <>
                   <FormLabel>Mật khẩu</FormLabel>
@@ -147,7 +148,6 @@ const RegisterForm = () => {
             control={form.control}
             name="confirmPassword"
             render={({ field }) => {
-              const [showPassword, setShowPassword] = useState(false);
               return (
                 <>
                   <FormLabel>Xác nhận mật khẩu</FormLabel>
@@ -155,15 +155,17 @@ const RegisterForm = () => {
                     <FormControl>
                       <div className="relative">
                         <Input
-                          type={showPassword ? "text" : "password"}
+                          type={showConfirmPassword ? "text" : "password"}
                           placeholder="Xác nhận mật khẩu"
                           {...field}
                         />
                         <div
-                          onClick={() => setShowPassword(!showPassword)}
+                          onClick={() =>
+                            setShowConfirmPassword(!showConfirmPassword)
+                          }
                           className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
                         >
-                          {showPassword ? (
+                          {showConfirmPassword ? (
                             <Eye strokeWidth={1.5} size={18} />
                           ) : (
                             <EyeOff strokeWidth={1.5} size={18} />

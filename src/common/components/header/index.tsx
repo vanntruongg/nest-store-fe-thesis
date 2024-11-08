@@ -14,11 +14,9 @@ import Search from "./search";
 import { ButtonLogin } from "./login-btn";
 import { useEffect, useState } from "react";
 import { useUser } from "~/hooks/useUser";
-import { useCart } from "~/hooks/useCart";
 
 const Header = () => {
   const { user } = useUser();
-  const { cartLength } = useCart();
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -45,7 +43,7 @@ const Header = () => {
             <Wishlist />
             {isMounted && user.email !== "" ? (
               <>
-                <Cart cartLength={cartLength} />
+                <Cart />
                 <NavUser />
               </>
             ) : (

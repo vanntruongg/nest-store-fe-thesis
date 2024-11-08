@@ -40,7 +40,7 @@ export const getProductByCategory = async (
   limit: number = 5
 ) => {
   const url = EndpointUtil.NEST.PRODUCT.GET_BY_CATEGORY;
-  const res = await httpClient.get<any>(url + `/${categoryId}&limit=${limit}`);
+  const res = await httpClient.get<any>(url + `/${categoryId}/limit/${limit}`);
   return res.payload;
 };
 export const createProduct = async (createProductData: ProductPost) => {

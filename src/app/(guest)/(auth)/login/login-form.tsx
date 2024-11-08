@@ -38,6 +38,7 @@ const LoginForm = () => {
   const { setUser } = useUser();
   const { toast } = useToast();
   const { isAdmin, isEmployee } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const form = useForm<LoginShemaType>({
@@ -128,7 +129,6 @@ const LoginForm = () => {
             control={form.control}
             name="password"
             render={({ field }) => {
-              const [showPassword, setShowPassword] = useState(false);
               return (
                 <>
                   <FormLabel>Mật khẩu</FormLabel>

@@ -2,15 +2,20 @@ import { useMemo } from "react";
 import dynamic from "next/dynamic";
 const ReactECcharts = dynamic(() => import("echarts-for-react"), {
   ssr: false, // Disable server-side rendering for this component
+  loading: () => (
+    <div className="min-h-80 flex justify-center items-center">
+      <IconTextLoading />
+    </div>
+  ),
 });
-
 import { OrderDataPrediction } from "~/modules/AI/models/OrderDataPrediction";
+import IconTextLoading from "~/common/components/icon-text-loading";
 
 export interface Props {
-  data: OrderDataPrediction;
+  data: OrderDataPrediction | null;
 }
 
-export function Chart({ data }: Props) {
+export function OrderPredictionChart({ data }: Props) {
   const dataAxis = data
     ? [
         ...data.actualData.map((item) => item.month),
@@ -28,7 +33,7 @@ export function Chart({ data }: Props) {
   const chartOptions = useMemo(() => {
     return {
       title: {
-        text: "Đơn hàng",
+        text: "",
         textStyle: {
           color: "#000",
           fontStyle: "Normal",
@@ -80,7 +85,7 @@ export function Chart({ data }: Props) {
             lte: data ? data.actualData.length - 1 : 0,
             color: "#8104fd",
           },
-          { gt: data ? data.actualData.length - 1 : 0, color: "#005f88" },
+          { gt: data ? data.actualData.length - 1 : 0, color: "#00aaff" },
         ],
       },
       series: [
@@ -96,24 +101,20 @@ export function Chart({ data }: Props) {
           },
         },
       ],
+      // dataZoom: [
+      //   {
+      //     type: "slider",
+      //     start: 0,
+      //     end: 100,
+      //   },
+      //   {
+      //     type: "inside",
+      //     start: 0,
+      //     end: 100,
+      //   },
+      // ],
     };
   }, [dataAxis, combinedOrderData]);
 
-  return (
-    <div className="bg-gray-100 p-4">
-      <ReactECcharts option={chartOptions} />
-      <div className="flex justify-center">
-        <div className="flex space-x-4 text-sm">
-          <div className="flex items-center space-x-2">
-            <span className="w-10 h-0.5 bg-[#8104fd]"></span>
-            <p>Đơn hàng thực tế</p>
-          </div>
-          <div className="flex items-center space-x-2">
-            <span className="w-10 h-0.5 bg-[#005f88]"></span>
-            <p>Đơn hàng dự kiến</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  return <ReactECcharts option={chartOptions} />;
 }

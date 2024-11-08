@@ -38,7 +38,6 @@ export function AddressListSelector() {
   const fetchData = async () => {
     try {
       const res = await getAllAddress();
-      console.log(res);
 
       setAddresses(res.data);
     } catch (error) {

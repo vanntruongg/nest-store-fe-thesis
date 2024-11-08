@@ -93,8 +93,8 @@ const ProductDetail = ({ product, averageStar, totalRating }: Props) => {
           ),
         });
       }
+      setCartLength(res.data);
       if (action === "buy") {
-        setCartLength(res.data);
         const item: ItemCheckout = {
           productId: product.id,
           image: product.imageUrl,

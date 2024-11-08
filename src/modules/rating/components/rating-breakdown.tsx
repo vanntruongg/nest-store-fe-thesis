@@ -21,7 +21,7 @@ export function RatingBreakdown({ ratingStarPercentage }: Props) {
               <span className="font-medium">{star}</span>
               <IoIosStar className="text-yellow-500" />
             </div>
-            <div className="relative bg-gray-100 rounded-full w-full h-3 overflow-hidden">
+            <div className="relative bg-white rounded-full w-full h-3 overflow-hidden">
               <span
                 style={{ width: percentage + "%" }}
                 className={cn("absolute left-0 h-full bg-primary rounded-full")}

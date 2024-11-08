@@ -77,6 +77,8 @@ export class EndpointUtil {
       GET_TOTAL_ORDER_COUNT_BY_STATUS: "/order/statistic/total-order",
       REVENUE: "/order/statistic/revenue",
       ORDER_STATISTIC: "/order/statistic/order",
+      EXPORT_CSV_MONTHLY_STATS_ORDER:
+        "order/statistic/export-csv-monthly-stats",
     },
     ADDRESS_DATA: {
       GET_ADDRESS_DATA_BY_PARENT_CODE: "/address/get/data",
@@ -107,6 +109,11 @@ export class EndpointUtil {
       MOST_UPVOTE_RATING: "/ratings/get/product",
       GET_AVERAGE_STAR_OF_PRODUCT: "/ratings/get/product",
       GET_RATING_STAR_PERCENTAGE: "/ratings/get/product",
+    },
+    AI: {
+      ORDER: {
+        PREDICTION: "/ai/order/predict",
+      },
     },
   };
 }

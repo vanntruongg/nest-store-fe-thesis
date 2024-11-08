@@ -99,8 +99,8 @@ const Footer = () => {
                         </div>
                         <div className="flex items-center gap-4 text-gray-500 hover:text-gray-900 cursor-pointer">
                           <Mail className="size-4" />
-                          <a href="mailto:support@nest.com" className="">
-                            support@nest.com
+                          <a href="mailto:neststore.vtt@gmail.com" className="">
+                            neststore.vtt@gmail.com
                           </a>
                         </div>
                         <div className="flex items-center gap-4 text-gray-500 hover:text-gray-900 cursor-pointer ">

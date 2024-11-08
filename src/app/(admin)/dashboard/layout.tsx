@@ -9,11 +9,13 @@ export const metadata: Metadata = {
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
-    <main className="mx-auto min-h-screen flex bg-gray-100">
-      <div className="min-w-60 max-w-60 fixed top-0">
+    <main className=" min-h-screen flex bg-gray-100">
+      <div style={{ width: "20%" }} className="fixed top-0">
         <NavAdmin />
       </div>
-      <div className="p-4 w-full ml-60">{children}</div>
+      <div style={{ width: "80%" }} className="p-4 ml-[20%]">
+        {children}
+      </div>
     </main>
   );
 }

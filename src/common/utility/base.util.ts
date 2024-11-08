@@ -2,7 +2,6 @@ import { UseFormSetError } from "react-hook-form";
 import { toast } from "~/components/ui/use-toast";
 import { EntityError } from "../http-client";
 import { Location, LocationType } from "~/modules/address/modules/Loation";
-import { split } from "postcss/lib/list";
 
 export class BaseUtil {
   static handleErrorApi({
@@ -14,6 +13,8 @@ export class BaseUtil {
     setError?: UseFormSetError<any>;
     duration?: number;
   }) {
+    console.log(error);
+
     if (error instanceof EntityError && setError) {
       setError(error.payload.errorDetails, {
         type: "server",

@@ -128,12 +128,6 @@ export default function ProductManagementPage() {
         >
           Thêm sản phẩm
         </Link>
-        <Link
-          href={ROUTES.ADMIN.CATEGORY_CREATE}
-          className="px-4 py-1.5 text-white text-sm font-medium border rounded-full bg-gradient-to-br from-purple-700 to-purple-500 hover:opacity-90"
-        >
-          Thêm danh mục
-        </Link>
       </div>
       <TableDataAdmin
         data={data?.productContent || []}

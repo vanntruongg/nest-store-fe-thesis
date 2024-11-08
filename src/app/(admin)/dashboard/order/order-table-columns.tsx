@@ -1,7 +1,6 @@
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 
-import { OrderDetail } from "~/modules/order/components/order-details";
 import { Order } from "~/modules/order/model/Order";
 import { ProductUtil } from "~/common/utility/product.util";
 import { Button } from "~/components/ui/button";
@@ -11,6 +10,7 @@ import {
   displayOrderStatus,
   displayPaymentMethod,
 } from "~/common/utility/order.util";
+import OrderDetails from "./order-details";
 
 export function orderTableColumns(
   updateOrderStatus: (orderId: number, status: string) => void
@@ -109,7 +109,7 @@ export function orderTableColumns(
         );
       },
       cell: ({ row }) => {
-        return <OrderDetail order={row.original} />;
+        return <OrderDetails order={row.original} />;
       },
     },
     {

@@ -27,7 +27,7 @@ const ContactPage = () => {
             <div className="flex items-center gap-8 p-4">
               <Mail className="size-4" strokeWidth={2} />
               <a href="mailto:vt.ctu@gmail.com" className="">
-                support@nest.com
+                neststore.vtt@gmail.com
               </a>
             </div>
           </div>
