@@ -14,7 +14,11 @@ import {
 import { Download, Info } from "lucide-react";
 import { useState } from "react";
 
-export function ButtonDownloadCSV() {
+interface Props {
+  endpoint: string;
+}
+
+export function ButtonDownloadCSV({ endpoint }: Props) {
   const [open, setOpen] = useState<boolean>(false);
   const downloadCSV = async () => {
     try {
@@ -23,7 +27,7 @@ export function ButtonDownloadCSV() {
         Authorization: `Bearer ${token}`,
       };
       const res = await fetch(
-        "http://localhost:9000/api/v1/order/statistic/export-csv-monthly-stats",
+        `http://localhost:9000/api/v1/order/statistic/${endpoint}`,
         {
           method: "GET",
           headers: headers,

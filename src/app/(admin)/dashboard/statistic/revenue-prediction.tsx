@@ -1,15 +1,18 @@
-import { orderPredict } from "~/modules/AI/services/OrderPredictionService";
+import {
+  orderPredict,
+  revenuePredict,
+} from "~/modules/AI/services/OrderPredictionService";
 import { useEffect, useState } from "react";
-import { OrderDataPrediction } from "~/modules/AI/models/OrderDataPrediction";
-import { OrderPredictionChart } from "../../../../modules/admin/components/order-prediction-chart";
 import { ButtonDownloadCSV } from "~/modules/admin/components/btn-download-csv";
+import { RevenueDataPrediction } from "~/modules/AI/models/RevenueDataPrediction";
+import { RevenuePredictionChart } from "~/modules/admin/components/revenue-prediction-chart";
 
-export function OrderPrediction() {
-  const [data, setData] = useState<OrderDataPrediction | null>(null);
+export function RevenuePrediction() {
+  const [data, setData] = useState<RevenueDataPrediction | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await orderPredict();
+      const res = await revenuePredict();
       setData(res.data);
     };
     fetchData();
@@ -18,12 +21,12 @@ export function OrderPrediction() {
   return (
     <div className="p-4 w-full bg-white rounded-md shadow-lg">
       <div className="flex justify-between items-center gap-4">
-        <h3 className="font-bold text-xl">Dự báo đơn hàng</h3>
+        <h3 className="font-bold text-xl">Dự báo doanh thu</h3>
 
-        <ButtonDownloadCSV endpoint={"export-csv-order-stats"} />
+        <ButtonDownloadCSV endpoint={"export-csv-revenue-stats"} />
       </div>
 
-      <OrderPredictionChart data={data} />
+      <RevenuePredictionChart data={data} />
 
       {/* customize leged */}
       <div className="flex justify-center">
@@ -32,13 +35,13 @@ export function OrderPrediction() {
             <div className="w-6 h-0.5 bg-[#8104fd] relative">
               <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-3 bg-white border-2 border-[#8104fd] rounded-full "></span>
             </div>
-            <p>Đơn hàng thực tế</p>
+            <p>Doanh thu thực tế</p>
           </div>
           <div className="flex items-center space-x-2">
             <div className="w-6 h-0.5 bg-[#00aaff] relative">
               <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-3 bg-white border-2 border-[#00aaff] rounded-full "></span>
             </div>
-            <p>Đơn hàng dự kiến</p>
+            <p>Doanh thu dự kiến</p>
           </div>
         </div>
       </div>

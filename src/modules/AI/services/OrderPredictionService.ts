@@ -6,3 +6,9 @@ export const orderPredict = async () => {
   const res = await httpClient.get<any>(url);
   return res.payload;
 };
+
+export const revenuePredict = async () => {
+  const url = EndpointUtil.NEST.AI.REVENUE.PREDICTION;
+  const res = await httpClient.get<any>(url);
+  return res.payload;
+};

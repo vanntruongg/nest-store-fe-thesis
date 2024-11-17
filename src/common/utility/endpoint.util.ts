@@ -114,6 +114,9 @@ export class EndpointUtil {
       ORDER: {
         PREDICTION: "/ai/order/predict",
       },
+      REVENUE: {
+        PREDICTION: "/ai/revenue/predict",
+      },
     },
   };
 }
