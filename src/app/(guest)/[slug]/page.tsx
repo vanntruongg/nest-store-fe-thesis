@@ -70,16 +70,13 @@ const ProductDetailPage = ({ params }: Props) => {
         const product = res.data;
         setProduct(product);
 
-        const [averageStarRes, ratingStarPercentageRes, mostUpvoteRatingRes] =
-          await Promise.all([
-            getAverageStarByProductId(product.id),
-            getRatingStarPercentage(product.id),
-            getMostUpvoteRating(product.id),
-          ]);
+        const [averageStarRes, ratingStarPercentageRes] = await Promise.all([
+          getAverageStarByProductId(product.id),
+          getRatingStarPercentage(product.id),
+        ]);
 
         setAverageStar(averageStarRes.data);
         setRatingStarPercentage(ratingStarPercentageRes.data);
-        setMostUpvoteRating(mostUpvoteRatingRes.data);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
       }
@@ -90,10 +87,14 @@ const ProductDetailPage = ({ params }: Props) => {
   useEffect(() => {
     const fetchRatingData = async () => {
       if (product) {
-        const ratings = await getRatingByProductId(product.id, pageNo);
+        const [ratings, mostUpvoteRatingRes] = await Promise.all([
+          getRatingByProductId(product.id, pageNo),
+          getMostUpvoteRating(product.id),
+        ]);
         setRatingList(ratings.data.ratingList);
         setTotalElement(ratings.data.totalElements);
         setTotalPages(ratings.data.totalPages);
+        setMostUpvoteRating(mostUpvoteRatingRes.data);
       }
     };
     fetchRatingData();
