@@ -55,9 +55,9 @@ const RegisterForm = () => {
         password,
       });
 
-      toast({ description: result.payload.message });
+      toast({ description: result.message });
 
-      if (result.payload.success) {
+      if (result.success) {
         router.push("/");
       }
     } catch (error) {
