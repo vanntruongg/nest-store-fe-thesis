@@ -40,6 +40,11 @@ export const deleteUser = async (email: string) => {
   const res = await httpClient.delete<any>(url + `/${email}`);
   return res.payload;
 };
+export const activeAccount = async (email: string) => {
+  const url = EndpointUtil.NEST.IDENTITY.USER.ACTIVE_ACCOUNT;
+  const res = await httpClient.post<any>(url + `/${email}`);
+  return res.payload;
+};
 export const getUserCount = async () => {
   const url = EndpointUtil.NEST.IDENTITY.USER.COUNT_USER;
   const res = await httpClient.get<any>(url);

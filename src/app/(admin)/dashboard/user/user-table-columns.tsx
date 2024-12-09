@@ -19,11 +19,12 @@ import { ConfirmDelete } from "./dialog-confirm-delete";
 import { FormUpdateUser } from "./form-update";
 import { ViewUserDetail } from "./user-detail";
 import { UserPut } from "~/modules/user/model/UserPut";
-import { Role } from "~/modules/user/model/Role";
+import { AcctiveAccount } from "./active-account";
 
 export function userTableColumns(
   updateUser: (userPut: UserPut) => void,
-  deleteUser: (email: string) => void
+  deleteUser: (email: string) => void,
+  activeAccount: (email: string) => void
 ): ColumnDef<User>[] {
   return [
     {
@@ -101,7 +102,6 @@ export function userTableColumns(
       },
       cell: ({ row }) => {
         const status: string = row.getValue("status");
-        console.log(status);
 
         return (
           <div
@@ -162,6 +162,8 @@ export function userTableColumns(
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
+        const status: string = row.getValue("status");
+
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -185,6 +187,14 @@ export function userTableColumns(
                   deleteUser={deleteUser}
                 />
               </DropdownMenuItem>
+              {(EUserStatus as { [key: string]: string })[status] ==
+                EUserStatus.DELETED && (
+                <DropdownMenuItem
+                  onClick={() => activeAccount(row.original.email)}
+                >
+                  Kích hoạt tài khoản
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         );

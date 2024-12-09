@@ -19,6 +19,7 @@ export class EndpointUtil {
         UPDATE_USER: "/identity/users/update",
         CHANGE_PASSWORD: "/identity/users/change-password",
         DELETE_USER: "/identity/users/delete",
+        ACTIVE_ACCOUNT: "/identity/users/active",
         COUNT_USER: "/identity/users/count",
         GET_ALL_ADDRESS: "/identity/users/get/address",
         SEARCH_BY_NAME: "/identity/users/search/name",

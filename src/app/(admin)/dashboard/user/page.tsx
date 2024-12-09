@@ -15,6 +15,7 @@ const Pagination = dynamic(
   }
 );
 import {
+  activeAccount,
   deleteUser,
   getAllUser,
   searchUserByName,
@@ -37,7 +38,7 @@ const UserManagement = () => {
   const [pageNo, setPageNo] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(5);
   const [searchValue, setSearchValue] = useState<string>("");
-
+  const [isPost, setIsPost] = useState<boolean>(false);
   const debounceSearchValue = useDebounce(searchValue, 500);
 
   useEffect(() => {
@@ -73,12 +74,13 @@ const UserManagement = () => {
     } else {
       handleSearchUser();
     }
-  }, [debounceSearchValue, pageNo, pageSize]);
+  }, [debounceSearchValue, pageNo, pageSize, isPost]);
 
   const handleUpdateUser = async (userPut: UserPut) => {
     try {
       const result = await updateUser(userPut);
       toast({ description: result.message });
+      setIsPost(!isPost);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     } finally {
@@ -90,12 +92,27 @@ const UserManagement = () => {
     try {
       const result = await deleteUser(email);
       toast({ description: result.message });
+      setIsPost(!isPost);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     }
   };
 
-  const columns = userTableColumns(handleUpdateUser, handleDeleteUser);
+  const handleActiveAccount = async (email: string) => {
+    try {
+      const result = await activeAccount(email);
+      toast({ description: result.message });
+      setIsPost(!isPost);
+    } catch (error) {
+      BaseUtil.handleErrorApi({ error });
+    }
+  };
+
+  const columns = userTableColumns(
+    handleUpdateUser,
+    handleDeleteUser,
+    handleActiveAccount
+  );
 
   return (
     <div className="space-y-4">
